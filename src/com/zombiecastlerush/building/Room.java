@@ -1,14 +1,13 @@
 package com.zombiecastlerush.building;
 
-import com.zombiecastlerush.util.Directions;
+import java.util.ArrayList;
+import java.util.List;
 
-import java.util.HashMap;
-import java.util.Map;
 
-class Room {
+public class Room {
     private String name;
     private String description;
-    private Map<String,Room> connectedRooms = new HashMap<String,Room>();
+    private List<Room> connectedRooms = new ArrayList<Room>();
     private String [] items;
 
     //cosntructors
@@ -34,7 +33,7 @@ class Room {
         this.description = description;
     }
 
-    public Map<String, Room> getConnectedRooms() {
+    public List<Room> getConnectedRooms() {
         return connectedRooms;
     }
 
@@ -44,13 +43,13 @@ class Room {
 
     @Override
     public String toString(){
-        return getName()+": "+ getDescription() + "Connected Rooms: " + connectedRooms.keySet();
+        return getName();//+ "Connected Rooms: " + connectedRooms.toString(;
     }
 
     //Methods
     //add direction as the key and room as the value to the connected rooms Map for this room
-    public void addConnectedRooms(String direction, Room room) {
-        this.connectedRooms.put(direction,room);
+    public void addConnectedRooms(Room room) {
+        this.connectedRooms.add(room);
     }
 
     //need to work on this
