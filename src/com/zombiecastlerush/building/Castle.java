@@ -1,11 +1,12 @@
 package com.zombiecastlerush.building;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 class Castle {
-    //create a list of rooms in castle
-    List<Room>  castleRooms = new ArrayList<Room>();
+    //create a map of rooms in castle
+    private Map<Room, List<Room>> castleRooms = new HashMap<Room,List<Room>>();
 
     //Ctor
     Castle(){
@@ -16,27 +17,30 @@ class Castle {
         Room drawBridge = new Room("Draw Bridge","This is the draw bridge");
 
         //add connected rooms to room
-        eastWing.addConnectedRooms("West",castleHall);
-        castleHall.addConnectedRooms("South",drawBridge);
-        castleHall.addConnectedRooms("East",eastWing);
-        castleHall.addConnectedRooms("West",westWing);
-        drawBridge.addConnectedRooms("North-West",westWing);
-        drawBridge.addConnectedRooms("North",castleHall);
-        westWing.addConnectedRooms("East",castleHall);
-        westWing.addConnectedRooms("South-East",drawBridge);
+        eastWing.addConnectedRooms(castleHall);
+        castleHall.addConnectedRooms(drawBridge);
+        castleHall.addConnectedRooms(eastWing);
+        castleHall.addConnectedRooms(westWing);
+        drawBridge.addConnectedRooms(westWing);
+        drawBridge.addConnectedRooms(castleHall);
+        westWing.addConnectedRooms(castleHall);
+        westWing.addConnectedRooms(drawBridge);
 
         //Add rooms to castleRooms
-        castleRooms.add(eastWing);
-        castleRooms.add(westWing);
-        castleRooms.add(castleHall);
-        castleRooms.add(drawBridge);
+        castleRooms.put(eastWing,eastWing.getConnectedRooms());
+        castleRooms.put(westWing,westWing.getConnectedRooms());
+        castleRooms.put(castleHall,castleHall.getConnectedRooms());
+        castleRooms.put(drawBridge,drawBridge.getConnectedRooms());
 
+    }
+
+    //getter
+    public Map<Room, List<Room>> getCastleRooms() {
+        return castleRooms;
     }
 
     @Override
     public String toString(){
-        return castleRooms.toString();
+        return castleRooms.keySet().toString();
     }
-
-
 }
