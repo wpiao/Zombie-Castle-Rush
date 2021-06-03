@@ -47,7 +47,7 @@ public class Room {
     }
 
     //Methods
-    //add direction as the key and room as the value to the connected rooms Map for this room
+    //add room to the connected rooms List for this room
     public void addConnectedRooms(Room room) {
         this.connectedRooms.add(room);
     }

@@ -6,7 +6,7 @@ import java.util.Map;
 
 class Castle {
     //create a map of rooms in castle
-    private Map<Room, List<Room>> castleRooms = new HashMap<Room,List<Room>>();
+    private Map<Room, List<Room>> castleRooms = new HashMap<Room, List<Room>>();
 
     //Ctor
     Castle(){
