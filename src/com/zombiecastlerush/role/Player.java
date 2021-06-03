@@ -7,6 +7,7 @@ import com.zombiecastlerush.util.Directions;
  * TODO: what does Player class provide?
  */
 class Player extends Role implements Runnable{
+
     public Player(int id) {
         super(id);
     }
@@ -18,7 +19,9 @@ class Player extends Role implements Runnable{
     @Override
     public void run() {
         try {
-            while (true) {
+            long timerStart = System.currentTimeMillis();
+            long timerEnd = timerStart + 30000; // 30 seconds
+            while (System.currentTimeMillis() < timerEnd) {
                 System.out.printf("I am a Player #%d and sitting in room #%d.\n In the real game, the user will have a fully control.\n", this.getId(), this.getCurrentPosition());
                 Thread.sleep(3000);
             }
