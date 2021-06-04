@@ -7,11 +7,12 @@ import com.zombiecastlerush.building.Room;
  * base class for all roles
  * TODO: add more functions and description
  */
-@JsonPropertyOrder({"id", "room", "health"})
+@JsonPropertyOrder({"id", "name", "room", "health"})
 public class Role {
     private final int MAX_HEALTH = 100;
     private final int MIN_HEALTH = 0;
     private int id;
+    private String name;
     private Room room;
     private int health; // range from 0-100
     //TODO: inventory list
@@ -89,5 +90,13 @@ public class Role {
         } else {
             this.health = points;
         }
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
