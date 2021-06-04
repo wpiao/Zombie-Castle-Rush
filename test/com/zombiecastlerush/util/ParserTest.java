@@ -8,18 +8,26 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class ParserTest {
+    List<String> CAPITALIZATION_VARIANTS = Arrays.asList(
+            "go north",
+            "GO NORTH",
+            "Go NoRtH",
+            "gO nOrth"
+    );
 
     @Test
     public void parseAcceptsTwoWordStringReturnsArrayListOfTwoStrings() {
-        List<String> expected = Arrays.asList("go", "north");
-        List<String> actual = Parser.parse("go north");
+        List<String> expected = Arrays.asList("go", "west");
+        List<String> actual = Parser.parse("go west");
         assertEquals(expected, actual);
     }
 
     @Test
     public void parseAcceptsAnyCapitalizationVariantOfInput() {
         List<String> expected = Arrays.asList("go", "north");
-        List<String> actual = Parser.parse("Go North");
-        assertEquals(expected, actual);
+        for (String variant : CAPITALIZATION_VARIANTS) {
+            List<String> actual = Parser.parse(variant);
+            assertEquals(expected, actual);
+        }
     }
 }
