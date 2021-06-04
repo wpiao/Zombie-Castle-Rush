@@ -33,7 +33,7 @@ public class ParserTest {
     }
 
     @Test
-    public void parseThrowsErrorOnInvalidFirstInputWord() {
-        assertNull(Parser.parse("incorrect_action nonexistent_direction"));
+    public void parseInvalidFirstInputWordEqualsNull() {
+        assertNull(Parser.parse("incorrect_action north"));
     }
 }
