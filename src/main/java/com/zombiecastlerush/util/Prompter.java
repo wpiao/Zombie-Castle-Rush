@@ -1,5 +1,6 @@
 package com.zombiecastlerush.util;
 
+import java.util.Scanner;
 /**
  * static class and methods
  * interacting between users and this game
@@ -7,11 +8,9 @@ package com.zombiecastlerush.util;
  */
 public class Prompter {
     static String getUserInput(String displayMessage , String... args){
-        // TODO: display the displayMessage
-
-        // TODO: deal with args
-
-        // TODO: return user's input or response
-        return null;
+        System.out.println(displayMessage);
+        Scanner sc = new Scanner(System.in);
+        String result = sc.nextLine();
+        return result;
     }
 }

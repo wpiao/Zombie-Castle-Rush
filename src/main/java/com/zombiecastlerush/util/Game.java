@@ -20,6 +20,7 @@ public class Game {
      */
     public void start(){
         System.out.println("Game started here...");
+        Prompter.getUserInput("Welcome to Zombie Castle Rush! Press enter to continue.");
     }
 
     /**
