@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class RoleTest {
-    private Role role = new Role(1);
+    private Role role = new Role(1, "Role#1");
     @Before
     public void setUp() throws Exception {
         role.setCurrentPosition(new Room("1", "i am room 1"));
