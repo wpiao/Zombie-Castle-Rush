@@ -4,10 +4,10 @@ package com.zombiecastlerush.building;
  * challenge class provides the challenge description and validation
  * TODO: more methods and attributes
  */
-class Challynge {
+class Challenge {
     private String description;
 
-    public Challynge(String description){
+    public Challenge(String description){
         //TODO: build our Challenge
     }
 
