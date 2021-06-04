@@ -7,5 +7,6 @@ class Main {
         ZombieCastleRush.start();
         //TODO: ask prompter to stop the game
         // rushHour.stop();
+        System.out.println("Timer is up. The end ...");
     }
 }
