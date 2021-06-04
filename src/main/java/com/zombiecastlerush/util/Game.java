@@ -1,12 +1,15 @@
 package com.zombiecastlerush.util;
 
 
+import com.zombiecastlerush.building.Castle;
+
 /**
  * singleton class Game
  * it provides access to a Map and a role Controller
  */
 public class Game {
     private static Game game;
+    private Castle castle;
 
     public static Game getInstance(){
         if (Game.game == null){

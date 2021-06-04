@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-class Castle {
+public class Castle {
     //create a map of rooms in castle
     private Map<Room, List<Room>> castleRooms = new HashMap<Room, List<Room>>();
 
