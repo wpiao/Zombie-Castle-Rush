@@ -2,6 +2,7 @@ package com.zombiecastlerush.util;
 
 
 import com.zombiecastlerush.building.Castle;
+import com.zombiecastlerush.role.Player;
 
 /**
  * singleton class Game
@@ -9,7 +10,8 @@ import com.zombiecastlerush.building.Castle;
  */
 public class Game {
     private static Game game;
-    private Castle castle;
+    private Castle castle = new Castle();
+    private Player player;
 
     public static Game getInstance(){
         if (Game.game == null){
@@ -24,6 +26,8 @@ public class Game {
     public void start(){
         System.out.println("Game started here...");
         Prompter.getUserInput("Welcome to Zombie Castle Rush! Press enter to continue.");
+        String userName = Prompter.getUserInput("Please enter your name");
+        player = new Player(userName);
     }
 
     /**

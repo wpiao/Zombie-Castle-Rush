@@ -1,13 +1,12 @@
 package com.zombiecastlerush.role;
 
-import com.sun.source.tree.AssertTree;
 import com.zombiecastlerush.building.Room;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 public class RoleTest {
-    private Role role = new Role(1, "Role#1");
+    private Role role = new Role("Role#1");
     @Before
     public void setUp() throws Exception {
         role.setCurrentPosition(new Room("1", "i am room 1"));
@@ -35,18 +34,6 @@ public class RoleTest {
         Assert.assertEquals(role.getHealth(), 100); // current health
         role.decreaseHealth(101); // change it to -1
         Assert.assertEquals(role.getHealth(), 0);
-    }
-
-    @Test
-    public void testGetId_returnCurrentId() {
-        Assert.assertEquals(role.getId(), 1);
-        role.setId(Integer.MAX_VALUE);
-        Assert.assertEquals(role.getId(), Integer.MAX_VALUE);
-    }
-
-    @Test (expected = IllegalArgumentException.class)
-    public void testSetId_throwExceptionIfInputNegative(){
-        role.setId(-1);
     }
 
     @Test

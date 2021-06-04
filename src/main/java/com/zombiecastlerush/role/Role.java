@@ -11,27 +11,25 @@ import com.zombiecastlerush.building.Room;
 class Role {
     private final int MAX_HEALTH = 100;
     private final int MIN_HEALTH = 0;
-    private int id;
     private String name;
     private Room room;
     private int health; // range from 0-100
     //TODO: inventory list
 
     // cannot have a Role without name
-    private Role(int id){
-        this.id = id;
+    private Role(){
         this.health = MAX_HEALTH;
         this.room = null;
         this.name = null;
     }
 
-    public Role(int id, String name){
-        this(id);
+    public Role(String name){
+        this();
         this.name = name;
     }
 
-    public Role(int id, String name, Room room){
-        this(id, name);
+    public Role(String name, Room room){
+        this(name);
         this.room = room;
     }
 
@@ -56,17 +54,6 @@ class Role {
             throw new IllegalArgumentException("Invalid negative health points");
         }
         this.setHealth((this.getHealth() - points) < MIN_HEALTH ? MIN_HEALTH : this.getHealth()-points);
-    }
-
-    public int getId(){
-        return this.id;
-    }
-
-    public void setId(int id){
-        if(id < 0){
-            throw new IllegalArgumentException("Invalid negative Role id");
-        }
-        this.id = id;
     }
 
     @JsonGetter("room")

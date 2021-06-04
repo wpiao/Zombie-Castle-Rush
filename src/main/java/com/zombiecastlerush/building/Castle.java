@@ -9,7 +9,7 @@ public class Castle {
     private Map<Room, List<Room>> castleRooms = new HashMap<>();
 
     //Ctor
-    Castle(){
+    public Castle(){
         // create rooms
         Room eastWing = new Room("East Wing","This room is on the East side.");
         Room westWing = new Room("West Wing","This room is on the West side.");

@@ -1,20 +1,20 @@
 package com.zombiecastlerush.role;
 
 import com.zombiecastlerush.building.Room;
-import com.zombiecastlerush.util.Directions;
 
 import java.util.List;
 
 /**
  * TODO: what does Player class provide?
  */
-class Player extends Role{
-    public Player(int id, String name){
-        super(id, name);
+public class Player extends Role{
+
+    public Player(String name){
+        super(name);
     }
 
-    public Player(int id, String name, Room room) {
-        super(id, name, room);
+    public Player(String name, Room room) {
+        super(name, room);
     }
 
     /**
