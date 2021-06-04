@@ -5,9 +5,13 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Parser {
+
+    public static void main(String[] args) {
+        new Parser().parse(" go up the hill: blue");
+    }
     public static List<String> parse(String input){
         List<String> actions = new ArrayList<>(Arrays.asList("go", "look", "pick-up", "drop"));
-        List<String> commands = new ArrayList<>(Arrays.asList(input.toLowerCase().split(" ")));
+        List<String> commands = new ArrayList<>(Arrays.asList(input.trim().toLowerCase().split("[ \t,.:;?!\"']+")));
         System.out.println(actions.contains(commands.get(0)) ? reduceArray(commands) : null);
         return actions.contains(commands.get(0)) ? reduceArray(commands) : null;
     }
