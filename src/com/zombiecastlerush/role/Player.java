@@ -21,14 +21,16 @@ class Player extends Role{
      * TODO: move to a room by room name/description
      * @param roomName
      */
-    public void moveTo(String roomName){
+    public boolean moveTo(String roomName){
         Room targetRoom = this.canMoveToRoom(roomName);
         if(targetRoom != null){
             String previous = super.getCurrentPosition().getName();
             super.setCurrentPosition(targetRoom);
             System.out.printf("Player %s moved from room %s to room %s\n", super.getName(), previous, super.getCurrentPosition().getName());
+            return true;
         } else{
             System.out.printf("Player %s's current room %s doesn't connect to other rooms.", super.getName(), super.getCurrentPosition().getName());
+            return false;
         }
     }
 
