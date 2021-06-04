@@ -1,39 +1,59 @@
 package com.zombiecastlerush.building;
 
-import com.zombiecastlerush.util.Directions;
-
+import java.util.ArrayList;
 import java.util.List;
 
+
 public class Room {
-    private int id;
-    // TODO: list or hash map for more than 4 rooms
-    private Room[] connectedRooms;
+    private String name;
+    private String description;
+    private List<Room> connectedRooms = new ArrayList<Room>();
+    private String [] items;
 
-    public Room(){
-        connectedRooms = new Room[4];
-        this.id = -1;
+    //cosntructors
+    public Room(String name, String description){
+        setName(name);
+        setDescription(description);
     }
 
-    public Room(int id){
-        this();
-        this.id = id;
+    //Setters and Getters
+    public String getName() {
+        return name;
     }
 
-    /**
-     * TODO: what service does addRoom provide?
-     * @param anotherRoom
-     * @param direction
-     */
-    public void addRoom(Room anotherRoom, Directions direction){
-        // TODO: switch statement to connect another room to this Room
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public int getId(){
-        return this.id;
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public List<Room> getConnectedRooms() {
+        return connectedRooms;
+    }
+
+    public String[] getItems() {
+        return items;
     }
 
     @Override
     public String toString(){
-        return "Room #" + getId();
+        return getName();//+ "Connected Rooms: " + connectedRooms.toString(;
+    }
+
+    //Methods
+    //add room to the connected rooms List for this room
+    public void addConnectedRooms(Room room) {
+        this.connectedRooms.add(room);
+    }
+
+    //need to work on this
+    public void setItems(String[] items) {
+        this.items = items;
     }
 }
