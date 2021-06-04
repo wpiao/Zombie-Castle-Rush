@@ -36,4 +36,10 @@ public class ParserTest {
     public void parseInvalidFirstInputWordEqualsNull() {
         assertNull(Parser.parse("incorrect_action north"));
     }
+
+    @Test
+    public void parseInvalidInputLengthCausesNull() {
+        assertNull(Parser.parse("incorrect_action blah blah blah north"));
+        assertNull(Parser.parse("incorrect_action"));
+    }
 }
