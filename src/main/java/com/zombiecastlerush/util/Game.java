@@ -9,7 +9,7 @@ public class Game {
     private static Game game;
 
     public static Game getInstance(){
-        if(Game.game == null){
+        if (Game.game == null){
             Game.game = new Game();
         }
         return Game.game;
