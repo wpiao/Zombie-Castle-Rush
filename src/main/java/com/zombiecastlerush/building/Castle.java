@@ -1,12 +1,11 @@
 package com.zombiecastlerush.building;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Castle {
     //create a map of rooms in castle
-    private Map<Room, List<Room>> castleRooms = new HashMap<>();
+    private Map<String, Room> castleRooms = new HashMap<>();
 
     //Ctor
     public Castle(){
@@ -27,15 +26,15 @@ public class Castle {
         westWing.addConnectedRooms(drawBridge);
 
         //Add rooms to castleRooms
-        castleRooms.put(eastWing,eastWing.getConnectedRooms());
-        castleRooms.put(westWing,westWing.getConnectedRooms());
-        castleRooms.put(castleHall,castleHall.getConnectedRooms());
-        castleRooms.put(drawBridge,drawBridge.getConnectedRooms());
+        castleRooms.put("eastWing", eastWing);
+        castleRooms.put("westWing", westWing);
+        castleRooms.put("castleHall", castleHall);
+        castleRooms.put("drawBridge", drawBridge);
 
     }
 
     //getter
-    public Map<Room, List<Room>> getCastleRooms() {
+    public Map<String, Room> getCastleRooms() {
         return castleRooms;
     }
 
