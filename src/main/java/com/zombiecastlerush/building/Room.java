@@ -7,7 +7,7 @@ import java.util.List;
 public class Room {
     private String name;
     private String description;
-    private List<Room> connectedRooms = new ArrayList<Room>();
+    private List<Room> connectedRooms = new ArrayList<>();
     private String [] items;
 
     //cosntructors
