@@ -10,10 +10,10 @@ public class Castle {
     //Ctor
     public Castle(){
         // create rooms
-        Room eastWing = new Room("East Wing","This room is on the East side.");
-        Room westWing = new Room("West Wing","This room is on the West side.");
-        Room castleHall = new Room("Castle Hall","This hall connects the West Wing, East Wing and the Draw Bridge.");
-        Room drawBridge = new Room("Draw Bridge","This is the draw bridge");
+        Room eastWing = new Room("East-Wing","This room is on the East side.");
+        Room westWing = new Room("West-Wing","This room is on the West side.");
+        Room castleHall = new Room("Castle-Hall","This hall connects the West Wing, East Wing and the Draw Bridge.");
+        Room drawBridge = new Room("Draw-Bridge","This is the draw bridge");
 
         //add connected rooms to room
         eastWing.addConnectedRooms(castleHall);
@@ -26,10 +26,10 @@ public class Castle {
         westWing.addConnectedRooms(drawBridge);
 
         //Add rooms to castleRooms
-        castleRooms.put("eastWing", eastWing);
-        castleRooms.put("westWing", westWing);
-        castleRooms.put("castleHall", castleHall);
-        castleRooms.put("drawBridge", drawBridge);
+        castleRooms.put(eastWing.getName(), eastWing);
+        castleRooms.put(westWing.getName(), westWing);
+        castleRooms.put(castleHall.getName(), castleHall);
+        castleRooms.put(drawBridge.getName(), drawBridge);
 
     }
 
