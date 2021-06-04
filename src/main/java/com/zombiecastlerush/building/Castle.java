@@ -1,20 +1,19 @@
 package com.zombiecastlerush.building;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-class Castle {
+public class Castle {
     //create a map of rooms in castle
-    private Map<Room, List<Room>> castleRooms = new HashMap<Room, List<Room>>();
+    private Map<String, Room> castleRooms = new HashMap<>();
 
     //Ctor
-    Castle(){
+    public Castle(){
         // create rooms
-        Room eastWing = new Room("East Wing","This room is on the East side.");
-        Room westWing = new Room("West Wing","This room is on the West side.");
-        Room castleHall = new Room("Castle Hall","This hall connects the West Wing, East Wing and the Draw Bridge.");
-        Room drawBridge = new Room("Draw Bridge","This is the draw bridge");
+        Room eastWing = new Room("East-Wing","This room is on the East side.");
+        Room westWing = new Room("West-Wing","This room is on the West side.");
+        Room castleHall = new Room("Castle-Hall","This hall connects the West Wing, East Wing and the Draw Bridge.");
+        Room drawBridge = new Room("Draw-Bridge","This is the draw bridge");
 
         //add connected rooms to room
         eastWing.addConnectedRooms(castleHall);
@@ -27,15 +26,15 @@ class Castle {
         westWing.addConnectedRooms(drawBridge);
 
         //Add rooms to castleRooms
-        castleRooms.put(eastWing,eastWing.getConnectedRooms());
-        castleRooms.put(westWing,westWing.getConnectedRooms());
-        castleRooms.put(castleHall,castleHall.getConnectedRooms());
-        castleRooms.put(drawBridge,drawBridge.getConnectedRooms());
+        castleRooms.put(eastWing.getName(), eastWing);
+        castleRooms.put(westWing.getName(), westWing);
+        castleRooms.put(castleHall.getName(), castleHall);
+        castleRooms.put(drawBridge.getName(), drawBridge);
 
     }
 
     //getter
-    public Map<Room, List<Room>> getCastleRooms() {
+    public Map<String, Room> getCastleRooms() {
         return castleRooms;
     }
 

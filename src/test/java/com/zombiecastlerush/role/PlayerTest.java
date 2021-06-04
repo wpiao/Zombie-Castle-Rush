@@ -6,11 +6,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 public class PlayerTest {
     private Game game = Game.getInstance();
-    private Player player = new Player(1, "Player name # 1");
+    private Player player = new Player("Player name # 1");
     Room r0 = new Room("room#0", "ENTRY room");
 
     @Before
