@@ -2,4 +2,6 @@
 .idea/
 !/src
 !/test
+!/.github
+!/pom.xml
 
