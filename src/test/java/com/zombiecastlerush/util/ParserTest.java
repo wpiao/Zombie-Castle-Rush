@@ -40,6 +40,6 @@ public class ParserTest {
     @Test
     public void parseInvalidInputLengthCausesNull() {
         assertNull(Parser.parse("incorrect_action blah blah blah north"));
-        assertNull(Parser.parse("go"));
+        assertNull(Parser.parse("incorrect"));
     }
 }
