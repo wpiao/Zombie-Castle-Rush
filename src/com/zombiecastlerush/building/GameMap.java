@@ -4,23 +4,24 @@ import java.util.Objects;
 
 /**
  * The Map is a singleton class for this Game
+ * it can load a map or all rooms for the whole game
  * it provides a reference of the entry room (the head of this graph)
  */
-public class Map {
+public class GameMap {
     private Room entryRoom;
     // TODO: Do we need to maintain this reference? what if we have multiple players?
     private Room playerPosition;
-    private static Map instance;
-    private Map(){
+    private static GameMap instance;
+    private GameMap(){
         //TODO: map initiation
     }
 
     /**
      * @return the single object of Map class
      */
-    public static Map getInstance(){
-        if(Objects.isNull(Map.instance)){
-            Map.instance = new Map();
+    public static GameMap getInstance(){
+        if(Objects.isNull(GameMap.instance)){
+            GameMap.instance = new GameMap();
         }
         return instance;
     }
