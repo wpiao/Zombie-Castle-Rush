@@ -43,7 +43,7 @@ public class Player extends Role{
         List<Room> validRooms = this.whichRoomNext();
         if(validRooms != null){
             for(Room r : validRooms){
-                if(r.getName().equals(roomName))
+                if(r.getName().equalsIgnoreCase(roomName))
                     return r; // TODO: is it possible to have rooms with same name? (Xander asking)
             }
         }
