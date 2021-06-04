@@ -6,10 +6,10 @@ import java.util.List;
 
 public class Parser {
 
-    final static List<String> ALLOWED_ACTIONS = new ArrayList<>(Arrays.asList("go", "look", "pick-up", "drop"));
+    final static List<String> ALLOWED_ACTIONS = Arrays.asList("go", "look", "pick-up", "drop");
 
     public static List<String> parse(String input){
-        List<String> inputWords = new ArrayList<>(Arrays.asList(input.toLowerCase().split(" ")));
+        List<String> inputWords = Arrays.asList(input.toLowerCase().split(" "));
         System.out.println(ALLOWED_ACTIONS.contains(inputWords.get(0)) ? reduceInputWordsToList(inputWords) : null);
         return ALLOWED_ACTIONS.contains(inputWords.get(0)) ? reduceInputWordsToList(inputWords) : null;
     }
