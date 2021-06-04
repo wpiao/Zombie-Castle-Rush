@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class ParserTest {
     List<String> CAPITALIZATION_VARIANTS = Arrays.asList(
@@ -29,5 +30,10 @@ public class ParserTest {
             List<String> actual = Parser.parse(variant);
             assertEquals(expected, actual);
         }
+    }
+
+    @Test
+    public void parseThrowsErrorOnInvalidFirstInputWord() {
+        assertNull(Parser.parse("incorrect_action nonexistent_direction"));
     }
 }
