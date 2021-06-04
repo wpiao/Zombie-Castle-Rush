@@ -32,5 +32,4 @@ public class Game {
         // TODO: stop game and release all connected resources
         System.out.println("Game stopped here.\n Saving status and releasing resources");
     }
-
 }

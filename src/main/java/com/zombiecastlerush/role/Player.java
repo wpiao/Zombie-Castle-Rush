@@ -1,7 +1,6 @@
 package com.zombiecastlerush.role;
 
 import com.zombiecastlerush.building.Room;
-import com.zombiecastlerush.util.Directions;
 
 import java.util.List;
 
@@ -39,11 +38,11 @@ class Player extends Role{
      * @param roomName
      * @return Room reference if input room name is valid for my next movement
      */
-    public Room canMoveToRoom(String roomName){
+    public Room canMoveToRoom(String roomName) {
         List<Room> validRooms = this.whichRoomNext();
-        if(validRooms != null){
-            for(Room r : validRooms){
-                if(r.getName().equals(roomName))
+        if (validRooms != null) {
+            for (Room r : validRooms) {
+                if (r.getName().equals(roomName))
                     return r; // TODO: is it possible to have rooms with same name? (Xander asking)
             }
         }
