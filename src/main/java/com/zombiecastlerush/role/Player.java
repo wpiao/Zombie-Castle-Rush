@@ -39,11 +39,11 @@ public class Player extends Role{
      * @param roomName
      * @return Room reference if input room name is valid for my next movement
      */
-    public Room canMoveToRoom(String roomName){
+    public Room canMoveToRoom(String roomName) {
         List<Room> validRooms = this.whichRoomNext();
-        if(validRooms != null){
-            for(Room r : validRooms){
-                if(r.getName().equalsIgnoreCase(roomName))
+        if (validRooms != null) {
+            for (Room r : validRooms) {
+                if (r.getName().equals(roomName))
                     return r; // TODO: is it possible to have rooms with same name? (Xander asking)
             }
         }
