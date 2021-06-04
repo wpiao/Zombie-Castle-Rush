@@ -1,21 +1,14 @@
 package com.zombiecastlerush.util;
 
 
-import com.zombiecastlerush.building.Map;
-import com.zombiecastlerush.role.RoleController;
-
 /**
  * singleton class Game
  * it provides access to a Map and a role Controller
  */
 public class Game {
-    private RoleController rollController;
-    private Map map;
     private static Game game;
 
     private Game(){
-        this.initiateController();
-        this.initiateMap();
     }
 
     public static Game getInstance(){
@@ -30,8 +23,6 @@ public class Game {
      */
     public void start(){
         System.out.println("Game started here...");
-        this.rollController.wakeUpEnemies();
-        this.rollController.automatePlayers();
     }
 
     /**
@@ -40,23 +31,5 @@ public class Game {
     public void stop() {
         // TODO: stop game and release all connected resources
         System.out.println("Game stopped here.\n Saving status and releasing resources");
-    }
-
-    /**
-     * TODO: initiate the roll Controller
-     */
-    private void initiateController(){
-        this.rollController = RoleController.getInstance();
-        this.rollController.createEnemy(1);
-        this.rollController.createEnemy(2);
-        this.rollController.createPlayer(1);
-    }
-
-    /**
-     * TODO: initiate the Map
-     */
-    private void initiateMap(){
-        this.map = Map.getInstance();
-        this.map.loadMap();
     }
 }
