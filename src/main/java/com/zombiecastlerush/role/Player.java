@@ -1,11 +1,8 @@
 package com.zombiecastlerush.role;
 
 import com.zombiecastlerush.building.Room;
-<<<<<<< HEAD
 
 import java.util.List;
-=======
->>>>>>> 1531c0c13fb6a2fcf6faf408d40e4cd6c4fa3f18
 
 /**
  * TODO: what does Player class provide?

@@ -1,6 +1,4 @@
 package com.zombiecastlerush.role;
-import org.junit.Test;
-
 import com.zombiecastlerush.building.Room;
 import org.junit.Assert;
 import org.junit.Before;
