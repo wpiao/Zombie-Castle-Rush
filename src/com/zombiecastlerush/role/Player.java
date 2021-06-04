@@ -1,7 +1,6 @@
 package com.zombiecastlerush.role;
 
 import com.zombiecastlerush.building.Room;
-import com.zombiecastlerush.util.Directions;
 
 /**
  * TODO: what does Player class provide?
