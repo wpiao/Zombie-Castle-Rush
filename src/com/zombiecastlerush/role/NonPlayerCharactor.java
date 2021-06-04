@@ -10,7 +10,11 @@ class NonPlayerCharactor extends Role{
         super(id);
     }
 
-    public NonPlayerCharactor(int id, Room room) {
-        super(id, room);
+    public NonPlayerCharactor(int id, String name) {
+        super(id, name);
+    }
+
+    public NonPlayerCharactor(int id, String name, Room room) {
+        super(id, name, room);
     }
 }
