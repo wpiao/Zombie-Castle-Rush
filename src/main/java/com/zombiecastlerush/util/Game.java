@@ -13,6 +13,9 @@ public class Game {
     private Castle castle = new Castle();
     private Player player;
 
+    private Game(){
+    }
+
     public static Game getInstance(){
         if (Game.game == null){
             Game.game = new Game();
@@ -40,5 +43,4 @@ public class Game {
     public void stop() {
         System.out.println("Game stopped here.\n Saving status and releasing resources");
     }
-
 }
