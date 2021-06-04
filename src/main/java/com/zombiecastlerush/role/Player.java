@@ -30,7 +30,7 @@ class Player extends Role implements Runnable{
      * TODO: move to a room by direction
      * @param direction
      */
-    public void moveTo(Directions direction){
+    public void moveTo(){
 
     }
 
