@@ -17,6 +17,7 @@ public class Inventory {
     }
 
     public void addItems(Item item){
+        items.add(item);
 
     }
 
