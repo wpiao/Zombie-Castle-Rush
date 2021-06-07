@@ -9,8 +9,7 @@ import java.util.List;
 public class Inventory {
     private List<Item> items = new ArrayList<>();
 
-    public Inventory(Item item){
-        addItems(item);
+    public Inventory(){
     }
 
     public List<Item> getItems(){
