@@ -1,6 +1,7 @@
 package com.zombiecastlerush.role;
 
 import com.fasterxml.jackson.annotation.*;
+import com.zombiecastlerush.building.Inventory;
 import com.zombiecastlerush.building.Room;
 
 /**
@@ -13,6 +14,7 @@ class Role {
     private final int MIN_HEALTH = 0;
     private String name;
     private Room room;
+    private Inventory inventory;
     private int health; // range from 0-100
     //TODO: inventory list
 
