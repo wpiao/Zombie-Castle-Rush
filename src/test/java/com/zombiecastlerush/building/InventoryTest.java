@@ -11,7 +11,6 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class InventoryTest {
-    Player player = new Player("player");
     private Inventory inventory = new Inventory();
     @Before
     public void setUp() throws Exception {
@@ -22,9 +21,9 @@ public class InventoryTest {
     }
 
     @Test
-    public void getItemsReturnsListOfCurrentItemsForReqeustingRole() {
+    public void getItemsReturnsListOfCurrentItemsForRequestingRole() {
         List<Item> itemsList = inventory.getItems();
-        itemsList.forEach(item -> System.out.println(item.getName() + " " + item.getDescription()));
+        System.out.println(itemsList);;
     }
 
     @Test
