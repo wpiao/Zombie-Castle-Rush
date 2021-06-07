@@ -1,1 +1,7 @@
-/.idea/
+/*
+.idea/
+!/src
+!/test
+!/.github
+!/pom.xml
+!/README.md
