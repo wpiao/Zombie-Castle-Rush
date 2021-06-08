@@ -24,4 +24,8 @@ public class Inventory {
     public void deleteItems(Item item){
         items.remove(item);
     }
+
+    public void deleteAllItems(){
+        items.clear();
+    }
 }
