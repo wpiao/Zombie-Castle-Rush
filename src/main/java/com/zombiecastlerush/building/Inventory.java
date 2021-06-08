@@ -12,6 +12,10 @@ public class Inventory {
     public Inventory(){
     }
 
+    public void setItems(List<Item> list){
+        this.items = list;
+    }
+
     public List<Item> getItems(){
         return items;
     }
