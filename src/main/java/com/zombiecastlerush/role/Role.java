@@ -2,6 +2,7 @@ package com.zombiecastlerush.role;
 
 import com.fasterxml.jackson.annotation.*;
 import com.zombiecastlerush.building.Inventory;
+import com.zombiecastlerush.building.Item;
 import com.zombiecastlerush.building.Room;
 
 /**
@@ -16,7 +17,6 @@ class Role {
     private Room room;
     public Inventory inventory = new Inventory();
     private int health; // range from 0-100
-    //TODO: inventory list
 
     // cannot have a Role without name
     private Role(){
@@ -94,5 +94,38 @@ class Role {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    // Inventory methods
+    public Item pickUp(Item item) {
+        for (Item existingItem: this.getCurrentPosition().inventory.getItems()) {
+            System.out.println(existingItem.getName());
+            if (item.equals(existingItem)) {
+                this.inventory.addItems(item);
+                this.getCurrentPosition().inventory.deleteItems(item);
+                System.out.println(item.getName() + " picked up by " + this.getName());
+                return item;
+            }
+        }
+        return null;
+    }
+
+    public Item drop(Item item) {
+        for (Item existingItem : this.inventory.getItems()) {
+            if (item.equals(existingItem)) {
+                this.getCurrentPosition().inventory.addItems(item);
+                this.inventory.deleteItems(item);
+                System.out.println(item.getName() + " dropped by " + this.getName());
+                return item;
+            }
+        }
+        return null;
+    }
+
+    public void dropAll() {
+        for (Item item : this.inventory.getItems()) {
+            this.getCurrentPosition().inventory.addItems(item);
+        }
+        this.inventory.deleteAllItems();
     }
 }
