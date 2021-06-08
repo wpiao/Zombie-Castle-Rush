@@ -14,7 +14,7 @@ class Role {
     private final int MIN_HEALTH = 0;
     private String name;
     private Room room;
-    private Inventory inventory;
+    public Inventory inventory = new Inventory();
     private int health; // range from 0-100
     //TODO: inventory list
 
