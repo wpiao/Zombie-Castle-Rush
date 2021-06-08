@@ -61,10 +61,13 @@ public class ItemFactoryTest {
         ItemFactory.readItemsFromDir(null, file);
     }
 
-    @Test(expected = IOException.class)
-    public void testWriteItemsToDirectory_throwExceptionIfOutputFileNull(){
+    @Test(expected = IllegalArgumentException.class)
+    public void testWriteItemsToDirectory_throwExceptionIfOutputFileNull() throws IOException {
         // TODO: TEST even used it in setUp()
+        ItemFactory.writeItemsToDir(null, items); // generate .json file
     }
+
+    //TODO: more testing for writeItemsToDir()
 
     @Test
     public void testLoadItem_convertJsonToItemObject() throws JsonProcessingException {
