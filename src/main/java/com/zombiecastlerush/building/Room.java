@@ -9,7 +9,6 @@ public class Room {
     private String description;
     Inventory inventory;
     private List<Room> connectedRooms = new ArrayList<>();
-    private String [] items;
 
     //cosntructors
     public Room(String name, String description){
@@ -38,10 +37,6 @@ public class Room {
         return connectedRooms;
     }
 
-    public String[] getItems() {
-        return items;
-    }
-
     @Override
     public String toString(){
         return getName();//+ "Connected Rooms: " + connectedRooms.toString(;
@@ -51,10 +46,5 @@ public class Room {
     //add room to the connected rooms List for this room
     public void addConnectedRooms(Room room) {
         this.connectedRooms.add(room);
-    }
-
-    //need to work on this
-    public void setItems(String[] items) {
-        this.items = items;
     }
 }
