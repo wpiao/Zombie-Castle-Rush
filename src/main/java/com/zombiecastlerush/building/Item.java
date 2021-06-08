@@ -1,10 +1,17 @@
 package com.zombiecastlerush.building;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+@JsonPropertyOrder({"name", "description"})
 public class Item {
     private String name, description;
 
-
-    public Item(String name, String description){
+    @JsonCreator
+    public Item(
+            @JsonProperty("name") String name,
+            @JsonProperty("description") String description){
         setName(name);
         setDescription(description);
     }
