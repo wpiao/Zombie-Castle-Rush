@@ -40,4 +40,9 @@ public class Inventory {
         fromInv.deleteItems(item);
         toInv.addItems(item);
     }
+
+    public void deleteAllItems(){
+        items.clear();
+    }
 }
+
