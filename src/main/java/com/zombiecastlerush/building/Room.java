@@ -10,8 +10,8 @@ public class Room {
     public Inventory inventory = new Inventory();
     private List<Room> connectedRooms = new ArrayList<>();
 
-    //cosntructors
-    public Room(String name, String description){
+    //constructors
+    public Room(String name, String description) {
         setName(name);
         setDescription(description);
     }
@@ -37,8 +37,12 @@ public class Room {
         return connectedRooms;
     }
 
+    public Inventory getInventory() {
+        return inventory;
+    }
+
     @Override
-    public String toString(){
+    public String toString() {
         return getName();//+ "Connected Rooms: " + connectedRooms.toString(;
     }
 

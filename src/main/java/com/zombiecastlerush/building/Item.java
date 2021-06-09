@@ -3,8 +3,7 @@ package com.zombiecastlerush.building;
 public class Item {
     private String name, description;
 
-
-    public Item(String name, String description){
+    public Item(String name, String description) {
         setName(name);
         setDescription(description);
     }
@@ -27,9 +26,6 @@ public class Item {
 
     @Override
     public String toString() {
-        return "Item{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                '}';
+        return "name= " + name + " description= " + description + "\n";
     }
 }

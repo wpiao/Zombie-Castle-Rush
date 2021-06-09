@@ -4,28 +4,45 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * TODO: a Shop, a Room or a Player can HAS-A Inventory
+ * This is a model class to hold inventory items
  */
 public class Inventory {
+
     private List<Item> items = new ArrayList<>();
 
-    public Inventory(){
+    /**
+     * Initializes a newly created empty Inventory Object
+     */
+    public Inventory() {
     }
 
-    public List<Item> getItems(){
+    /**
+     * Gets the Object inventory list
+     * @return a <code> list </code> of Object inventory items
+     */
+    public List<Item> getItems() {
         return items;
     }
 
-    public void addItems(Item item){
-        items.add(item);
-
+    public void addItems(Item... itemsToBeAdded) {
+        for (Item item : itemsToBeAdded) {
+            items.add(item);
+        }
     }
 
-    public void deleteItems(Item item){
-        items.remove(item);
+    public void deleteItems(Item... itemsToBeDeleted) {
+        for (Item item : itemsToBeDeleted) {
+            items.remove(item);
+        }
+    }
+
+    public void transferItem(Inventory fromInv, Inventory toInv, Item... item) {
+        fromInv.deleteItems(item);
+        toInv.addItems(item);
     }
 
     public void deleteAllItems(){
         items.clear();
     }
 }
+
