@@ -9,7 +9,7 @@ import com.zombiecastlerush.building.Room;
  * TODO: add more functions and description
  */
 @JsonPropertyOrder({"id", "name", "room", "health"})
-class Role {
+public class Role {
     private final int MAX_HEALTH = 100;
     private final int MIN_HEALTH = 0;
     private String name;
@@ -94,5 +94,13 @@ class Role {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
     }
 }
