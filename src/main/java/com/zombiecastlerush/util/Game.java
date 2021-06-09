@@ -1,6 +1,5 @@
 package com.zombiecastlerush.util;
 
-
 import com.zombiecastlerush.building.Castle;
 import com.zombiecastlerush.role.Player;
 
