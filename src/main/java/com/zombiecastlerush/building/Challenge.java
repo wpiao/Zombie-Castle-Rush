@@ -6,9 +6,12 @@ package com.zombiecastlerush.building;
  */
 class Challenge {
     private String description;
+    private boolean cleared;
 
     public Challenge(String description){
         //TODO: build our Challenge
+        this.description=description;
+        this.cleared = false;
     }
 
     public String getDescription(){
@@ -20,7 +23,14 @@ class Challenge {
      * @param answer
      * @return
      */
-    public boolean validation(String answer){
-        return false;
+    public void setCleared(boolean answer){
+        this.cleared = answer;
     }
+
+    public boolean isCleared(){
+        return cleared;
+    }
+
+
+
 }
