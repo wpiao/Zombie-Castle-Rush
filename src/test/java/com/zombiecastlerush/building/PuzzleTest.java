@@ -13,12 +13,6 @@ public class PuzzleTest {
     }
 
     @Test
-    public void testSetId_getId() {
-        p1.setId("abc123");
-        assertEquals("abc123",p1.getId());
-    }
-
-    @Test
     public void testSetQuestion_getQuestion() {
         String ques ="What is 2+2?";
         p1.setQuestion(ques);
@@ -39,14 +33,11 @@ public class PuzzleTest {
     }
 
     @Test
-    public void testGetInventory() {
-    }
-
-    @Test
     public void testAttemptPuzzle() {
         //Player answers incorrectly on first,2nd try
         assertEquals(1,p1.attemptPuzzle("2"));
-        assertEquals(p1.attemptPuzzle("3"),p1.getAttempts());
+        int actual=p1.attemptPuzzle("3");
+        assertEquals(2,actual);
 
         //Player answers correctly on 3rd try
         assertEquals(3,p1.attemptPuzzle("4"));
