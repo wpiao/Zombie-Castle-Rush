@@ -12,6 +12,7 @@ public class Item {
     public Item(
             @JsonProperty("name") String name,
             @JsonProperty("description") String description){
+
         setName(name);
         setDescription(description);
     }
@@ -34,9 +35,6 @@ public class Item {
 
     @Override
     public String toString() {
-        return "Item{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                '}';
+        return "name= " + name + " description= " + description + "\n";
     }
 }

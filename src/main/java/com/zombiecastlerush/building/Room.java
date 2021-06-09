@@ -7,12 +7,11 @@ import java.util.List;
 public class Room {
     private String name;
     private String description;
-    Inventory inventory;
+    public Inventory inventory = new Inventory();
     private List<Room> connectedRooms = new ArrayList<>();
-    private String [] items;
 
-    //cosntructors
-    public Room(String name, String description){
+    //constructors
+    public Room(String name, String description) {
         setName(name);
         setDescription(description);
     }
@@ -38,12 +37,12 @@ public class Room {
         return connectedRooms;
     }
 
-    public String[] getItems() {
-        return items;
+    public Inventory getInventory() {
+        return inventory;
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return getName();//+ "Connected Rooms: " + connectedRooms.toString(;
     }
 
@@ -51,10 +50,5 @@ public class Room {
     //add room to the connected rooms List for this room
     public void addConnectedRooms(Room room) {
         this.connectedRooms.add(room);
-    }
-
-    //need to work on this
-    public void setItems(String[] items) {
-        this.items = items;
     }
 }
