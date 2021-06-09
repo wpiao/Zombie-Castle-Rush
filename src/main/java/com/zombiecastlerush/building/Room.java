@@ -57,4 +57,12 @@ public class Room {
     public void setItems(String[] items) {
         this.items = items;
     }
+
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
+    }
 }
