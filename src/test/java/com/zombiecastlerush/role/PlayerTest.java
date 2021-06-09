@@ -9,7 +9,7 @@ import org.junit.Test;
 public class PlayerTest {
     private Game game = Game.getInstance();
     private Player player = new Player("Player name # 1");
-    Room r0 = new Room("room#0", "ENTRY room");
+    private Room r0 = new Room("room#0", "ENTRY room");
 
     @Before
     public void setUp() throws Exception {
