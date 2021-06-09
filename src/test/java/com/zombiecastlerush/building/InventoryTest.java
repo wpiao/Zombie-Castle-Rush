@@ -23,11 +23,6 @@ public class InventoryTest {
         List<Item> expected = new ArrayList<>(inventory.getItems());
         List<Item> actual = new ArrayList<>(Arrays.asList(item0));
         assertTrue(expected.equals(actual));
-        //List<Item> actual = Collections.singletonList(new Item("item 0" , "item 0"));
-//        boolean isName = actual.get(0).getName().equals(expected.get(0).getName());
-//        boolean isDescription = actual.get(0).getDescription().equals(expected.get(0).getDescription());
-//        assertTrue(isName);
-//        assertTrue(isDescription);
     }
 
     @Test
