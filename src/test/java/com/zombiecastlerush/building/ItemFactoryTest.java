@@ -35,7 +35,10 @@ public class ItemFactoryTest {
         List<Item> list = ItemFactory.readItemsFromDir(inventory, file);
         for(int i = 0; i < list.size(); i++){
             // expectedItem is how the Item class implements toString(), but manually made; needs to change accordingly
-            String expectedItem = String.format("Item{name='item%d', description='i am #%d item'}",i, i);
+            String expectedItem = String.format("name= item%d description= i am #%d item",i, i);
+            System.out.println(list.get(i).toString());
+            System.out.println(expectedItem);
+           // Assert.assertTrue(list.get(i).toString().equals(expectedItem));
             Assert.assertEquals(list.get(i).toString(),expectedItem);
         }
     }
@@ -75,7 +78,7 @@ public class ItemFactoryTest {
         String description = "jUsT an aPpLe";
         String jsonItem = String.format("{\"name\":\"%s\",\"description\":\"%s\"}", name, description);
         // this is how the toString() overridden. need to be adjusted accordingly
-        String expectedItem = String.format("Item{name='%s', description='%s'}",name, description);
+        String expectedItem = String.format("name= %s description= %s",name,description);
         Item item = ItemFactory.loadItem(jsonItem);
         Assert.assertEquals(item.toString(), expectedItem);
     }
@@ -86,7 +89,7 @@ public class ItemFactoryTest {
         String description = "";
         String jsonItem = String.format("{\"name\":\"%s\",\"description\":\"%s\"}", name, description);
         // this is how the toString() overridden. need to be adjusted accordingly
-        String expectedItem = String.format("Item{name='%s', description='%s'}",name, description);
+        String expectedItem = String.format("name= %s description= %s",name, description);
         Item item = ItemFactory.loadItem(jsonItem);
         Assert.assertEquals(item.toString(), expectedItem);
     }
