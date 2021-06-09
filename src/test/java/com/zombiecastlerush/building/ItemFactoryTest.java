@@ -38,7 +38,6 @@ public class ItemFactoryTest {
             String expectedItem = String.format("name= item%d description= i am #%d item",i, i);
             System.out.println(list.get(i).toString());
             System.out.println(expectedItem);
-           // Assert.assertTrue(list.get(i).toString().equals(expectedItem));
             Assert.assertEquals(list.get(i).toString(),expectedItem);
         }
     }
