@@ -9,19 +9,22 @@ import java.util.List;
 public class Inventory {
     private List<Item> items = new ArrayList<>();
 
-    public Inventory(){
+    public Inventory() {
     }
 
-    public List<Item> getItems(){
+    public List<Item> getItems() {
         return items;
     }
 
-    public void addItems(Item item){
-        items.add(item);
-
+    public void addItems(Item... item) {
+        for (Item thing : item) {
+            items.add(thing);
+        }
     }
 
-    public void deleteItems(Item item){
-        items.remove(item);
+    public void deleteItems(Item... item) {
+        for (Item thing : item) {
+            items.remove(thing);
+        }
     }
 }
