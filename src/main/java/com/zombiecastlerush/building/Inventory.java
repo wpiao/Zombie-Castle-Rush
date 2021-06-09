@@ -24,6 +24,10 @@ public class Inventory {
         return items;
     }
 
+    public void setItems(List<Item> list){
+        this.items = list;
+    }
+
     public void addItems(Item... itemsToBeAdded) {
         for (Item item : itemsToBeAdded) {
             items.add(item);
