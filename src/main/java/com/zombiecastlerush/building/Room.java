@@ -7,7 +7,7 @@ import java.util.List;
 public class Room {
     private String name;
     private String description;
-    Inventory inventory;
+    private Inventory inventory;
     private List<Room> connectedRooms = new ArrayList<>();
     private String [] items;
 
@@ -36,6 +36,10 @@ public class Room {
 
     public List<Room> getConnectedRooms() {
         return connectedRooms;
+    }
+    
+    public Inventory getInventory() {
+        return inventory;
     }
 
     public String[] getItems() {
