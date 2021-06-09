@@ -24,15 +24,15 @@ public class Inventory {
         return items;
     }
 
-    public void addItems(Item... item) {
-        for (Item thing : item) {
-            items.add(thing);
+    public void addItems(Item... itemsToBeAdded) {
+        for (Item item : itemsToBeAdded) {
+            items.add(item);
         }
     }
 
-    public void deleteItems(Item... item) {
-        for (Item thing : item) {
-            items.remove(thing);
+    public void deleteItems(Item... itemsToBeDeleted) {
+        for (Item item : itemsToBeDeleted) {
+            items.remove(item);
         }
     }
 

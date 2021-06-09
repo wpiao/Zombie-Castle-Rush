@@ -10,21 +10,24 @@ import static org.junit.Assert.*;
 
 public class InventoryTest {
     Inventory inventory = new Inventory();
+    Item item0;
 
     @Before
     public void setUp() throws Exception {
-        Item item0 = new Item("item 0", "item 0");
+        item0 = new Item("item 0", "item 0");
         inventory.addItems(item0);
     }
 
     @Test
     public void getItems_ReturnsListOfCurrentItems() {
         List<Item> expected = new ArrayList<>(inventory.getItems());
-        List<Item> actual = Collections.singletonList(new Item("item 0" , "item 0"));
-        boolean isName = actual.get(0).getName().equals(expected.get(0).getName());
-        boolean isDescription = actual.get(0).getDescription().equals(expected.get(0).getDescription());
-        assertTrue(isName);
-        assertTrue(isDescription);
+        List<Item> actual = new ArrayList<>(Arrays.asList(item0));
+        assertTrue(expected.equals(actual));
+        //List<Item> actual = Collections.singletonList(new Item("item 0" , "item 0"));
+//        boolean isName = actual.get(0).getName().equals(expected.get(0).getName());
+//        boolean isDescription = actual.get(0).getDescription().equals(expected.get(0).getDescription());
+//        assertTrue(isName);
+//        assertTrue(isDescription);
     }
 
     @Test
@@ -52,9 +55,8 @@ public class InventoryTest {
     public void deleteItems_removesItemFromInventory() {
         Item item3 = new Item("item 3", "item 3");
         inventory.addItems(item3);
-        List<Item> itemList = new ArrayList<>(inventory.getItems());
-        itemList.remove(item3);
-        var actual = !itemList.contains(item3);
+        inventory.deleteItems(item3);
+        var actual = !inventory.getItems().contains(item3);
         assertTrue(actual);
     }
 
