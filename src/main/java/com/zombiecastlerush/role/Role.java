@@ -23,6 +23,7 @@ public class Role {
         this.health = MAX_HEALTH;
         this.room = null;
         this.name = null;
+        this.inventory = new Inventory();
     }
 
     public Role(String name){
