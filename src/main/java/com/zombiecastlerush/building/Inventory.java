@@ -27,4 +27,9 @@ public class Inventory {
             items.remove(thing);
         }
     }
+
+    public void transferItem(Inventory fromInv, Inventory toInv, Item... item) {
+        fromInv.deleteItems(item);
+        toInv.addItems(item);
+    }
 }

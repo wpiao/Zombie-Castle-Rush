@@ -1,12 +1,16 @@
 package com.zombiecastlerush.building;
 
+import com.zombiecastlerush.role.Player;
 import org.junit.Before;
 import org.junit.Test;
+
+import javax.management.relation.Role;
 import java.util.*;
 import static org.junit.Assert.*;
 
 public class InventoryTest {
     Inventory inventory = new Inventory();
+
     @Before
     public void setUp() throws Exception {
         Item item0 = new Item("item 0", "item 0");
@@ -65,5 +69,13 @@ public class InventoryTest {
         var actual1 = !itemList.contains(item4);
         assertTrue(actual);
         assertTrue(actual1);
+    }
+
+    @Test
+    public void transferItem() {
+        Inventory invTo = new Inventory();
+        var item = inventory.getItems().get(0);
+        inventory.transferItem(this.inventory, invTo, item);
+        assertTrue(invTo.getItems().contains(item));
     }
 }
