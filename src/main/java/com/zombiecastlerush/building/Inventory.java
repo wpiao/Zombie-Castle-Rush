@@ -47,10 +47,8 @@ public class Inventory {
             }
             this.getItems().remove(item); // remove item from current list
             if(destination instanceof Role){
-                System.out.println("Move item to Role");
                 ((Role) destination).getInventory().addItems(item);
             } else if (destination instanceof Room){
-                System.out.println("Move item to Role");
                 ((Room) destination).getInventory().addItems(item);
             } else {
                 throw new IllegalArgumentException("Invalid destination to retain an Item");
