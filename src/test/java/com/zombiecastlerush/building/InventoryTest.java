@@ -50,6 +50,25 @@ public class InventoryTest {
         Assert.assertEquals(room.getInventory().getItems().get(0).getName(), item.getName()); //one item
     }
 
+    @Test
+    public void testMoveItem_moveItemBackAndForce(){
+        Player player = new Player("Player");
+        Room room = new Room("Room", "just a room");
+        //TODO: need to test Puzzle inventory once updated version available
+        Item item = new Item("target item", "I will be moved between objects");
+        player.getInventory().addItems(item);
+        Assert.assertEquals(room.getInventory().getItems().size(), 0); //empty inventory
+        Assert.assertEquals(player.getInventory().getItems().get(0).getName(),item.getName()); //one item in inventory
+        // move item from player to room
+        player.getInventory().moveItem(item,room);
+        Assert.assertEquals(player.getInventory().getItems().size(), 0); //empty
+        Assert.assertEquals(room.getInventory().getItems().get(0).getName(), item.getName()); //one item
+        // now i want to move that item back from the room to the player
+        room.getInventory().moveItem(item,player);
+        Assert.assertEquals(room.getInventory().getItems().size(), 0); //empty inventory
+        Assert.assertEquals(player.getInventory().getItems().get(0).getName(),item.getName()); //one item in inventory
+    }
+
     @Test(expected = IllegalArgumentException.class)
     public void testMoveItem_throwExceptionTargetItemNull(){
         Player player = new Player("Player");
