@@ -4,14 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * TODO: a Shop, a Room or a Player can HAS-A Inventory
+ * This is a model class to hold inventory items
  */
 public class Inventory {
+
     private List<Item> items = new ArrayList<>();
 
+    /**
+     * Initializes a newly created empty Inventory Object
+     */
     public Inventory() {
     }
 
+    /**
+     * Gets the Object inventory list
+     * @return a <code> list </code> of Object inventory items
+     */
     public List<Item> getItems() {
         return items;
     }
