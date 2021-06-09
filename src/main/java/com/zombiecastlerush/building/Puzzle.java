@@ -2,7 +2,7 @@ package com.zombiecastlerush.building;
 
 class Puzzle extends Challenge{
     private int attempts;
-    private Inventory inventory;
+    public Inventory inventory;
     private String question, solution;
 
     //Constructor
@@ -32,10 +32,6 @@ class Puzzle extends Challenge{
 
     public int getAttempts() {
         return attempts;
-    }
-
-    public Inventory getInventory() {
-        return inventory;//inventory.getItems()
     }
 
     //Methods
