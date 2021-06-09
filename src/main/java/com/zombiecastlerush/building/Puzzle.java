@@ -1,7 +1,6 @@
 package com.zombiecastlerush.building;
 
 class Puzzle extends Challenge{
-    private String id;
     private int attempts;
     private Inventory inventory;
     private String question, solution;
@@ -15,14 +14,6 @@ class Puzzle extends Challenge{
     }
 
     //Getters and setters
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getId() {
-        return id;
-    }
-
     public String getQuestion() {
         return question;
     }
