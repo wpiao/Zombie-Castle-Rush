@@ -51,6 +51,6 @@ public class Game {
         System.out.println("\n1. To go somewhere, please type go and one of the available locations displayed");
         System.out.println("2. To attempt a puzzle, please type \"attempt puzzle\"");
         System.out.println("3. To display player's status, please type \"display status\"");
-
+        System.out.println("4. To pick-up or drop an item, please type \"pick-up\", \"drop\" and \"item name\"");
     }
 }
