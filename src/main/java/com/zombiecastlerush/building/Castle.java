@@ -17,13 +17,17 @@ public class Castle {
 
         //add connected rooms to room
         eastWing.addConnectedRooms(castleHall);
-        castleHall.addConnectedRooms(drawBridge);
-        castleHall.addConnectedRooms(eastWing);
-        castleHall.addConnectedRooms(westWing);
-        drawBridge.addConnectedRooms(westWing);
-        drawBridge.addConnectedRooms(castleHall);
-        westWing.addConnectedRooms(castleHall);
-        westWing.addConnectedRooms(drawBridge);
+        castleHall.addConnectedRooms(drawBridge,eastWing,westWing);
+        drawBridge.addConnectedRooms(westWing,castleHall);
+        westWing.addConnectedRooms(castleHall,drawBridge);
+
+        //add Challenge to room
+        eastWing.setChallenge(new Puzzle("East-Wing Puzzle","What is (2+2) X (2-2)?","0"));
+        eastWing.getChallenge().inventory.addItems(new Item("Mr.Big Potato","This is a very big potato"));
+        westWing.setChallenge(new Puzzle("West-Wing Puzzle","What is (2+2) X (2-2)?","0"));
+        castleHall.setChallenge(new Puzzle("Caste-Hall Puzzle","What is (2+2) X (2-2)?","0"));
+        castleHall.getChallenge().inventory.addItems(new Item("Mr. Small Potato","This is a very small potato"));
+        drawBridge.setChallenge(new Puzzle("Draw-Brdige Puzzle","What is (2+2) X (2-2)?","0"));
 
         //Add rooms to castleRooms
         castleRooms.put(eastWing.getName(), eastWing);

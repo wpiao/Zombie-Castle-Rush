@@ -1,6 +1,6 @@
 package com.zombiecastlerush.util;
 
-import com.zombiecastlerush.building.Room;
+import com.zombiecastlerush.building.*;
 import com.zombiecastlerush.role.Player;
 
 import java.util.List;
@@ -18,12 +18,59 @@ public class Prompter {
         return result;
     }
 
-    static void movePlayer(Player player) {
-        List<Room> availableRooms = player.getCurrentPosition().getConnectedRooms();
-        String moveString = Prompter.getUserInput("\nYou are in " + player.getCurrentPosition() + "\n\nTo go somewhere, please type go and one of the following available locations: " + availableRooms);
-        List<String> moveList = Parser.parse(moveString);
-        if (moveList != null) {
-            player.moveTo(moveList.get(1));
+    static void controller(Player player) {
+        Room currentRoom = player.getCurrentPosition();
+        List<Room> availableRooms = currentRoom.getConnectedRooms();
+        List<Item> currRoomInventory = currentRoom.inventory.getItems();
+
+        System.out.println("You are in " + currentRoom + ". "+ currentRoom.getDescription());
+        if(currentRoom.getChallenge()!=null && !currentRoom.getChallenge().isCleared()){
+            String currRoomChallenge = currentRoom.getChallenge().getDescription();
+            System.out.println("The room has " + currRoomChallenge + " and " + currRoomInventory);
+            System.out.println("After the "+ currRoomChallenge +" is solved, you can go to one of the following available locations: " + availableRooms);
         }
+        else {
+            System.out.println("The room has " + currRoomInventory+"\nYou can go to one of the following locations " + availableRooms);
+        }
+
+        String userInput = Prompter.getUserInput("\nEnter \"help\" if you need help with the commands");
+        List<String> userInputList = Parser.parse(userInput);
+        if (userInputList!=null && userInputList.size()==2) {
+            String action =userInputList.get(0);
+            switch (action){
+                case "go":
+                    player.moveTo(userInputList.get(1));
+                    break;
+                case "attempt":
+                    if(userInputList.get(1).equals("puzzle")){
+                        getUserInput("\nYou've dared to attempt the Puzzle.....Press enter to continue");
+                        attemptPuzzle(currentRoom);
+                    }
+                    break;
+            }
+        }
+        else
+            Game.getInstance().showInstructions();
+    }
+
+    static void attemptPuzzle(Room room){
+        Puzzle puzzle = (Puzzle) room.getChallenge();
+        System.out.println("Here is your puzzle....Remember you only have " + (3-puzzle.getAttempts()) + " tries!");
+        puzzle.attemptPuzzle(getUserInput(puzzle.getQuestion()));
+        if(puzzle.getAttempts()<3 && !puzzle.isCleared())
+            attemptPuzzle(room);
+        else if(puzzle.isCleared()) {
+            System.out.println("Right answer. You can now move to the available rooms");
+            if(puzzle.inventory.getItems().size()>0){
+                System.out.println("You've also unlocked " + puzzle.inventory.getItems()+"\n");
+                puzzle.inventory.transferItem(puzzle.inventory,room.inventory,puzzle.inventory.getItems().toArray(new Item[0]));
+            }
+        }
+        else {
+            System.out.println("Wrong Answer!! You have had your chances...You failed...Game Over!!!");
+            Game.getInstance().stop();
+        }
+
+
     }
 }
