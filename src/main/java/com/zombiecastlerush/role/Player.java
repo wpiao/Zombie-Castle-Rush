@@ -1,5 +1,6 @@
 package com.zombiecastlerush.role;
 
+import com.zombiecastlerush.building.Challenge;
 import com.zombiecastlerush.building.Room;
 
 import java.util.List;
@@ -23,13 +24,27 @@ public class Player extends Role{
      */
     public boolean moveTo(String roomName){
         Room targetRoom = this.canMoveToRoom(roomName);
-        if(targetRoom != null){
-            String previous = super.getCurrentPosition().getName();
-            super.setCurrentPosition(targetRoom);
-            System.out.printf("Player %s moved from room %s to room %s\n", super.getName(), previous, super.getCurrentPosition().getName());
+        Challenge currRoomChallenge = this.getCurrentPosition().getChallenge();
+        boolean roomChallengeflag;
+
+        //if the room has no challenge
+        if(currRoomChallenge == null)
+            roomChallengeflag = true;
+        else
+            roomChallengeflag = currRoomChallenge.isCleared();
+
+        if(targetRoom != null && roomChallengeflag){
+            String previous = this.getCurrentPosition().getName();
+            this.setCurrentPosition(targetRoom);
+            System.out.printf("Player %s moved from room %s to room %s\n", this.getName(), previous, this.getCurrentPosition().getName());
             return true;
-        } else{
-            System.out.printf("Player %s's current room %s doesn't connect to other rooms.", super.getName(), super.getCurrentPosition().getName());
+        }
+        else if(targetRoom == null){
+            System.out.printf("Player %s's current room %s doesn't connect to room: %s %n", this.getName(), this.getCurrentPosition().getName(),roomName);
+            return false;
+        }
+        else {
+            System.out.println(currRoomChallenge.getDescription() +" must be cleared before you can move to "+targetRoom);
             return false;
         }
     }
@@ -55,6 +70,6 @@ public class Player extends Role{
      * @return
      */
     private List<Room> whichRoomNext() {
-        return (super.getCurrentPosition() == null) ? null : super.getCurrentPosition().getConnectedRooms();
+        return (this.getCurrentPosition() == null) ? null : this.getCurrentPosition().getConnectedRooms();
     }
 }

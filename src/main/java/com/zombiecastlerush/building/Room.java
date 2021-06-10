@@ -9,9 +9,10 @@ public class Room {
     private String description;
     public Inventory inventory = new Inventory();
     private List<Room> connectedRooms = new ArrayList<>();
+    private Challenge challenge;
 
     //constructors
-    public Room(String name, String description) {
+    public Room(String name, String description){
         setName(name);
         setDescription(description);
     }
@@ -37,18 +38,25 @@ public class Room {
         return connectedRooms;
     }
 
-    public Inventory getInventory() {
-        return inventory;
+    public Challenge getChallenge() {
+        return challenge;
+    }
+
+    public void setChallenge(Challenge challenge) {
+        this.challenge = challenge;
     }
 
     @Override
-    public String toString() {
+    public String toString(){
         return getName();//+ "Connected Rooms: " + connectedRooms.toString(;
     }
 
     //Methods
     //add room to the connected rooms List for this room
-    public void addConnectedRooms(Room room) {
-        this.connectedRooms.add(room);
+    public void addConnectedRooms(Room ...rooms) {
+        for(Room room:rooms){
+            this.connectedRooms.add(room);
+        }
+
     }
 }
