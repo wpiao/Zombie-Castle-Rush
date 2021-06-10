@@ -13,7 +13,6 @@ import com.zombiecastlerush.building.Room;
 public class Role extends Entity {
     private final int MAX_HEALTH = 100;
     private final int MIN_HEALTH = 0;
-    private String name;
     private Room room;
     public Inventory inventory = new Inventory();
     private int health; // range from 0-100
@@ -22,13 +21,11 @@ public class Role extends Entity {
     private Role() {
         this.health = MAX_HEALTH;
         this.room = null;
-        this.name = null;
         this.inventory = new Inventory();
     }
 
     public Role(String name) {
         this();
-        this.name = name;
     }
 
     public Role(String name, Room room) {
@@ -91,14 +88,6 @@ public class Role extends Entity {
         } else {
             this.health = points;
         }
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Inventory getInventory() {

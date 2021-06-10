@@ -1,10 +1,12 @@
 package com.zombiecastlerush.building;
 
+import com.zombiecastlerush.entity.Entity;
+
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class Room {
+public class Room extends Entity {
     private String name;
     private String description;
     public Inventory inventory = new Inventory();
