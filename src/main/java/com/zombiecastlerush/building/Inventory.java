@@ -79,4 +79,13 @@ public class Inventory {
             }
         }
     }
+
+    @Override
+    public String toString() {
+        String result = "";
+        for (Item item: items) {
+            result = result.concat(item.getName() + " ");
+        }
+        return result;
+    }
 }

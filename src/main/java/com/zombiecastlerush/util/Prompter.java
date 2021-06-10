@@ -68,7 +68,7 @@ public class Prompter {
         else if(puzzle.isCleared()) {
             System.out.println("Right answer. You can now move to the available rooms");
             if(puzzle.inventory.getItems().size()>0){
-                System.out.println("You've also unlocked " + puzzle.inventory.getItems()+"\n");
+                System.out.println( puzzle.getDescription() + " drops " + puzzle.inventory.toString() +"\n");
                 puzzle.inventory.transferItem(puzzle.inventory,room.inventory,puzzle.inventory.getItems().toArray(new Item[0]));
             }
         }
