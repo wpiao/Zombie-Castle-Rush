@@ -141,15 +141,4 @@ public class InventoryTest {
         // item doesn't belong to player, so cannot be moved
         player.getInventory().moveItem(nonExistentItem,room);
     }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testMoveItem_throwExceptionUnrecognizedDestination(){
-        Player player = new Player("Player");
-        Castle castle = new Castle();
-        Item item = new Item("target item", "I will be moved between objects");
-        player.getInventory().getItems().add(item);
-        Assert.assertEquals(player.getInventory().getItems().get(0).getName(),item.getName()); // i have the item
-        // move to a destination that can not be recognized
-        player.getInventory().moveItem(item, castle);
-    }
 }

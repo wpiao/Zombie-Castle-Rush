@@ -3,6 +3,8 @@ package com.zombiecastlerush.building;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import com.zombiecastlerush.entity.Entity;
 import com.zombiecastlerush.entity.Role;
 
 
@@ -59,7 +61,7 @@ public class Inventory {
      * If we decide to use centralized inventory management, this will be static
      * assume a Puzzle can only moveItem to a destination but not from a Object to a Puzzle
      */
-    public void moveItem(Item item, Object destination){
+    public void moveItem(Item item, Entity destination){
         if(Objects.isNull(item) || Objects.isNull(destination)){
             throw new IllegalArgumentException("Invalid null input argument");
         } else {
@@ -67,13 +69,7 @@ public class Inventory {
                 throw new IllegalArgumentException("Nonexistent Item. Can not relocate it.");
             }
             this.getItems().remove(item); // remove item from current list
-            if(destination instanceof Role){
-                ((Role) destination).getInventory().addItems(item);
-            } else if (destination instanceof Room){
-                ((Room) destination).getInventory().addItems(item);
-            } else {
-                throw new IllegalArgumentException("Invalid destination to retain an Item");
-            }
+            destination.getInventory().addItems(item);
         }
     }
 }
