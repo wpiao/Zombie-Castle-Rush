@@ -1,9 +1,12 @@
 package com.zombiecastlerush.building;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import java.util.ArrayList;
 import java.util.List;
 
-
+@JsonPropertyOrder({"name", "description", "connectedRooms", "challenge", "inventory"})
 public class Room {
     private String name;
     private String description;
