@@ -1,21 +1,19 @@
 package com.zombiecastlerush.building;
 
+import com.zombiecastlerush.entity.Entity;
+
 /**
  * challenge class provides the challenge description and validation
  * TODO: more methods and attributes
  */
-class Challenge {
-    private String description;
+class Challenge extends Entity {
+
     private boolean cleared;
 
     public Challenge(String description){
         //TODO: build our Challenge
-        this.description=description;
+        super.setDescription(description);
         this.cleared = false;
-    }
-
-    public String getDescription(){
-        return this.description;
     }
 
     /**
@@ -30,7 +28,4 @@ class Challenge {
     public boolean isCleared(){
         return cleared;
     }
-
-
-
 }
