@@ -84,12 +84,12 @@ public class InventoryTest {
         //TODO: need to test Puzzle inventory once updated version available
         Item item = new Item("target item", "I will be moved between objects");
         player.getInventory().addItems(item);
-        Assert.assertEquals(room.getInventory().getItems().size(), 0); //empty inventory
+        Assert.assertEquals(room.inventory.getItems().size(), 0); //empty inventory
         Assert.assertEquals(player.getInventory().getItems().get(0),item); //one item in inventory
         // move item from player to room
         player.getInventory().moveItem(item,room);
         Assert.assertEquals(player.getInventory().getItems().size(), 0); //empty
-        Assert.assertEquals(room.getInventory().getItems().get(0).getName(), item.getName()); //one item
+        Assert.assertEquals(room.inventory.getItems().get(0).getName(), item.getName()); //one item
     }
 
     @Test
@@ -99,16 +99,16 @@ public class InventoryTest {
         //TODO: need to test Puzzle inventory once updated version available
         Item item = new Item("target item", "I will be moved between objects");
         player.getInventory().addItems(item);
-        Assert.assertEquals(room.getInventory().getItems().size(), 0); //empty inventory
-        Assert.assertEquals(player.getInventory().getItems().get(0).getName(),item.getName()); //one item in inventory
+        assertEquals(room.inventory.getItems().size(), 0); //empty inventory
+        assertEquals(player.getInventory().getItems().get(0).getName(),item.getName()); //one item in inventory
         // move item from player to room
         player.getInventory().moveItem(item,room);
-        Assert.assertEquals(player.getInventory().getItems().size(), 0); //empty
-        Assert.assertEquals(room.getInventory().getItems().get(0).getName(), item.getName()); //one item
+        assertEquals(player.getInventory().getItems().size(), 0); //empty
+        Assert.assertEquals(room.inventory.getItems().get(0).getName(), item.getName()); //one item
         // now i want to move that item back from the room to the player
-        room.getInventory().moveItem(item,player);
-        Assert.assertEquals(room.getInventory().getItems().size(), 0); //empty inventory
-        Assert.assertEquals(player.getInventory().getItems().get(0).getName(),item.getName()); //one item in inventory
+        room.inventory.moveItem(item,player);
+        Assert.assertEquals(room.inventory.getItems().size(), 0); //empty inventory
+        assertEquals(player.getInventory().getItems().get(0).getName(),item.getName()); //one item in inventory
     }
 
     @Test(expected = IllegalArgumentException.class)
