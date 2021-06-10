@@ -150,7 +150,7 @@ public class Role {
      * @throws JsonProcessingException
      */
     public String displayStatus() throws JsonProcessingException {
-        return new ObjectMapper().writeValueAsString(this);
+        return new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(this);
     }
 }
 
