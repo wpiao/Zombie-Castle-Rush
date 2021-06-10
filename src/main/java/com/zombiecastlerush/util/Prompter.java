@@ -1,5 +1,6 @@
 package com.zombiecastlerush.util;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.zombiecastlerush.building.*;
 import com.zombiecastlerush.role.Player;
 
@@ -18,7 +19,7 @@ public class Prompter {
         return result;
     }
 
-    static void controller(Player player) {
+    static void controller(Player player) throws JsonProcessingException {
         Room currentRoom = player.getCurrentPosition();
         List<Room> availableRooms = currentRoom.getConnectedRooms();
         List<Item> currRoomInventory = currentRoom.inventory.getItems();
@@ -46,6 +47,10 @@ public class Prompter {
                         getUserInput("\nYou've dared to attempt the Puzzle.....Press enter to continue");
                         attemptPuzzle(currentRoom);
                     }
+                    break;
+                case "display":
+                    if(userInputList.get(1).equalsIgnoreCase("status"))
+                        System.out.println(player.displayStatus());
                     break;
             }
         }
