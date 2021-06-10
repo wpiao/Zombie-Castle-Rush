@@ -28,8 +28,7 @@ public class Game {
      */
     public void start() throws JsonProcessingException {
         System.out.println("Game started here...");
-        Prompter.getUserInput("Welcome to Zombie Castle Rush! Press enter to continue.");
-        String userName = Prompter.getUserInput("Please enter your name");
+        String userName = Prompter.getUserInput("Welcome to Zombie Castle Rush! Please enter your name");
         player = new Player(userName);
         showInstructions();
         Prompter.getUserInput("\nPress enter to continue.");
