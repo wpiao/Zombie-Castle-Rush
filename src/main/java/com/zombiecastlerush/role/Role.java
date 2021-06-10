@@ -1,6 +1,8 @@
 package com.zombiecastlerush.role;
 
 import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zombiecastlerush.building.Inventory;
 import com.zombiecastlerush.building.Item;
 import com.zombiecastlerush.building.Room;
@@ -61,7 +63,7 @@ public class Role {
         this.setHealth((this.getHealth() - points) < MIN_HEALTH ? MIN_HEALTH : this.getHealth() - points);
     }
 
-    @JsonGetter("room")
+    @JsonGetter("currentRoom")
     public Room getCurrentPosition() {
         return this.currentRoom;
     }
@@ -71,7 +73,7 @@ public class Role {
      *
      * @param room room reference
      */
-    @JsonSetter("room")
+    @JsonSetter("currentRoom")
     public void setCurrentPosition(Room room) {
         this.currentRoom = room;
     }
@@ -142,8 +144,13 @@ public class Role {
         this.inventory.deleteAllItems();
     }
 
-    public String displayStatus(){
-        return null;
+    /**
+     * display Role's status in Json format {"name", "currentRoom", "health", "inventory"}
+     * @return String Json format status {"name", "currentRoom", "health", "inventory"}
+     * @throws JsonProcessingException
+     */
+    public String displayStatus() throws JsonProcessingException {
+        return new ObjectMapper().writeValueAsString(this);
     }
 }
 
