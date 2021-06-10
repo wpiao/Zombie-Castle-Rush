@@ -51,8 +51,4 @@ public class Room {
     public void addConnectedRooms(Room room) {
         this.connectedRooms.add(room);
     }
-
-    public void setInventory(Inventory inventory) {
-        this.inventory = inventory;
-    }
 }
