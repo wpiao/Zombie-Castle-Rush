@@ -7,33 +7,14 @@ import java.util.List;
 
 
 public class Room extends Entity {
-    private String name;
-    private String description;
     public Inventory inventory = new Inventory();
     private List<Room> connectedRooms = new ArrayList<>();
 
     //constructors
     public Room(String name, String description) {
-        setName(name);
-        setDescription(description);
+        super.setName(name);
+        super.setDescription(description);
         setInventory(new Inventory());
-    }
-
-    //Setters and Getters
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public List<Room> getConnectedRooms() {
