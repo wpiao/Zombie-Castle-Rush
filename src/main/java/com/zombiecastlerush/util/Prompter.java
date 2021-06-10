@@ -1,7 +1,7 @@
 package com.zombiecastlerush.util;
 
 import com.zombiecastlerush.building.Room;
-import com.zombiecastlerush.role.Player;
+import com.zombiecastlerush.entity.Player;
 
 import java.util.List;
 import java.util.Scanner;

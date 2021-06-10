@@ -1,6 +1,6 @@
 package com.zombiecastlerush.building;
 
-import com.zombiecastlerush.role.Player;
+import com.zombiecastlerush.entity.Player;
 import org.junit.Before;
 import org.junit.Test;
 

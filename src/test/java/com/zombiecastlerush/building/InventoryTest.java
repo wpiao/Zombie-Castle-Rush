@@ -1,11 +1,10 @@
 package com.zombiecastlerush.building;
 
-import com.zombiecastlerush.role.Player;
+import com.zombiecastlerush.entity.Player;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.management.relation.Role;
 import java.util.*;
 import static org.junit.Assert.*;
 

@@ -1,7 +1,7 @@
 package com.zombiecastlerush.util;
 
 import com.zombiecastlerush.building.Castle;
-import com.zombiecastlerush.role.Player;
+import com.zombiecastlerush.entity.Player;
 
 /**
  * singleton class Game

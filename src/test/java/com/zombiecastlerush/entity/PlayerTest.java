@@ -1,4 +1,4 @@
-package com.zombiecastlerush.role;
+package com.zombiecastlerush.entity;
 
 import com.zombiecastlerush.building.Room;
 import com.zombiecastlerush.util.Game;

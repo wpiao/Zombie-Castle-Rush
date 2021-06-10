@@ -3,7 +3,7 @@ package com.zombiecastlerush.building;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import com.zombiecastlerush.role.Role;
+import com.zombiecastlerush.entity.Role;
 
 
 /**
