@@ -11,7 +11,7 @@ import com.zombiecastlerush.building.Room;
  * base class for all roles
  * TODO: add more functions and description
  */
-@JsonPropertyOrder({"name", "currentRoom", "health", "inventory"})
+@JsonPropertyOrder({"name", "health", "inventory", "currentRoom"})
 public class Role {
     private final int MAX_HEALTH = 100;
     private final int MIN_HEALTH = 0;
