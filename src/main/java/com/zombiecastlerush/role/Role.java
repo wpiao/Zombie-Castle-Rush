@@ -107,10 +107,6 @@ public class Role {
         return inventory;
     }
 
-    public void setInventory(Inventory inventory) {
-        this.inventory = inventory;
-    }
-
     // Inventory methods
     public Item pickUp (Item item){
         for (Item existingItem : this.getCurrentPosition().inventory.getItems()) {

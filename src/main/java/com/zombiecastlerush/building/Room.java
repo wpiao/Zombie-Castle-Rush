@@ -19,7 +19,6 @@ public class Room {
     public Room(String name, String description){
         setName(name);
         setDescription(description);
-        setInventory(new Inventory());
     }
 
     //Setters and Getters
@@ -75,13 +74,5 @@ public class Room {
         for(Room room:rooms){
             this.connectedRooms.add(room);
         }
-    }
-
-    public void setInventory(Inventory inventory) {
-        this.inventory = inventory;
-    }
-
-    public Inventory getInventory(){
-        return this.inventory;
     }
 }
