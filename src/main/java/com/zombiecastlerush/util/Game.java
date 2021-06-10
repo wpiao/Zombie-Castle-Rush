@@ -1,5 +1,6 @@
 package com.zombiecastlerush.util;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.zombiecastlerush.building.Castle;
 import com.zombiecastlerush.role.Player;
 
@@ -25,7 +26,7 @@ public class Game {
     /**
      * TODO: What does start() provide?
      */
-    public void start(){
+    public void start() throws JsonProcessingException {
         System.out.println("Game started here...");
         Prompter.getUserInput("Welcome to Zombie Castle Rush! Press enter to continue.");
         String userName = Prompter.getUserInput("Please enter your name");
@@ -50,5 +51,7 @@ public class Game {
         System.out.print("\nGame Instructions:");
         System.out.println("\n1. To go somewhere, please type go and one of the available locations displayed");
         System.out.println("2. To attempt a puzzle, please type \"attempt puzzle\"");
+        System.out.println("3. To display player's status, please type \"display status\"");
+
     }
 }
