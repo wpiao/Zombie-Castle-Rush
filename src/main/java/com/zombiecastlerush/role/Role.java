@@ -9,19 +9,19 @@ import com.zombiecastlerush.building.Room;
  * base class for all roles
  * TODO: add more functions and description
  */
-@JsonPropertyOrder({"id", "name", "room", "health"})
+@JsonPropertyOrder({"name", "currentRoom", "health", "inventory"})
 public class Role {
     private final int MAX_HEALTH = 100;
     private final int MIN_HEALTH = 0;
     private String name;
-    private Room room;
+    private Room currentRoom;
     public Inventory inventory = new Inventory();
     private int health; // range from 0-100
 
     // cannot have a Role without name
     private Role() {
         this.health = MAX_HEALTH;
-        this.room = null;
+        this.currentRoom = null;
         this.name = null;
         this.inventory = new Inventory();
     }
@@ -31,9 +31,9 @@ public class Role {
         this.name = name;
     }
 
-    public Role(String name, Room room) {
+    public Role(String name, Room currentRoom) {
         this(name);
-        this.room = room;
+        this.currentRoom = currentRoom;
     }
 
     /**
@@ -63,7 +63,7 @@ public class Role {
 
     @JsonGetter("room")
     public Room getCurrentPosition() {
-        return this.room;
+        return this.currentRoom;
     }
 
     /**
@@ -73,7 +73,7 @@ public class Role {
      */
     @JsonSetter("room")
     public void setCurrentPosition(Room room) {
-        this.room = room;
+        this.currentRoom = room;
     }
 
     public int getHealth() {
@@ -108,37 +108,42 @@ public class Role {
     public void setInventory(Inventory inventory) {
         this.inventory = inventory;
     }
-        // Inventory methods
-        public Item pickUp (Item item){
-            for (Item existingItem : this.getCurrentPosition().inventory.getItems()) {
-                System.out.println(existingItem.getName());
-                if (item.equals(existingItem)) {
-                    this.inventory.addItems(item);
-                    this.getCurrentPosition().inventory.deleteItems(item);
-                    System.out.println(item.getName() + " picked up by " + this.getName());
-                    return item;
-                }
-            }
-            return null;
-        }
 
-        public Item drop (Item item){
-            for (Item existingItem : this.inventory.getItems()) {
-                if (item.equals(existingItem)) {
-                    this.getCurrentPosition().inventory.addItems(item);
-                    this.inventory.deleteItems(item);
-                    System.out.println(item.getName() + " dropped by " + this.getName());
-                    return item;
-                }
+    // Inventory methods
+    public Item pickUp (Item item){
+        for (Item existingItem : this.getCurrentPosition().inventory.getItems()) {
+            System.out.println(existingItem.getName());
+            if (item.equals(existingItem)) {
+                this.inventory.addItems(item);
+                this.getCurrentPosition().inventory.deleteItems(item);
+                System.out.println(item.getName() + " picked up by " + this.getName());
+                return item;
             }
-            return null;
         }
-
-        public void dropAll(){
-            for (Item item : this.inventory.getItems()) {
-                this.getCurrentPosition().inventory.addItems(item);
-            }
-            this.inventory.deleteAllItems();
-        }
+        return null;
     }
+
+    public Item drop (Item item){
+        for (Item existingItem : this.inventory.getItems()) {
+            if (item.equals(existingItem)) {
+                this.getCurrentPosition().inventory.addItems(item);
+                this.inventory.deleteItems(item);
+                System.out.println(item.getName() + " dropped by " + this.getName());
+                return item;
+            }
+        }
+        return null;
+    }
+
+    public void dropAll(){
+        for (Item item : this.inventory.getItems()) {
+            this.getCurrentPosition().inventory.addItems(item);
+        }
+        this.inventory.deleteAllItems();
+    }
+
+    public String displayStatus(){
+        return null;
+    }
+}
 
