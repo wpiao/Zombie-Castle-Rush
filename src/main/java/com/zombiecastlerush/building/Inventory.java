@@ -3,12 +3,15 @@ package com.zombiecastlerush.building;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.zombiecastlerush.role.Role;
 
 
 /**
  * This is a model class to hold inventory items
  */
+@JsonPropertyOrder({"items"})
 public class Inventory {
 
     private List<Item> items = new ArrayList<>();
