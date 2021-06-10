@@ -24,7 +24,7 @@ public class Player extends Role{
      */
     public boolean moveTo(String roomName){
         Room targetRoom = this.canMoveToRoom(roomName);
-        Challenge currRoomChallenge = super.getCurrentPosition().getChallenge();
+        Challenge currRoomChallenge = this.getCurrentPosition().getChallenge();
         boolean roomChallengeflag;
 
         //if the room has no challenge
@@ -34,13 +34,13 @@ public class Player extends Role{
             roomChallengeflag = currRoomChallenge.isCleared();
 
         if(targetRoom != null && roomChallengeflag){
-            String previous = super.getCurrentPosition().getName();
-            super.setCurrentPosition(targetRoom);
-            System.out.printf("Player %s moved from room %s to room %s\n", super.getName(), previous, super.getCurrentPosition().getName());
+            String previous = this.getCurrentPosition().getName();
+            this.setCurrentPosition(targetRoom);
+            System.out.printf("Player %s moved from room %s to room %s\n", this.getName(), previous, this.getCurrentPosition().getName());
             return true;
         }
         else if(targetRoom == null){
-            System.out.printf("Player %s's current room %s doesn't connect to room: %s %n", super.getName(), super.getCurrentPosition().getName(),roomName);
+            System.out.printf("Player %s's current room %s doesn't connect to room: %s %n", this.getName(), this.getCurrentPosition().getName(),roomName);
             return false;
         }
         else {
@@ -70,6 +70,6 @@ public class Player extends Role{
      * @return
      */
     private List<Room> whichRoomNext() {
-        return (super.getCurrentPosition() == null) ? null : super.getCurrentPosition().getConnectedRooms();
+        return (this.getCurrentPosition() == null) ? null : this.getCurrentPosition().getConnectedRooms();
     }
 }
