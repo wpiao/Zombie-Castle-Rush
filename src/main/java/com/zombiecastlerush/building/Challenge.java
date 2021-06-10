@@ -4,8 +4,9 @@ package com.zombiecastlerush.building;
  * challenge class provides the challenge description and validation
  * TODO: more methods and attributes
  */
-class Challenge {
+public class Challenge {
     private String description;
+    public Inventory inventory= new Inventory();
     private boolean cleared;
 
     public Challenge(String description){
