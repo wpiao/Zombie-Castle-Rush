@@ -10,7 +10,7 @@ import com.zombiecastlerush.building.Room;
  * TODO: add more functions and description
  */
 @JsonPropertyOrder({"id", "name", "room", "health"})
-class Role {
+public class Role {
     private final int MAX_HEALTH = 100;
     private final int MIN_HEALTH = 0;
     private String name;
@@ -19,18 +19,19 @@ class Role {
     private int health; // range from 0-100
 
     // cannot have a Role without name
-    private Role(){
+    private Role() {
         this.health = MAX_HEALTH;
         this.room = null;
         this.name = null;
+        this.inventory = new Inventory();
     }
 
-    public Role(String name){
+    public Role(String name) {
         this();
         this.name = name;
     }
 
-    public Role(String name, Room room){
+    public Role(String name, Room room) {
         this(name);
         this.room = room;
     }
@@ -38,10 +39,11 @@ class Role {
     /**
      * increase this role's health points
      * health range 0 - 100
+     *
      * @param points how many points are increased
      */
-    public void increaseHealth(int points){
-        if(points < 0 ){
+    public void increaseHealth(int points) {
+        if (points < 0) {
             throw new IllegalArgumentException("Invalid negative health points");
         }
         this.setHealth((points + this.getHealth()) > MAX_HEALTH ? MAX_HEALTH : points + this.getHealth());
@@ -49,35 +51,38 @@ class Role {
 
     /**
      * decrease this role's health points
+     *
      * @param points how many points are decreased
      */
-    public void decreaseHealth(int points){
-        if(points < 0 ){
+    public void decreaseHealth(int points) {
+        if (points < 0) {
             throw new IllegalArgumentException("Invalid negative health points");
         }
-        this.setHealth((this.getHealth() - points) < MIN_HEALTH ? MIN_HEALTH : this.getHealth()-points);
+        this.setHealth((this.getHealth() - points) < MIN_HEALTH ? MIN_HEALTH : this.getHealth() - points);
     }
 
     @JsonGetter("room")
-    public Room getCurrentPosition(){
+    public Room getCurrentPosition() {
         return this.room;
     }
 
     /**
      * change current room where this Role is located
+     *
      * @param room room reference
      */
     @JsonSetter("room")
-    public void setCurrentPosition(Room room){
+    public void setCurrentPosition(Room room) {
         this.room = room;
     }
 
-    public int getHealth(){
+    public int getHealth() {
         return this.health;
     }
 
     /**
      * validate health range 0 - 100
+     *
      * @param points input health points
      */
     public void setHealth(int points) {
@@ -96,9 +101,12 @@ class Role {
         this.name = name;
     }
 
+    public Inventory getInventory() {
+        return inventory;
+    }
     // Inventory methods
-    public Item pickUp(Item item) {
-        for (Item existingItem: this.getCurrentPosition().inventory.getItems()) {
+    public Item pickUp (Item item){
+        for (Item existingItem : this.getCurrentPosition().inventory.getItems()) {
             System.out.println(existingItem.getName());
             if (item.equals(existingItem)) {
                 this.inventory.addItems(item);
@@ -110,7 +118,7 @@ class Role {
         return null;
     }
 
-    public Item drop(Item item) {
+    public Item drop (Item item){
         for (Item existingItem : this.inventory.getItems()) {
             if (item.equals(existingItem)) {
                 this.getCurrentPosition().inventory.addItems(item);
@@ -122,10 +130,11 @@ class Role {
         return null;
     }
 
-    public void dropAll() {
+    public void dropAll(){
         for (Item item : this.inventory.getItems()) {
             this.getCurrentPosition().inventory.addItems(item);
         }
         this.inventory.deleteAllItems();
     }
 }
+
