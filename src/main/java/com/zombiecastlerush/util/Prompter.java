@@ -55,6 +55,22 @@ public class Prompter {
                     if (userInputList.get(1).equalsIgnoreCase("status"))
                         System.out.println(player.displayStatus());
                     break;
+                case "pick-up":
+                    for (Item item: currentRoom.getInventory().getItems()) {
+                        if (item.getName().equalsIgnoreCase(userInputList.get(1))) {
+                            player.pickUp(item);
+                            break;
+                        }
+                    }
+                    break;
+                case "drop":
+                    for (Item item: player.getInventory().getItems()) {
+                        if (item.getName().equalsIgnoreCase(userInputList.get(1))) {
+                            player.drop(item);
+                            break;
+                        }
+                    }
+                    break;
             }
         } else
             Game.getInstance().showInstructions();
