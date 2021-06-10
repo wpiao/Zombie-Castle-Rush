@@ -64,4 +64,8 @@ public class Room {
     public void setInventory(Inventory inventory) {
         this.inventory = inventory;
     }
+
+    public Inventory getInventory(){
+        return this.inventory;
+    }
 }
