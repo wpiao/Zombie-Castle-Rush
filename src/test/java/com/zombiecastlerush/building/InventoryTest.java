@@ -85,7 +85,7 @@ public class InventoryTest {
         Item item = new Item("target item", "I will be moved between objects");
         player.getInventory().addItems(item);
         Assert.assertEquals(room.getInventory().getItems().size(), 0); //empty inventory
-        Assert.assertEquals(player.getInventory().getItems().get(0).getName(),item.getName()); //one item in inventory
+        Assert.assertEquals(player.getInventory().getItems().get(0),item); //one item in inventory
         // move item from player to room
         player.getInventory().moveItem(item,room);
         Assert.assertEquals(player.getInventory().getItems().size(), 0); //empty
