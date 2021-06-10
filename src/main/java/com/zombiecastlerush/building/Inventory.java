@@ -3,6 +3,7 @@ package com.zombiecastlerush.building;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.zombiecastlerush.role.Role;
@@ -82,10 +83,8 @@ public class Inventory {
 
     @Override
     public String toString() {
-        String result = "";
-        for (Item item: items) {
-            result = result.concat(item.getName() + " ");
-        }
-        return result;
+        String listString = items.stream().map(Item::getName)
+                .collect(Collectors.joining(", "));
+        return listString;
     }
 }
