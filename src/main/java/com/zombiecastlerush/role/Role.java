@@ -104,41 +104,37 @@ public class Role {
     public Inventory getInventory() {
         return inventory;
     }
-
-    public void setInventory(Inventory inventory) {
-        this.inventory = inventory;
+    // Inventory methods
+    public Item pickUp (Item item){
+        for (Item existingItem : this.getCurrentPosition().inventory.getItems()) {
+            System.out.println(existingItem.getName());
+            if (item.equals(existingItem)) {
+                this.inventory.addItems(item);
+                this.getCurrentPosition().inventory.deleteItems(item);
+                System.out.println(item.getName() + " picked up by " + this.getName());
+                return item;
+            }
+        }
+        return null;
     }
-        // Inventory methods
-        public Item pickUp (Item item){
-            for (Item existingItem : this.getCurrentPosition().inventory.getItems()) {
-                System.out.println(existingItem.getName());
-                if (item.equals(existingItem)) {
-                    this.inventory.addItems(item);
-                    this.getCurrentPosition().inventory.deleteItems(item);
-                    System.out.println(item.getName() + " picked up by " + this.getName());
-                    return item;
-                }
-            }
-            return null;
-        }
 
-        public Item drop (Item item){
-            for (Item existingItem : this.inventory.getItems()) {
-                if (item.equals(existingItem)) {
-                    this.getCurrentPosition().inventory.addItems(item);
-                    this.inventory.deleteItems(item);
-                    System.out.println(item.getName() + " dropped by " + this.getName());
-                    return item;
-                }
-            }
-            return null;
-        }
-
-        public void dropAll(){
-            for (Item item : this.inventory.getItems()) {
+    public Item drop (Item item){
+        for (Item existingItem : this.inventory.getItems()) {
+            if (item.equals(existingItem)) {
                 this.getCurrentPosition().inventory.addItems(item);
+                this.inventory.deleteItems(item);
+                System.out.println(item.getName() + " dropped by " + this.getName());
+                return item;
             }
-            this.inventory.deleteAllItems();
         }
+        return null;
     }
+
+    public void dropAll(){
+        for (Item item : this.inventory.getItems()) {
+            this.getCurrentPosition().inventory.addItems(item);
+        }
+        this.inventory.deleteAllItems();
+    }
+}
 
