@@ -73,7 +73,7 @@ public class Inventory {
             if(destination instanceof Role){
                 ((Role) destination).getInventory().addItems(item);
             } else if (destination instanceof Room){
-                ((Room) destination).getInventory().addItems(item);
+                ((Room) destination).inventory.addItems(item);
             } else {
                 throw new IllegalArgumentException("Invalid destination to retain an Item");
             }

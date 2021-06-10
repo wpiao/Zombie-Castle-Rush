@@ -19,7 +19,7 @@ public class Prompter {
         return result;
     }
 
-    static void controller(Player player) throws JsonProcessingException {
+    static void advanceGame(Player player) throws JsonProcessingException {
         Room currentRoom = player.getCurrentPosition();
         List<Room> availableRooms = currentRoom.getConnectedRooms();
         List<Item> currRoomInventory = currentRoom.inventory.getItems();
@@ -44,8 +44,12 @@ public class Prompter {
                     break;
                 case "attempt":
                     if(userInputList.get(1).equals("puzzle")){
-                        getUserInput("\nYou've dared to attempt the Puzzle.....Press enter to continue");
-                        attemptPuzzle(currentRoom);
+                        if(currentRoom.getChallenge()!=null && currentRoom.getChallenge() instanceof Puzzle){
+                            getUserInput("\nYou've dared to attempt the Puzzle.....Press enter to continue");
+                            solvePuzzle(currentRoom);
+                        }
+                        else
+                            System.out.println("There is no puzzle in the room");
                     }
                     break;
                 case "display":
@@ -58,12 +62,12 @@ public class Prompter {
             Game.getInstance().showInstructions();
     }
 
-    static void attemptPuzzle(Room room){
+    static void solvePuzzle(Room room){
         Puzzle puzzle = (Puzzle) room.getChallenge();
         System.out.println("Here is your puzzle....Remember you only have " + (3-puzzle.getAttempts()) + " tries!");
         puzzle.attemptPuzzle(getUserInput(puzzle.getQuestion()));
         if(puzzle.getAttempts()<3 && !puzzle.isCleared())
-            attemptPuzzle(room);
+            solvePuzzle(room);
         else if(puzzle.isCleared()) {
             System.out.println("Right answer. You can now move to the available rooms");
             if(puzzle.inventory.getItems().size()>0){

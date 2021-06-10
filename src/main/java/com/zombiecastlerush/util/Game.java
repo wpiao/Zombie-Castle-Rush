@@ -35,7 +35,7 @@ public class Game {
         Prompter.getUserInput("\nPress enter to continue.");
         player.setCurrentPosition(castle.getCastleRooms().get("Castle-Hall"));
         while (true) {
-            Prompter.controller(player);
+            Prompter.advanceGame(player);
         }
     }
 

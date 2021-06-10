@@ -23,11 +23,11 @@ public class Castle {
 
         //add Challenge to room
         eastWing.setChallenge(new Puzzle("East-Wing Puzzle","What is (2+2) X (2-2)?","0"));
-        eastWing.getChallenge().inventory.addItems(new Item("Mr.Big Potato","This is a very big potato"));
+        eastWing.getChallenge().inventory.addItems(new Item("Potato","This is a very big potato"));
         westWing.setChallenge(new Puzzle("West-Wing Puzzle","What is (2+2) X (2-2)?","0"));
         castleHall.setChallenge(new Puzzle("Caste-Hall Puzzle","What is (2+2) X (2-2)?","0"));
-        castleHall.getChallenge().inventory.addItems(new Item("Mr. Small Potato","This is a very small potato"));
-        drawBridge.setChallenge(new Puzzle("Draw-Brdige Puzzle","What is (2+2) X (2-2)?","0"));
+        castleHall.getChallenge().inventory.addItems(new Item("sword","This sword belongs to Malik Suckey \"The Great\""));
+        drawBridge.setChallenge(new Puzzle("Draw-Bridge Puzzle","What is (2+2) X (2-2)?","0"));
 
         //Add rooms to castleRooms
         castleRooms.put(eastWing.getName(), eastWing);
