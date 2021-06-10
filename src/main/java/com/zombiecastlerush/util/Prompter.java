@@ -22,16 +22,17 @@ public class Prompter {
     static void controller(Player player) throws JsonProcessingException {
         Room currentRoom = player.getCurrentPosition();
         List<Room> availableRooms = currentRoom.getConnectedRooms();
-        List<Item> currRoomInventory = currentRoom.inventory.getItems();
+        int numItemsInRoom = currentRoom.getInventory().getItems().size();
+        String itemsInRoomString = numItemsInRoom > 0 ? numItemsInRoom + " items." : "0 items.";
 
         System.out.println("You are in " + currentRoom + ". "+ currentRoom.getDescription());
         if(currentRoom.getChallenge()!=null && !currentRoom.getChallenge().isCleared()){
             String currRoomChallenge = currentRoom.getChallenge().getDescription();
-            System.out.println("The room has " + currRoomChallenge + " and " + currRoomInventory);
+            System.out.println("The room has " + currRoomChallenge + " and " + itemsInRoomString);
             System.out.println("After the "+ currRoomChallenge +" is solved, you can go to one of the following available locations: " + availableRooms);
         }
         else {
-            System.out.println("The room has " + currRoomInventory+"\nYou can go to one of the following locations " + availableRooms);
+            System.out.println("The room has " + itemsInRoomString+"\nYou can go to one of the following locations " + availableRooms);
         }
 
         String userInput = Prompter.getUserInput("\nEnter \"help\" if you need help with the commands");
