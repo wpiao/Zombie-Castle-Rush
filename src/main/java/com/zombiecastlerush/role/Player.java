@@ -25,7 +25,13 @@ public class Player extends Role{
     public boolean moveTo(String roomName){
         Room targetRoom = this.canMoveToRoom(roomName);
         Challenge currRoomChallenge = super.getCurrentPosition().getChallenge();
-        boolean roomChallengeflag = currRoomChallenge.isCleared();
+        boolean roomChallengeflag;
+
+        //if the room has no challenge
+        if(currRoomChallenge == null)
+            roomChallengeflag = true;
+        else
+            roomChallengeflag = currRoomChallenge.isCleared();
 
         if(targetRoom != null && roomChallengeflag){
             String previous = super.getCurrentPosition().getName();
