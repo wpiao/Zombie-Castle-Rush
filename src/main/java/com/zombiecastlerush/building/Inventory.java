@@ -1,13 +1,12 @@
 package com.zombiecastlerush.building;
 
+import com.zombiecastlerush.entity.Entity;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import com.zombiecastlerush.entity.Entity;
-import com.zombiecastlerush.entity.Role;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
 
 /**
  * This is a model class to hold inventory items
@@ -25,13 +24,14 @@ public class Inventory {
 
     /**
      * Gets the Object inventory list
+     *
      * @return a <code> list </code> of Object inventory items
      */
     public List<Item> getItems() {
         return items;
     }
 
-    public void setItems(List<Item> list){
+    public void setItems(List<Item> list) {
         this.items = list;
     }
 
@@ -52,7 +52,7 @@ public class Inventory {
         toInv.addItems(item);
     }
 
-    public void deleteAllItems(){
+    public void deleteAllItems() {
         items.clear();
     }
 
@@ -63,11 +63,11 @@ public class Inventory {
      * If we decide to use centralized inventory management, this will be static
      * assume a Puzzle can only moveItem to a destination but not from a Object to a Puzzle
      */
-    public void moveItem(Item item, Entity destination){
-        if(Objects.isNull(item) || Objects.isNull(destination)){
+    public void moveItem(Item item, Entity destination) {
+        if (Objects.isNull(item) || Objects.isNull(destination)) {
             throw new IllegalArgumentException("Invalid null input argument");
         } else {
-            if(!this.getItems().contains(item)){
+            if (!this.getItems().contains(item)) {
                 throw new IllegalArgumentException("Nonexistent Item. Can not relocate it.");
             }
             this.getItems().remove(item); // remove item from current list

@@ -48,7 +48,7 @@ public class Room extends Entity {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return getName();//+ "Connected Rooms: " + connectedRooms.toString(;
     }
 

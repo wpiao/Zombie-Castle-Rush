@@ -13,11 +13,11 @@ public class Game {
     private Castle castle = new Castle();
     private Player player;
 
-    private Game(){
+    private Game() {
     }
 
-    public static Game getInstance(){
-        if (Game.game == null){
+    public static Game getInstance() {
+        if (Game.game == null) {
             Game.game = new Game();
         }
         return Game.game;
@@ -47,7 +47,7 @@ public class Game {
         System.exit(0);
     }
 
-    public void showInstructions(){
+    public void showInstructions() {
         System.out.print("\nGame Instructions:");
         System.out.println("\n1. To go somewhere, please type go and one of the available locations displayed");
         System.out.println("2. To attempt a puzzle, please type \"attempt puzzle\"");

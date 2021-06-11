@@ -21,8 +21,8 @@ public class ItemFactoryTest {
         ObjectMapper mapper = new ObjectMapper();
         System.out.println(outputPath);
         File file = new File(outputPath);
-        for(int i = 0; i < 10; i ++){
-            Item item = new Item("item"+i, "i am #"+i + " item");
+        for (int i = 0; i < 10; i++) {
+            Item item = new Item("item" + i, "i am #" + i + " item");
             items.add(item);
         }
         ItemFactory.writeItemsToDir(file, items); // generate .json file
@@ -33,12 +33,12 @@ public class ItemFactoryTest {
         Inventory inventory = new Inventory();
         File file = new File(outputPath);
         List<Item> list = ItemFactory.readItemsFromDir(inventory, file);
-        for(int i = 0; i < list.size(); i++){
+        for (int i = 0; i < list.size(); i++) {
             // expectedItem is how the Item class implements toString(), but manually made; needs to change accordingly
-            String expectedItem = String.format("name= item%d description= i am #%d item",i, i);
+            String expectedItem = String.format("name= item%d description= i am #%d item", i, i);
             System.out.println(list.get(i).toString());
             System.out.println(expectedItem);
-            Assert.assertEquals(list.get(i).toString(),expectedItem);
+            Assert.assertEquals(list.get(i).toString(), expectedItem);
         }
     }
 
@@ -77,7 +77,7 @@ public class ItemFactoryTest {
         String description = "jUsT an aPpLe";
         String jsonItem = String.format("{\"name\":\"%s\",\"description\":\"%s\"}", name, description);
         // this is how the toString() overridden. need to be adjusted accordingly
-        String expectedItem = String.format("name= %s description= %s",name,description);
+        String expectedItem = String.format("name= %s description= %s", name, description);
         Item item = ItemFactory.loadItem(jsonItem);
         Assert.assertEquals(item.toString(), expectedItem);
     }
@@ -88,7 +88,7 @@ public class ItemFactoryTest {
         String description = "";
         String jsonItem = String.format("{\"name\":\"%s\",\"description\":\"%s\"}", name, description);
         // this is how the toString() overridden. need to be adjusted accordingly
-        String expectedItem = String.format("name= %s description= %s",name, description);
+        String expectedItem = String.format("name= %s description= %s", name, description);
         Item item = ItemFactory.loadItem(jsonItem);
         Assert.assertEquals(item.toString(), expectedItem);
     }
@@ -99,14 +99,14 @@ public class ItemFactoryTest {
         String description = "jUsT aNoThEr iTeM";
         Item item = new Item(name, description);
         // json format not the toString()
-        String expectedJson = String.format("{\"name\":\"%s\",\"description\":\"%s\"}",name, description);
-        String resultJson = ItemFactory.itemToJson(item,false);
+        String expectedJson = String.format("{\"name\":\"%s\",\"description\":\"%s\"}", name, description);
+        String resultJson = ItemFactory.itemToJson(item, false);
         Assert.assertEquals(expectedJson, resultJson);
     }
 
     @Test
     public void testItemToJson_convertNullObjectToJson() throws JsonProcessingException {
-        String resultJson = ItemFactory.itemToJson(null,false);
+        String resultJson = ItemFactory.itemToJson(null, false);
         Assert.assertEquals(null, resultJson);
     }
 
@@ -114,7 +114,7 @@ public class ItemFactoryTest {
     public void testItemToJson_convertNullAttributesToJson() throws JsonProcessingException {
         Item item = new Item(null, null);
         String expectedJson = "{\"name\":null,\"description\":null}";
-        String resultJson = ItemFactory.itemToJson(item,false); // not pretty json
+        String resultJson = ItemFactory.itemToJson(item, false); // not pretty json
         Assert.assertEquals(expectedJson, resultJson);
     }
 }

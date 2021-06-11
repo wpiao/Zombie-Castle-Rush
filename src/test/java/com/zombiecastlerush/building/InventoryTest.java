@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.*;
+
 import static org.junit.Assert.*;
 
 public class InventoryTest {
@@ -77,68 +78,68 @@ public class InventoryTest {
     }
 
     @Test
-    public void testMoveItem_targetItemInDestinationInventoryAfterMovement(){
+    public void testMoveItem_targetItemInDestinationInventoryAfterMovement() {
         Player player = new Player("Player");
         Room room = new Room("Room", "just a room");
         //TODO: need to test Puzzle inventory once updated version available
         Item item = new Item("target item", "I will be moved between objects");
         player.getInventory().addItems(item);
         Assert.assertEquals(room.getInventory().getItems().size(), 0); //empty inventory
-        Assert.assertEquals(player.getInventory().getItems().get(0),item); //one item in inventory
+        Assert.assertEquals(player.getInventory().getItems().get(0), item); //one item in inventory
         // move item from player to room
-        player.getInventory().moveItem(item,room);
+        player.getInventory().moveItem(item, room);
         Assert.assertEquals(player.getInventory().getItems().size(), 0); //empty
         Assert.assertEquals(room.getInventory().getItems().get(0), item); //one item
     }
 
     @Test
-    public void testMoveItem_moveItemBackAndForce(){
+    public void testMoveItem_moveItemBackAndForce() {
         Player player = new Player("Player");
         Room room = new Room("Room", "just a room");
         //TODO: need to test Puzzle inventory once updated version available
         Item item = new Item("target item", "I will be moved between objects");
         player.getInventory().addItems(item);
         assertEquals(room.getInventory().getItems().size(), 0); //empty inventory
-        assertEquals(player.getInventory().getItems().get(0),item); //one item in inventory
+        assertEquals(player.getInventory().getItems().get(0), item); //one item in inventory
         // move item from player to room
-        player.getInventory().moveItem(item,room);
+        player.getInventory().moveItem(item, room);
         assertEquals(player.getInventory().getItems().size(), 0); //empty
         Assert.assertEquals(room.getInventory().getItems().get(0), item); //one item
         // now i want to move that item back from the room to the player
-        room.getInventory().moveItem(item,player);
+        room.getInventory().moveItem(item, player);
         Assert.assertEquals(room.getInventory().getItems().size(), 0); //empty inventory
-        assertEquals(player.getInventory().getItems().get(0),item); //one item in inventory
+        assertEquals(player.getInventory().getItems().get(0), item); //one item in inventory
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testMoveItem_throwExceptionTargetItemNull(){
+    public void testMoveItem_throwExceptionTargetItemNull() {
         Player player = new Player("Player");
         Room room = new Room("Room", "just a room");
         Item item = null;
         // move item null from player to room
-        player.getInventory().moveItem(item,room);
+        player.getInventory().moveItem(item, room);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testMoveItem_throwExceptionDestinationObjectNull(){
+    public void testMoveItem_throwExceptionDestinationObjectNull() {
         Player player = new Player("Player");
         Room room = null;
         Item item = new Item("target item", "I will be moved between objects");
         player.getInventory().getItems().add(item);
-        Assert.assertEquals(player.getInventory().getItems().get(0),item);
+        Assert.assertEquals(player.getInventory().getItems().get(0), item);
         //can not move item to null
-        player.getInventory().moveItem(item,room);
+        player.getInventory().moveItem(item, room);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testMoveItem_throwExceptionMovingNonexistentItem(){
+    public void testMoveItem_throwExceptionMovingNonexistentItem() {
         Player player = new Player("Player");
         Room room = new Room("Room", "just a room");
         Item item = new Item("target item", "I will be moved between objects");
         Item nonExistentItem = new Item("nonexistent item", "i don't belong to you and you can not move me");
         player.getInventory().getItems().add(item);
-        Assert.assertEquals(player.getInventory().getItems().get(0),item);
+        Assert.assertEquals(player.getInventory().getItems().get(0), item);
         // item doesn't belong to player, so cannot be moved
-        player.getInventory().moveItem(nonExistentItem,room);
+        player.getInventory().moveItem(nonExistentItem, room);
     }
 }

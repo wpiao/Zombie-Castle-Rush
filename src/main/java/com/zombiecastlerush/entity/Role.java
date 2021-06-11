@@ -94,7 +94,7 @@ public class Role extends Entity {
     }
 
     // Inventory methods
-    public Item pickUp (Item item){
+    public Item pickUp(Item item) {
         for (Item existingItem : this.getCurrentPosition().inventory.getItems()) {
             System.out.println(existingItem.getName());
             if (item.equals(existingItem)) {
@@ -107,7 +107,7 @@ public class Role extends Entity {
         return null;
     }
 
-    public Item drop (Item item){
+    public Item drop(Item item) {
         for (Item existingItem : this.getInventory().getItems()) {
             if (item.equals(existingItem)) {
                 this.getCurrentPosition().inventory.addItems(item);
@@ -119,7 +119,7 @@ public class Role extends Entity {
         return null;
     }
 
-    public void dropAll(){
+    public void dropAll() {
         for (Item item : this.getInventory().getItems()) {
             this.getCurrentPosition().inventory.addItems(item);
         }
