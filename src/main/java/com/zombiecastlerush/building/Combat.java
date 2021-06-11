@@ -19,7 +19,7 @@ public class Combat extends Challenge {
         String msg = "Welcome to Combat mode, what would you like to do?";
         String combatChoice = Prompter.getUserInput(msg);
         while (player.getHealth() > 0 && enemy.getHealth() > 0) {
-            System.out.println(" 1 - fight" +
+            System.out.println("fight" +
                     "run-away");
             if (combatChoice.isEmpty()) {
                 continue;
@@ -33,11 +33,11 @@ public class Combat extends Challenge {
         if (combatCommandList == null) {
             System.out.println("That's not a valid command. Please try again ....");
         } else if (combatCommandList.get(0).contains("fight")) {
-            fight(player, enemy);
+            playerFight(player, enemy);
         }
     }
 
-    private static void fight(Role player, Role enemy) {
+    private static void playerFight(Role player, Role enemy) {
         int playerHitPoints = new Random().nextInt(50) + 1;
         int enemyHitPoints = new Random().nextInt(50) + 1;
 
@@ -48,16 +48,25 @@ public class Combat extends Challenge {
             if (enemy.getHealth() <= 0) enemy.setHealth(0);
             System.out.println("Enemy health is now: " + enemy.getHealth());
         }
+        if (player.getHealth() <= 0) {
+            System.out.println("You Lose");
+        } else {
+            enemyFight(player, enemy);
+        }
+    }
+
+    private static void enemyFight(Role player, Role enemy) {
+        int playerHitPoints = new Random().nextInt(50) + 1;
+        int enemyHitPoints = new Random().nextInt(50) + 1;
 
         if (player.getHealth() > 0 && enemy.getHealth() > 0) {
-            System.out.println("You attack......");
-            enemy.decreaseHealth(playerHitPoints);
-            System.out.println("Enemy sustained " + playerHitPoints + " damage." );
-            if (enemy.getHealth() <= 0) enemy.setHealth(0);
-            System.out.println("Enemy health is now: " + enemy.getHealth());
+            System.out.println("Enemy attacks......");
+            player.decreaseHealth(enemyHitPoints);
+            System.out.println("You sustained " + enemyHitPoints + " damage." );
+            if (player.getHealth() <= 0) player.setHealth(0);
+            System.out.println("your health is now: " + player.getHealth());
         }
 
         if (player.getHealth() <= 0) System.out.println("You Lose");
     }
-
 }
