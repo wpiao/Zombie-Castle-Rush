@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Parser {
 
-    final static List<String> ALLOWED_ACTIONS = Arrays.asList("go", "look", "pick-up", "drop", "attempt");
+    final static List<String> ALLOWED_ACTIONS = Arrays.asList("go", "look", "pick-up", "drop", "attempt","display");
 
     public static List<String> parse(String input){
         List<String> inputWords = Arrays.asList(input.toLowerCase().split(" "));

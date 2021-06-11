@@ -1,5 +1,10 @@
 package com.zombiecastlerush.building;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+@JsonPropertyOrder({"question, attempts"})
+@JsonIgnoreProperties({"solution"})
 public class Puzzle extends Challenge{
     private int attempts;
     private String question, solution;

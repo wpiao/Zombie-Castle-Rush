@@ -1,4 +1,7 @@
 package com.zombiecastlerush.role;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zombiecastlerush.building.Room;
 import org.junit.Assert;
 import org.junit.Before;
@@ -71,5 +74,20 @@ public class RoleTest {
         role.setHealth(100);
         role.setHealth(50);
         Assert.assertEquals(role.getHealth(), 50);
+    }
+
+    @Test
+    public void testDisplayStatus_outputInJsonFormat() throws JsonProcessingException {
+        Player player = new Player("playerXander");
+        Room room = new Room("roomTest", "just a room");
+        player.setCurrentPosition(room);
+        String jsonStringPlayer = player.displayStatus();
+        System.out.println(jsonStringPlayer);
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode jNodePlayer = mapper.readTree(jsonStringPlayer);
+        Assert.assertEquals(jNodePlayer.at("/name").asText(), "playerXander");
+        Assert.assertEquals(jNodePlayer.at("/currentRoom/name").asText(), "roomTest");
+        Assert.assertEquals(jNodePlayer.at("/currentRoom/connectedRooms").size(), 0);
+        Assert.assertEquals(jNodePlayer.at("/inventory/items").size(), 0);
     }
 }
