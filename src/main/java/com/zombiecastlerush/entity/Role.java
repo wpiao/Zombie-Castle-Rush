@@ -95,11 +95,11 @@ public class Role extends Entity {
 
     // Inventory methods
     public Item pickUp(Item item) {
-        for (Item existingItem : this.getCurrentPosition().inventory.getItems()) {
+        for (Item existingItem : this.getCurrentPosition().getInventory().getItems()) {
             System.out.println(existingItem.getName());
             if (item.equals(existingItem)) {
                 this.getInventory().addItems(item);
-                this.getCurrentPosition().inventory.deleteItems(item);
+                this.getCurrentPosition().getInventory().deleteItems(item);
                 System.out.println(item.getName() + " picked up by " + this.getName());
                 return item;
             }
@@ -110,7 +110,7 @@ public class Role extends Entity {
     public Item drop(Item item) {
         for (Item existingItem : this.getInventory().getItems()) {
             if (item.equals(existingItem)) {
-                this.getCurrentPosition().inventory.addItems(item);
+                this.getCurrentPosition().getInventory().addItems(item);
                 this.getInventory().deleteItems(item);
                 System.out.println(item.getName() + " dropped by " + this.getName());
                 return item;
@@ -121,7 +121,7 @@ public class Role extends Entity {
 
     public void dropAll() {
         for (Item item : this.getInventory().getItems()) {
-            this.getCurrentPosition().inventory.addItems(item);
+            this.getCurrentPosition().getInventory().addItems(item);
         }
         this.getInventory().deleteAllItems();
     }

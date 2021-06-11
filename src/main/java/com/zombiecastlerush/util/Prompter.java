@@ -25,7 +25,7 @@ public class Prompter {
     static void advanceGame(Player player) throws JsonProcessingException {
         Room currentRoom = player.getCurrentPosition();
         List<Room> availableRooms = currentRoom.getConnectedRooms();
-        List<Item> currRoomInventory = currentRoom.inventory.getItems();
+        List<Item> currRoomInventory = currentRoom.getInventory().getItems();
 
         System.out.println("You are in " + currentRoom + ". " + currentRoom.getDescription());
         if (currentRoom.getChallenge() != null && !currentRoom.getChallenge().isCleared()) {

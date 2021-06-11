@@ -12,7 +12,6 @@ import java.util.List;
 public class Room extends Entity {
     private String name;
     private String description;
-    public Inventory inventory = new Inventory();
     private List<Room> connectedRooms = new ArrayList<>();
     private Challenge challenge;
 
