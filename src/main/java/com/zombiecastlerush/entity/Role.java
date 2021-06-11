@@ -1,4 +1,4 @@
-package com.zombiecastlerush.role;
+package com.zombiecastlerush.entity;
 
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -11,26 +11,24 @@ import com.zombiecastlerush.building.Room;
  * base class for all roles
  * TODO: add more functions and description
  */
+
 @JsonPropertyOrder({"name", "health", "inventory", "currentRoom"})
-public class Role {
+public class Role extends Entity {
     private final int MAX_HEALTH = 100;
     private final int MIN_HEALTH = 0;
-    private String name;
     private Room currentRoom;
-    public Inventory inventory = new Inventory();
+
     private int health; // range from 0-100
 
     // cannot have a Role without name
     private Role() {
         this.health = MAX_HEALTH;
         this.currentRoom = null;
-        this.name = null;
-        this.inventory = new Inventory();
     }
 
     public Role(String name) {
         this();
-        this.name = name;
+        this.setName(name);
     }
 
     public Role(String name, Room currentRoom) {
@@ -48,7 +46,7 @@ public class Role {
         if (points < 0) {
             throw new IllegalArgumentException("Invalid negative health points");
         }
-        this.setHealth((points + this.getHealth()) > MAX_HEALTH ? MAX_HEALTH : points + this.getHealth());
+        this.setHealth(Math.min((points + this.getHealth()), MAX_HEALTH));
     }
 
     /**
@@ -60,7 +58,7 @@ public class Role {
         if (points < 0) {
             throw new IllegalArgumentException("Invalid negative health points");
         }
-        this.setHealth((this.getHealth() - points) < MIN_HEALTH ? MIN_HEALTH : this.getHealth() - points);
+        this.setHealth(Math.max((this.getHealth() - points), MIN_HEALTH));
     }
 
     @JsonGetter("currentRoom")
@@ -95,29 +93,13 @@ public class Role {
         }
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Inventory getInventory() {
-        return inventory;
-    }
-
-    public void setInventory(Inventory inventory) {
-        this.inventory = inventory;
-    }
-
     // Inventory methods
-    public Item pickUp (Item item){
-        for (Item existingItem : this.getCurrentPosition().inventory.getItems()) {
+    public Item pickUp(Item item) {
+        for (Item existingItem : this.getCurrentPosition().getInventory().getItems()) {
             System.out.println(existingItem.getName());
             if (item.equals(existingItem)) {
-                this.inventory.addItems(item);
-                this.getCurrentPosition().inventory.deleteItems(item);
+                this.getInventory().addItems(item);
+                this.getCurrentPosition().getInventory().deleteItems(item);
                 System.out.println(item.getName() + " picked up by " + this.getName());
                 return item;
             }
@@ -125,11 +107,11 @@ public class Role {
         return null;
     }
 
-    public Item drop (Item item){
-        for (Item existingItem : this.inventory.getItems()) {
+    public Item drop(Item item) {
+        for (Item existingItem : this.getInventory().getItems()) {
             if (item.equals(existingItem)) {
-                this.getCurrentPosition().inventory.addItems(item);
-                this.inventory.deleteItems(item);
+                this.getCurrentPosition().getInventory().addItems(item);
+                this.getInventory().deleteItems(item);
                 System.out.println(item.getName() + " dropped by " + this.getName());
                 return item;
             }
@@ -137,11 +119,11 @@ public class Role {
         return null;
     }
 
-    public void dropAll(){
-        for (Item item : this.inventory.getItems()) {
-            this.getCurrentPosition().inventory.addItems(item);
+    public void dropAll() {
+        for (Item item : this.getInventory().getItems()) {
+            this.getCurrentPosition().getInventory().addItems(item);
         }
-        this.inventory.deleteAllItems();
+        this.getInventory().deleteAllItems();
     }
 
     /**

@@ -1,6 +1,6 @@
 package com.zombiecastlerush.building;
 
-import com.zombiecastlerush.role.Player;
+import com.zombiecastlerush.entity.Player;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,14 +20,14 @@ public class RoomTest {
     @Before
     public void setUp() {
         player.setCurrentPosition(room0);
-        r1 = new Room("Kitchen","The kitchen is located on the east side");
+        r1 = new Room("Kitchen", "The kitchen is located on the east side");
 
     }
 
     @Test
     public void roomInventoryDropSingleItemDropsItem() {
-        Inventory playerInventory = player.inventory;
-        Inventory roomInventory = room0.inventory;
+        Inventory playerInventory = player.getInventory();
+        Inventory roomInventory = room0.getInventory();
         // No items to begin with, both inventories should be empty
         assertEquals(0, playerInventory.getItems().size());
         assertEquals(0, roomInventory.getItems().size());
@@ -45,8 +45,8 @@ public class RoomTest {
 
     @Test
     public void roomInventoryDropAllDropsAllItems() {
-        Inventory playerInventory = player.inventory;
-        Inventory roomInventory = room0.inventory;
+        Inventory playerInventory = player.getInventory();
+        Inventory roomInventory = room0.getInventory();
         playerInventory.addItems(testItem0);
         playerInventory.addItems(testItem1);
         // add two items, both should be in player inventory
@@ -61,8 +61,8 @@ public class RoomTest {
 
     @Test
     public void playerPickUpGetsItemFromRoomInventory() {
-        Inventory playerInventory = player.inventory;
-        Inventory roomInventory = room0.inventory;
+        Inventory playerInventory = player.getInventory();
+        Inventory roomInventory = room0.getInventory();
         roomInventory.addItems(testItem0);
         player.pickUp(testItem0);
         // after player picks up item, player should have the one item, room should now have 0
@@ -74,29 +74,32 @@ public class RoomTest {
     public void testTestSetName_getName() {
         String roomName = "Bedroom";
         r1.setName(roomName);
-        assertEquals(roomName,r1.getName());
+        assertEquals(roomName, r1.getName());
     }
 
     @Test
     public void testSetDescription_getDescription() {
         String description = "This room is on the west side";
         r1.setDescription(description);
-        assertEquals(description,r1.getDescription());
+        assertEquals(description, r1.getDescription());
     }
 
     @Test
     public void testAddConnectedRooms_GetConnectedRooms() {
         //Empty List when uninitialized
-        assertEquals(Collections.emptyList(),r1.getConnectedRooms());
+        assertEquals(Collections.emptyList(), r1.getConnectedRooms());
 
-        Room r2 = new Room("R2","This is room R2");
-        Room r3 = new Room("R3","This is room R3");
-        Room r4 = new Room("R4","This is room R4");
+        Room r2 = new Room("R2", "This is room R2");
+        Room r3 = new Room("R3", "This is room R3");
+        Room r4 = new Room("R4", "This is room R4");
 
         r1.addConnectedRooms(r3);
         r1.addConnectedRooms(r4);
 
-        List<Room> expectedlist= new ArrayList<>(){{add(r3);add(r4);}};
-        assertEquals(r1.getConnectedRooms(),expectedlist);
+        List<Room> expectedlist = new ArrayList<>() {{
+            add(r3);
+            add(r4);
+        }};
+        assertEquals(r1.getConnectedRooms(), expectedlist);
     }
 }

@@ -1,8 +1,10 @@
 package com.zombiecastlerush.util;
 
+import com.zombiecastlerush.building.Room;
+import com.zombiecastlerush.entity.Player;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.zombiecastlerush.building.*;
-import com.zombiecastlerush.role.Player;
+import com.zombiecastlerush.building.Item;
+import com.zombiecastlerush.building.Puzzle;
 
 import java.util.List;
 import java.util.Scanner;
@@ -13,14 +15,14 @@ import java.util.Scanner;
  * TODO: deploy APIs that supports the web game version
  */
 public class Prompter {
-    static String getUserInput(String displayMessage, String... args) {
+    public static String getUserInput(String displayMessage) {
         System.out.println(displayMessage);
         Scanner sc = new Scanner(System.in);
         String result = sc.nextLine();
         return result;
     }
 
-    static void controller(Player player) throws JsonProcessingException {
+    static void advanceGame(Player player) throws JsonProcessingException {
         Room currentRoom = player.getCurrentPosition();
         List<Room> availableRooms = currentRoom.getConnectedRooms();
         int numItemsInRoom = currentRoom.getInventory().getItems().size();
@@ -47,8 +49,11 @@ public class Prompter {
                     break;
                 case "attempt":
                     if (userInputList.get(1).equals("puzzle")) {
-                        getUserInput("\nYou've dared to attempt the Puzzle.....Press enter to continue");
-                        attemptPuzzle(currentRoom);
+                        if (currentRoom.getChallenge() != null && currentRoom.getChallenge() instanceof Puzzle) {
+                            getUserInput("\nYou've dared to attempt the Puzzle.....Press enter to continue");
+                            solvePuzzle(currentRoom);
+                        } else
+                            System.out.println("There is no puzzle in the room");
                     }
                     break;
                 case "display":
@@ -56,7 +61,7 @@ public class Prompter {
                         System.out.println(player.displayStatus());
                     break;
                 case "pick-up":
-                    for (Item item: currentRoom.getInventory().getItems()) {
+                    for (Item item : currentRoom.getInventory().getItems()) {
                         if (item.getName().equalsIgnoreCase(userInputList.get(1))) {
                             player.pickUp(item);
                             break;
@@ -64,7 +69,7 @@ public class Prompter {
                     }
                     break;
                 case "drop":
-                    for (Item item: player.getInventory().getItems()) {
+                    for (Item item : player.getInventory().getItems()) {
                         if (item.getName().equalsIgnoreCase(userInputList.get(1))) {
                             player.drop(item);
                             break;
@@ -76,17 +81,24 @@ public class Prompter {
             Game.getInstance().showInstructions();
     }
 
-    static void attemptPuzzle(Room room) {
+
+    static void solvePuzzle(Room room) {
         Puzzle puzzle = (Puzzle) room.getChallenge();
         System.out.println("Here is your puzzle....Remember you only have " + (3 - puzzle.getAttempts()) + " tries!");
         puzzle.attemptPuzzle(getUserInput(puzzle.getQuestion()));
         if (puzzle.getAttempts() < 3 && !puzzle.isCleared())
-            attemptPuzzle(room);
+            solvePuzzle(room);
         else if (puzzle.isCleared()) {
             System.out.println("Right answer. You can now move to the available rooms");
-            if (puzzle.inventory.getItems().size() > 0) {
-                System.out.println(puzzle.getDescription() + " drops " + puzzle.inventory.toString() + "\n");
-                puzzle.inventory.transferItem(puzzle.inventory, room.inventory, puzzle.inventory.getItems().toArray(new Item[0]));
+            if (puzzle.getInventory().getItems().size() > 0) {
+//                System.out.println("You've also unlocked " + puzzle.getInventory().getItems() + "\n");
+                System.out.println(puzzle.getDescription() + " drops " + puzzle.getInventory().toString() + "\n");
+
+                puzzle.getInventory().transferItem(
+                        puzzle.getInventory(),
+                        room.getInventory(),
+                        puzzle.getInventory().getItems().toArray(new Item[0])
+                );
             }
         } else {
             System.out.println("Wrong Answer!! You have had your chances...You failed...Game Over!!!");
