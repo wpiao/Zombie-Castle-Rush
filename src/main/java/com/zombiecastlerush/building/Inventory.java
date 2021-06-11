@@ -1,12 +1,12 @@
 package com.zombiecastlerush.building;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.zombiecastlerush.entity.Entity;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.util.stream.Collectors;
 
 /**
  * This is a model class to hold inventory items
@@ -73,5 +73,12 @@ public class Inventory {
             this.getItems().remove(item); // remove item from current list
             destination.getInventory().addItems(item);
         }
+    }
+
+    @Override
+    public String toString() {
+        String listString = items.stream().map(Item::getName)
+                .collect(Collectors.joining(", "));
+        return listString;
     }
 }

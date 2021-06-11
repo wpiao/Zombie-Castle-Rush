@@ -28,8 +28,7 @@ public class Game {
      */
     public void start() throws JsonProcessingException {
         System.out.println("Game started here...");
-        Prompter.getUserInput("Welcome to Zombie Castle Rush! Press enter to continue.");
-        String userName = Prompter.getUserInput("Please enter your name");
+        String userName = Prompter.getUserInput("Welcome to Zombie Castle Rush! Please enter your name");
         player = new Player(userName);
         showInstructions();
         Prompter.getUserInput("\nPress enter to continue.");
@@ -52,6 +51,6 @@ public class Game {
         System.out.println("\n1. To go somewhere, please type go and one of the available locations displayed");
         System.out.println("2. To attempt a puzzle, please type \"attempt puzzle\"");
         System.out.println("3. To display player's status, please type \"display status\"");
-
+        System.out.println("4. To pick-up or drop an item, please type \"pick-up\", \"drop\" and \"item name\"\n");
     }
 }

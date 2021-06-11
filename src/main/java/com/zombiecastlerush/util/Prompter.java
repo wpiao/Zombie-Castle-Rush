@@ -25,15 +25,18 @@ public class Prompter {
     static void advanceGame(Player player) throws JsonProcessingException {
         Room currentRoom = player.getCurrentPosition();
         List<Room> availableRooms = currentRoom.getConnectedRooms();
-        List<Item> currRoomInventory = currentRoom.getInventory().getItems();
+        int numItemsInRoom = currentRoom.getInventory().getItems().size();
+        String numItemsString = numItemsInRoom > 0 ? numItemsInRoom + " items." : "0 items.";
 
         System.out.println("You are in " + currentRoom + ". " + currentRoom.getDescription());
         if (currentRoom.getChallenge() != null && !currentRoom.getChallenge().isCleared()) {
             String currRoomChallenge = currentRoom.getChallenge().getDescription();
-            System.out.println("The room has " + currRoomChallenge + " and " + currRoomInventory);
+            System.out.println("The room has " + currRoomChallenge + " and " + numItemsString);
             System.out.println("After the " + currRoomChallenge + " is solved, you can go to one of the following available locations: " + availableRooms);
         } else {
-            System.out.println("The room has " + currRoomInventory + "\nYou can go to one of the following locations " + availableRooms);
+            System.out.println("The room has " + numItemsString + " " + currentRoom.getInventory().toString() +
+                    "\nYou have the following items: " + player.getInventory().toString() +
+                    "\nYou can go to one of the following locations " + availableRooms);
         }
 
         String userInput = Prompter.getUserInput("\nEnter \"help\" if you need help with the commands");
@@ -54,13 +57,30 @@ public class Prompter {
                     }
                     break;
                 case "display":
-                    if(userInputList.get(1).equalsIgnoreCase("status"))
+                    if (userInputList.get(1).equalsIgnoreCase("status"))
                         System.out.println(player.displayStatus());
+                    break;
+                case "pick-up":
+                    for (Item item : currentRoom.getInventory().getItems()) {
+                        if (item.getName().equalsIgnoreCase(userInputList.get(1))) {
+                            player.pickUp(item);
+                            break;
+                        }
+                    }
+                    break;
+                case "drop":
+                    for (Item item : player.getInventory().getItems()) {
+                        if (item.getName().equalsIgnoreCase(userInputList.get(1))) {
+                            player.drop(item);
+                            break;
+                        }
+                    }
                     break;
             }
         } else
             Game.getInstance().showInstructions();
     }
+
 
     static void solvePuzzle(Room room) {
         Puzzle puzzle = (Puzzle) room.getChallenge();
@@ -71,7 +91,9 @@ public class Prompter {
         else if (puzzle.isCleared()) {
             System.out.println("Right answer. You can now move to the available rooms");
             if (puzzle.getInventory().getItems().size() > 0) {
-                System.out.println("You've also unlocked " + puzzle.getInventory().getItems() + "\n");
+//                System.out.println("You've also unlocked " + puzzle.getInventory().getItems() + "\n");
+                System.out.println(puzzle.getDescription() + " drops " + puzzle.getInventory().toString() + "\n");
+
                 puzzle.getInventory().transferItem(
                         puzzle.getInventory(),
                         room.getInventory(),
