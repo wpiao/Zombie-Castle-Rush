@@ -1,4 +1,5 @@
 package com.zombiecastlerush.entity;
+
 import com.zombiecastlerush.building.Room;
 import org.junit.Assert;
 import org.junit.Before;
@@ -6,6 +7,7 @@ import org.junit.Test;
 
 public class RoleTest {
     private Role role = new Role("Role#1");
+
     @Before
     public void setUp() throws Exception {
         role.setCurrentPosition(new Room("1", "i am room 1"));
@@ -18,12 +20,12 @@ public class RoleTest {
         Assert.assertEquals(role.getHealth(), 100);
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testIncreaseHealth_throwExceptionIfIncreasedHealthNegative() {
         role.increaseHealth(-1); // cannot increase negative points
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testDecreaseHealth_throwExceptionIfDecreasedHealthNegative() {
         role.decreaseHealth(-1); // cannot decrease negative points
     }
@@ -55,12 +57,12 @@ public class RoleTest {
         Assert.assertEquals(role.getHealth(), 100);
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testSetHealth_throwExceptionNegativeHealth() {
         role.setHealth(-1);
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testSetHealth_throwExceptionOverMaxHealth() {
         role.setHealth(101);
     }

@@ -55,7 +55,7 @@ public class Role extends Entity {
         if (points < 0) {
             throw new IllegalArgumentException("Invalid negative health points");
         }
-        this.setHealth((this.getHealth() - points) < MIN_HEALTH ? MIN_HEALTH : this.getHealth() - points);
+        this.setHealth(Math.max((this.getHealth() - points), MIN_HEALTH));
     }
 
     @JsonGetter("room")
@@ -94,11 +94,8 @@ public class Role extends Entity {
         return inventory;
     }
 
-    public void setInventory(Inventory inventory) {
-        this.inventory = inventory;
-    }
     // Inventory methods
-    public Item pickUp (Item item){
+    public Item pickUp(Item item) {
         for (Item existingItem : this.getCurrentPosition().inventory.getItems()) {
             System.out.println(existingItem.getName());
             if (item.equals(existingItem)) {
@@ -111,7 +108,7 @@ public class Role extends Entity {
         return null;
     }
 
-    public Item drop (Item item){
+    public Item drop(Item item) {
         for (Item existingItem : this.inventory.getItems()) {
             if (item.equals(existingItem)) {
                 this.getCurrentPosition().inventory.addItems(item);
@@ -123,7 +120,7 @@ public class Role extends Entity {
         return null;
     }
 
-    public void dropAll(){
+    public void dropAll() {
         for (Item item : this.inventory.getItems()) {
             this.getCurrentPosition().inventory.addItems(item);
         }

@@ -1,7 +1,7 @@
 import com.zombiecastlerush.util.Game;
 
 class Main {
-    public static void main(String[] args){
+    public static void main(String[] args) {
         System.out.println("Zombie Castle Rush Test");
         Game ZombieCastleRush = Game.getInstance();
         ZombieCastleRush.start();

@@ -6,11 +6,11 @@ import com.zombiecastlerush.entity.Entity;
  * challenge class provides the challenge description and validation
  * TODO: more methods and attributes
  */
-class Challenge extends Entity {
+public class Challenge extends Entity {
 
     private boolean cleared;
 
-    public Challenge(String description){
+    public Challenge(String description) {
         //TODO: build our Challenge
         super.setDescription(description);
         this.cleared = false;
@@ -18,14 +18,15 @@ class Challenge extends Entity {
 
     /**
      * TODO: what does validation() provide?
+     *
      * @param answer
      * @return
      */
-    public void setCleared(boolean answer){
+    public void setCleared(boolean answer) {
         this.cleared = answer;
     }
 
-    public boolean isCleared(){
+    public boolean isCleared() {
         return cleared;
     }
 }
