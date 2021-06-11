@@ -6,11 +6,13 @@ import java.util.Objects;
 
 import com.zombiecastlerush.entity.Entity;
 import com.zombiecastlerush.entity.Role;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
 /**
  * This is a model class to hold inventory items
  */
+@JsonPropertyOrder({"items"})
 public class Inventory {
 
     private List<Item> items = new ArrayList<>();

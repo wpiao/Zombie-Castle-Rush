@@ -26,7 +26,7 @@ public class RoomTest {
 
     @Test
     public void roomInventoryDropSingleItemDropsItem() {
-        Inventory playerInventory = player.inventory;
+        Inventory playerInventory = player.getInventory();
         Inventory roomInventory = room0.inventory;
         // No items to begin with, both inventories should be empty
         assertEquals(0, playerInventory.getItems().size());
@@ -45,7 +45,7 @@ public class RoomTest {
 
     @Test
     public void roomInventoryDropAllDropsAllItems() {
-        Inventory playerInventory = player.inventory;
+        Inventory playerInventory = player.getInventory();
         Inventory roomInventory = room0.inventory;
         playerInventory.addItems(testItem0);
         playerInventory.addItems(testItem1);
@@ -61,7 +61,7 @@ public class RoomTest {
 
     @Test
     public void playerPickUpGetsItemFromRoomInventory() {
-        Inventory playerInventory = player.inventory;
+        Inventory playerInventory = player.getInventory();
         Inventory roomInventory = room0.inventory;
         roomInventory.addItems(testItem0);
         player.pickUp(testItem0);

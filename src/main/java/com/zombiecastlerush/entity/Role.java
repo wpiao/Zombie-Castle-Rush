@@ -1,6 +1,8 @@
 package com.zombiecastlerush.entity;
 
 import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zombiecastlerush.building.Inventory;
 import com.zombiecastlerush.building.Item;
 import com.zombiecastlerush.building.Room;
@@ -9,28 +11,29 @@ import com.zombiecastlerush.building.Room;
  * base class for all roles
  * TODO: add more functions and description
  */
-@JsonPropertyOrder({"id", "name", "room", "health"})
+
+@JsonPropertyOrder({"name", "health", "inventory", "currentRoom"})
 public class Role extends Entity {
     private final int MAX_HEALTH = 100;
     private final int MIN_HEALTH = 0;
-    private Room room;
-    public Inventory inventory = new Inventory();
+    private Room currentRoom;
+
     private int health; // range from 0-100
 
     // cannot have a Role without name
     private Role() {
         this.health = MAX_HEALTH;
-        this.room = null;
-        this.inventory = new Inventory();
+        this.currentRoom = null;
     }
 
     public Role(String name) {
         this();
+        this.setName(name);
     }
 
-    public Role(String name, Room room) {
+    public Role(String name, Room currentRoom) {
         this(name);
-        this.room = room;
+        this.currentRoom = currentRoom;
     }
 
     /**
@@ -43,7 +46,7 @@ public class Role extends Entity {
         if (points < 0) {
             throw new IllegalArgumentException("Invalid negative health points");
         }
-        this.setHealth((points + this.getHealth()) > MAX_HEALTH ? MAX_HEALTH : points + this.getHealth());
+        this.setHealth(Math.min((points + this.getHealth()), MAX_HEALTH));
     }
 
     /**
@@ -55,12 +58,12 @@ public class Role extends Entity {
         if (points < 0) {
             throw new IllegalArgumentException("Invalid negative health points");
         }
-        this.setHealth((this.getHealth() - points) < MIN_HEALTH ? MIN_HEALTH : this.getHealth() - points);
+        this.setHealth(Math.max((this.getHealth() - points), MIN_HEALTH));
     }
 
-    @JsonGetter("room")
+    @JsonGetter("currentRoom")
     public Room getCurrentPosition() {
-        return this.room;
+        return this.currentRoom;
     }
 
     /**
@@ -68,9 +71,9 @@ public class Role extends Entity {
      *
      * @param room room reference
      */
-    @JsonSetter("room")
+    @JsonSetter("currentRoom")
     public void setCurrentPosition(Room room) {
-        this.room = room;
+        this.currentRoom = room;
     }
 
     public int getHealth() {
@@ -90,19 +93,12 @@ public class Role extends Entity {
         }
     }
 
-    public Inventory getInventory() {
-        return inventory;
-    }
-
-    public void setInventory(Inventory inventory) {
-        this.inventory = inventory;
-    }
     // Inventory methods
     public Item pickUp (Item item){
         for (Item existingItem : this.getCurrentPosition().inventory.getItems()) {
             System.out.println(existingItem.getName());
             if (item.equals(existingItem)) {
-                this.inventory.addItems(item);
+                this.getInventory().addItems(item);
                 this.getCurrentPosition().inventory.deleteItems(item);
                 System.out.println(item.getName() + " picked up by " + this.getName());
                 return item;
@@ -112,10 +108,10 @@ public class Role extends Entity {
     }
 
     public Item drop (Item item){
-        for (Item existingItem : this.inventory.getItems()) {
+        for (Item existingItem : this.getInventory().getItems()) {
             if (item.equals(existingItem)) {
                 this.getCurrentPosition().inventory.addItems(item);
-                this.inventory.deleteItems(item);
+                this.getInventory().deleteItems(item);
                 System.out.println(item.getName() + " dropped by " + this.getName());
                 return item;
             }
@@ -124,10 +120,19 @@ public class Role extends Entity {
     }
 
     public void dropAll(){
-        for (Item item : this.inventory.getItems()) {
+        for (Item item : this.getInventory().getItems()) {
             this.getCurrentPosition().inventory.addItems(item);
         }
-        this.inventory.deleteAllItems();
+        this.getInventory().deleteAllItems();
+    }
+
+    /**
+     * display Role's status in Json format {"name", "currentRoom", "health", "inventory"}
+     * @return String Json format status {"name", "currentRoom", "health", "inventory"}
+     * @throws JsonProcessingException
+     */
+    public String displayStatus() throws JsonProcessingException {
+        return new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(this);
     }
 }
 
