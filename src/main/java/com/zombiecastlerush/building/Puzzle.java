@@ -48,5 +48,4 @@ public class Puzzle extends Challenge{
             System.out.println("Sorry wrong answer. Try again\n");
         return attempts;
     }
-
 }
