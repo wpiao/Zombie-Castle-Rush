@@ -1,6 +1,8 @@
 package com.zombiecastlerush.role;
 
 import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zombiecastlerush.building.Inventory;
 import com.zombiecastlerush.building.Item;
 import com.zombiecastlerush.building.Room;
@@ -9,19 +11,19 @@ import com.zombiecastlerush.building.Room;
  * base class for all roles
  * TODO: add more functions and description
  */
-@JsonPropertyOrder({"id", "name", "room", "health"})
+@JsonPropertyOrder({"name", "health", "inventory", "currentRoom"})
 public class Role {
     private final int MAX_HEALTH = 100;
     private final int MIN_HEALTH = 0;
     private String name;
-    private Room room;
+    private Room currentRoom;
     public Inventory inventory = new Inventory();
     private int health; // range from 0-100
 
     // cannot have a Role without name
     private Role() {
         this.health = MAX_HEALTH;
-        this.room = null;
+        this.currentRoom = null;
         this.name = null;
         this.inventory = new Inventory();
     }
@@ -31,9 +33,9 @@ public class Role {
         this.name = name;
     }
 
-    public Role(String name, Room room) {
+    public Role(String name, Room currentRoom) {
         this(name);
-        this.room = room;
+        this.currentRoom = currentRoom;
     }
 
     /**
@@ -61,9 +63,9 @@ public class Role {
         this.setHealth((this.getHealth() - points) < MIN_HEALTH ? MIN_HEALTH : this.getHealth() - points);
     }
 
-    @JsonGetter("room")
+    @JsonGetter("currentRoom")
     public Room getCurrentPosition() {
-        return this.room;
+        return this.currentRoom;
     }
 
     /**
@@ -71,9 +73,9 @@ public class Role {
      *
      * @param room room reference
      */
-    @JsonSetter("room")
+    @JsonSetter("currentRoom")
     public void setCurrentPosition(Room room) {
-        this.room = room;
+        this.currentRoom = room;
     }
 
     public int getHealth() {
@@ -104,6 +106,7 @@ public class Role {
     public Inventory getInventory() {
         return inventory;
     }
+
     // Inventory methods
     public Item pickUp (Item item){
         for (Item existingItem : this.getCurrentPosition().inventory.getItems()) {
@@ -135,6 +138,15 @@ public class Role {
             this.getCurrentPosition().inventory.addItems(item);
         }
         this.inventory.deleteAllItems();
+    }
+
+    /**
+     * display Role's status in Json format {"name", "currentRoom", "health", "inventory"}
+     * @return String Json format status {"name", "currentRoom", "health", "inventory"}
+     * @throws JsonProcessingException
+     */
+    public String displayStatus() throws JsonProcessingException {
+        return new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(this);
     }
 }
 

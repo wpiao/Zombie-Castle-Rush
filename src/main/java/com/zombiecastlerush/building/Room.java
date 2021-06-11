@@ -1,9 +1,13 @@
 package com.zombiecastlerush.building;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import java.util.ArrayList;
 import java.util.List;
 
-
+@JsonPropertyOrder({"name", "description", "connectedRooms", "challenge", "inventory"})
 public class Room {
     private String name;
     private String description;
@@ -38,6 +42,19 @@ public class Room {
         return connectedRooms;
     }
 
+    /**
+     *
+     * @return
+     */
+    @JsonGetter("connectedRooms")
+    public List<String> displayConnectedRooms(){
+        List<String> list = new ArrayList<>();
+        for(Room r : this.connectedRooms){
+            list.add(r.getName());
+        }
+        return list;
+    }
+
     public Challenge getChallenge() {
         return challenge;
     }
@@ -57,6 +74,5 @@ public class Room {
         for(Room room:rooms){
             this.connectedRooms.add(room);
         }
-
     }
 }
