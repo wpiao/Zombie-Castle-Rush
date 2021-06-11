@@ -50,7 +50,7 @@ public class Prompter {
                 case "attempt":
                     if (userInputList.get(1).equals("puzzle")) {
                         if (currentRoom.getChallenge() != null && currentRoom.getChallenge() instanceof Puzzle) {
-                            getUserInput("\nYou've dared to attempt the Puzzle... Press enter to continue");
+                            getUserInput("\nYou've dared to attempt the Puzzle... press enter to continue");
                             solvePuzzle(currentRoom);
                         } else
                             System.out.println("There is no puzzle in the room");
