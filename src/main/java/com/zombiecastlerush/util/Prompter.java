@@ -23,61 +23,59 @@ public class Prompter {
     }
 
     static void advanceGame(Player player) throws JsonProcessingException {
+        displayCurrentScene(player);
         Room currentRoom = player.getCurrentPosition();
-        List<Room> availableRooms = currentRoom.getConnectedRooms();
-        int numItemsInRoom = currentRoom.getInventory().getItems().size();
-        String numItemsString = numItemsInRoom > 0 ? numItemsInRoom + " items." : "0 items.";
-
-        System.out.println("You are in " + currentRoom + ". " + currentRoom.getDescription());
-        if (currentRoom.getChallenge() != null && !currentRoom.getChallenge().isCleared()) {
-            String currRoomChallenge = currentRoom.getChallenge().getDescription();
-            System.out.println("The room has " + currRoomChallenge + " and " + numItemsString);
-            System.out.println("After the " + currRoomChallenge + " is solved, you can go to one of the following available locations: " + availableRooms);
-        } else {
-            System.out.println("The room has " + numItemsString + " " + currentRoom.getInventory().toString() +
-                    "\nYou have the following items: " + player.getInventory().toString() +
-                    "\nYou can go to one of the following locations " + availableRooms);
-        }
-
         String userInput = Prompter.getUserInput("\nEnter \"help\" if you need help with the commands");
         List<String> userInputList = Parser.parse(userInput);
-        if (userInputList != null && userInputList.size() == 2) {
+        clearScreen();
+
+        if (userInputList != null) {
             String action = userInputList.get(0);
-            switch (action) {
-                case "go":
-                    player.moveTo(userInputList.get(1));
-                    break;
-                case "attempt":
-                    if (userInputList.get(1).equals("puzzle")) {
-                        if (currentRoom.getChallenge() != null && currentRoom.getChallenge() instanceof Puzzle) {
-                            getUserInput("\nYou've dared to attempt the Puzzle... press enter to continue");
-                            solvePuzzle(currentRoom);
-                        } else
-                            System.out.println("There is no puzzle in the room");
-                    }
-                    break;
-                case "display":
-                    if (userInputList.get(1).equalsIgnoreCase("status"))
-                        System.out.println(player.displayStatus());
-                    break;
-                case "pick-up":
-                    for (Item item : currentRoom.getInventory().getItems()) {
-                        if (item.getName().equalsIgnoreCase(userInputList.get(1))) {
-                            player.pickUp(item);
+            switch (userInputList.size()){
+                case 2:
+                    switch (action) {
+                        case "go":
+                            player.moveTo(userInputList.get(1));
                             break;
-                        }
-                    }
-                    break;
-                case "drop":
-                    for (Item item : player.getInventory().getItems()) {
-                        if (item.getName().equalsIgnoreCase(userInputList.get(1))) {
-                            player.drop(item);
+                        case "attempt":
+                            if (userInputList.get(1).equals("puzzle")) {
+                                if (currentRoom.getChallenge() != null && currentRoom.getChallenge() instanceof Puzzle && !currentRoom.getChallenge().isCleared()) {
+                                    getUserInput("\nYou've dared to attempt the Puzzle... press enter to solve the Puzzle");
+                                    solvePuzzle(currentRoom);
+                                } else
+                                    System.out.println("There is no puzzle in the room");
+                            }
                             break;
-                        }
-                    }
-                    break;
+                        case "display":
+                            if (userInputList.get(1).equalsIgnoreCase("status"))
+                                System.out.println(player.displayStatus());
+                            break;
+                        case "pick-up":
+                            for (Item item : currentRoom.getInventory().getItems()) {
+                                if (item.getName().equalsIgnoreCase(userInputList.get(1))) {
+                                    player.pickUp(item);
+                                    break;
+                                }
+                            }
+                            break;
+                        case "drop":
+                            for (Item item : player.getInventory().getItems()) {
+                                if (item.getName().equalsIgnoreCase(userInputList.get(1))) {
+                                    player.drop(item);
+                                    break;
+                                }
+                            }
+                            break;
             }
-        } else
+
+                case 1:
+                    switch (action){
+                        case "quit":
+                            Game.getInstance().stop();
+                    }
+
+            }
+        }else
             Game.getInstance().showInstructions();
     }
 
@@ -104,7 +102,29 @@ public class Prompter {
             System.out.println("Wrong Answer!! You have had your chances...You failed...Game Over!!!");
             Game.getInstance().stop();
         }
+    }
 
+    public static void displayCurrentScene(Player player){
+        Room currentRoom = player.getCurrentPosition();
+        List<Room> availableRooms = currentRoom.getConnectedRooms();
+        int numItemsInRoom = currentRoom.getInventory().getItems().size();
+        String numItemsString = numItemsInRoom > 0 ? numItemsInRoom + " items." : "0 items.";
 
+        System.out.println("You are in " + currentRoom + ". " + currentRoom.getDescription());
+        if (currentRoom.getChallenge() != null && !currentRoom.getChallenge().isCleared()) {
+            String currRoomChallenge = currentRoom.getChallenge().getDescription();
+            System.out.println("The room has " + currRoomChallenge + " and " + numItemsString);
+            System.out.println("After the " + currRoomChallenge + " is solved, you can go to one of the following available locations: " + availableRooms);
+        } else {
+            System.out.println("The room has " + numItemsString + " " + currentRoom.getInventory().toString() +
+                    "\nYou have the following items: " + player.getInventory().toString() +
+                    "\nYou can go to one of the following locations " + availableRooms);
+        }
+
+    }
+
+    public static void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 }
