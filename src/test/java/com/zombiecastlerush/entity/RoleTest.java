@@ -1,4 +1,9 @@
-package com.zombiecastlerush.role;
+package com.zombiecastlerush.entity;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import com.zombiecastlerush.building.Room;
 import org.junit.Assert;
 import org.junit.Before;
@@ -6,6 +11,7 @@ import org.junit.Test;
 
 public class RoleTest {
     private Role role = new Role("Role#1");
+
     @Before
     public void setUp() throws Exception {
         role.setCurrentPosition(new Room("1", "i am room 1"));
@@ -18,12 +24,12 @@ public class RoleTest {
         Assert.assertEquals(role.getHealth(), 100);
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testIncreaseHealth_throwExceptionIfIncreasedHealthNegative() {
         role.increaseHealth(-1); // cannot increase negative points
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testDecreaseHealth_throwExceptionIfDecreasedHealthNegative() {
         role.decreaseHealth(-1); // cannot decrease negative points
     }
@@ -55,12 +61,12 @@ public class RoleTest {
         Assert.assertEquals(role.getHealth(), 100);
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testSetHealth_throwExceptionNegativeHealth() {
         role.setHealth(-1);
     }
 
-    @Test (expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testSetHealth_throwExceptionOverMaxHealth() {
         role.setHealth(101);
     }
@@ -71,5 +77,20 @@ public class RoleTest {
         role.setHealth(100);
         role.setHealth(50);
         Assert.assertEquals(role.getHealth(), 50);
+    }
+
+    @Test
+    public void testDisplayStatus_outputInJsonFormat() throws JsonProcessingException {
+        Player player = new Player("playerXander");
+        Room room = new Room("roomTest", "just a room");
+        player.setCurrentPosition(room);
+        String jsonStringPlayer = player.displayStatus();
+        System.out.println(jsonStringPlayer);
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode jNodePlayer = mapper.readTree(jsonStringPlayer);
+        Assert.assertEquals(jNodePlayer.at("/name").asText(), "playerXander");
+        Assert.assertEquals(jNodePlayer.at("/currentRoom/name").asText(), "roomTest");
+        Assert.assertEquals(jNodePlayer.at("/currentRoom/connectedRooms").size(), 0);
+        Assert.assertEquals(jNodePlayer.at("/inventory/items").size(), 0);
     }
 }

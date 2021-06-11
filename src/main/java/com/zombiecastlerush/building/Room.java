@@ -1,59 +1,59 @@
 package com.zombiecastlerush.building;
 
+import com.zombiecastlerush.entity.Entity;
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-
-public class Room {
+@JsonPropertyOrder({"name", "description", "connectedRooms", "challenge", "inventory"})
+public class Room extends Entity {
     private String name;
     private String description;
     private List<Room> connectedRooms = new ArrayList<>();
-    private String [] items;
+    private Challenge challenge;
 
-    //cosntructors
-    public Room(String name, String description){
-        setName(name);
-        setDescription(description);
-    }
-
-    //Setters and Getters
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    //constructors
+    public Room(String name, String description) {
+        super.setName(name);
+        super.setDescription(description);
     }
 
     public List<Room> getConnectedRooms() {
         return connectedRooms;
     }
 
-    public String[] getItems() {
-        return items;
+    /**
+     *
+     * @return
+     */
+    @JsonGetter("connectedRooms")
+    public List<String> displayConnectedRooms(){
+        List<String> list = new ArrayList<>();
+        for(Room r : this.connectedRooms){
+            list.add(r.getName());
+        }
+        return list;
+    }
+
+    public Challenge getChallenge() {
+        return challenge;
+    }
+
+    public void setChallenge(Challenge challenge) {
+        this.challenge = challenge;
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return getName();//+ "Connected Rooms: " + connectedRooms.toString(;
     }
 
     //Methods
     //add room to the connected rooms List for this room
-    public void addConnectedRooms(Room room) {
-        this.connectedRooms.add(room);
-    }
-
-    //need to work on this
-    public void setItems(String[] items) {
-        this.items = items;
+    public void addConnectedRooms(Room ...rooms) {
+        this.connectedRooms.addAll(Arrays.asList(rooms));
     }
 }
