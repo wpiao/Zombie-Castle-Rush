@@ -1,12 +1,9 @@
 package com.zombiecastlerush.building;
 
-import com.zombiecastlerush.role.Enemy;
-import com.zombiecastlerush.role.Player;
 import com.zombiecastlerush.role.Role;
 import com.zombiecastlerush.util.Parser;
 import com.zombiecastlerush.util.Prompter;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
