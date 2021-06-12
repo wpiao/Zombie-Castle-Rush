@@ -37,36 +37,28 @@ public class Combat extends Challenge {
         }
     }
 
-    private static void playerFight(Role player, Role enemy) {
+    static void playerFight(Role player, Role enemy) {
         int playerHitPoints = new Random().nextInt(50) + 1;
-        int enemyHitPoints = new Random().nextInt(50) + 1;
 
         if (player.getHealth() > 0 && enemy.getHealth() > 0) {
             System.out.println("You attack......");
             enemy.decreaseHealth(playerHitPoints);
-            System.out.println("Enemy sustained " + playerHitPoints + " damage." );
-            if (enemy.getHealth() <= 0) enemy.setHealth(0);
+            if (enemy.getHealth() < 0) enemy.setHealth(0);
+            System.out.println("Enemy sustained " + playerHitPoints + " damage.");
             System.out.println("Enemy health is now: " + enemy.getHealth());
         }
-        if (player.getHealth() <= 0) {
-            System.out.println("You Lose");
-        } else {
-            enemyFight(player, enemy);
-        }
+        enemyFight(player, enemy);
     }
 
-    private static void enemyFight(Role player, Role enemy) {
-        int playerHitPoints = new Random().nextInt(50) + 1;
+    static void enemyFight(Role player, Role enemy) {
         int enemyHitPoints = new Random().nextInt(50) + 1;
 
         if (player.getHealth() > 0 && enemy.getHealth() > 0) {
             System.out.println("Enemy attacks......");
             player.decreaseHealth(enemyHitPoints);
-            System.out.println("You sustained " + enemyHitPoints + " damage." );
-            if (player.getHealth() <= 0) player.setHealth(0);
-            System.out.println("your health is now: " + player.getHealth());
+            if (player.getHealth() < 0) player.setHealth(0);
+            System.out.printf("You sustained %s damage", enemyHitPoints);
+            System.out.printf("Your health is now: %s", player.getHealth());
         }
-
-        if (player.getHealth() <= 0) System.out.println("You Lose");
     }
 }

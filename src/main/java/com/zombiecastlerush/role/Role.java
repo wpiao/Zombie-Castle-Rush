@@ -12,7 +12,7 @@ import com.zombiecastlerush.building.Room;
  * TODO: add more functions and description
  */
 @JsonPropertyOrder({"name", "health", "inventory", "currentRoom"})
-public class Role<T> {
+public class Role {
     private final int MAX_HEALTH = 100;
     private final int MIN_HEALTH = 0;
     private String name;
