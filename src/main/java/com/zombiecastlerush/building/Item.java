@@ -11,7 +11,7 @@ public class Item {
     @JsonCreator
     public Item(
             @JsonProperty("name") String name,
-            @JsonProperty("description") String description){
+            @JsonProperty("description") String description) {
 
         setName(name);
         setDescription(description);

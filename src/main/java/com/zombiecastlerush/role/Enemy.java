@@ -1,8 +1,9 @@
 package com.zombiecastlerush.role;
 
 import com.zombiecastlerush.building.Room;
+import com.zombiecastlerush.entity.Role;
 
-public class Enemy extends Role{
+public class Enemy extends Role {
     public Enemy(String name) {
         super(name);
     }

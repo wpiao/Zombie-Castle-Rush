@@ -1,6 +1,7 @@
 package com.zombiecastlerush.building;
 
-import com.zombiecastlerush.role.Role;
+
+import com.zombiecastlerush.entity.Role;
 import com.zombiecastlerush.util.Parser;
 import com.zombiecastlerush.util.Prompter;
 
