@@ -11,7 +11,7 @@ class Main {
             //TODO: ask prompter to stop the game
             // rushHour.stop();
             System.out.println("Timer is up. The end ...");
-        } catch (JacksonException je){
+        } catch (JacksonException je) {
             System.out.println(je.getMessage());
         }
     }

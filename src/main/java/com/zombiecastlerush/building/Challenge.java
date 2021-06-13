@@ -19,7 +19,6 @@ public class Challenge extends Entity {
     }
 
     /**
-     *
      * @param flag
      * @return
      */

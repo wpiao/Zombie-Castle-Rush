@@ -35,10 +35,10 @@ public class Prompter {
             System.out.println("The Room has " + currRoomChallenge + " and " + numItemsString);
             System.out.println("After the " + currRoomChallenge + " is solved, you can go to one of the following available locations: " + availableRooms);
         } else {
-            String roomInventory=currentRoom.getInventory().toString();
-            if(currentRoom instanceof Shop)
-                roomInventory = ((Shop) currentRoom).toStringShopInventory()+"\nYou've $"+player.getAcctBalance();
-            System.out.println("The "+currentRoom.getClass().getSimpleName()+ " has " + numItemsString + " " + roomInventory +
+            String roomInventory = currentRoom.getInventory().toString();
+            if (currentRoom instanceof Shop)
+                roomInventory = ((Shop) currentRoom).toStringShopInventory() + "\nYou've $" + player.getAcctBalance();
+            System.out.println("The " + currentRoom.getClass().getSimpleName() + " has " + numItemsString + " " + roomInventory +
                     "\nYou have the following items: " + player.getInventory().toString() +
                     "\nYou can go to one of the following locations " + availableRooms);
         }
@@ -65,7 +65,7 @@ public class Prompter {
                         System.out.println(player.displayStatus());
                     break;
                 case "pick-up":
-                    if(!(currentRoom instanceof Shop)){
+                    if (!(currentRoom instanceof Shop)) {
                         for (Item item : currentRoom.getInventory().getItems()) {
                             if (item.getName().equalsIgnoreCase(userInputList.get(1))) {
                                 player.pickUp(item);
@@ -83,20 +83,20 @@ public class Prompter {
                     }
                     break;
                 case "buy":
-                    if(currentRoom instanceof Shop){
-                        for(Item item : currentRoom.getInventory().getItems()){
-                            if(item.getName().equalsIgnoreCase(userInputList.get(1))){
-                                ((Shop) currentRoom).buy(player,item);
+                    if (currentRoom instanceof Shop) {
+                        for (Item item : currentRoom.getInventory().getItems()) {
+                            if (item.getName().equalsIgnoreCase(userInputList.get(1))) {
+                                ((Shop) currentRoom).buy(player, item);
                                 break;
                             }
                         }
                     }
                     break;
                 case "sell":
-                    if(currentRoom instanceof Shop){
-                        for(Item item : player.getInventory().getItems()){
-                            if(item.getName().equalsIgnoreCase(userInputList.get(1))){
-                                ((Shop) currentRoom).sell(player,item);
+                    if (currentRoom instanceof Shop) {
+                        for (Item item : player.getInventory().getItems()) {
+                            if (item.getName().equalsIgnoreCase(userInputList.get(1))) {
+                                ((Shop) currentRoom).sell(player, item);
                                 break;
                             }
                         }

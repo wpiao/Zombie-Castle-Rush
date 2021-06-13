@@ -8,10 +8,10 @@ import java.util.List;
 /**
  * TODO: what does Player class provide?
  */
-public class Player extends Role{
-    private double acctBalance=50.0;
+public class Player extends Role {
+    private double acctBalance = 50.0;
 
-    public Player(String name){
+    public Player(String name) {
         super(name);
     }
 
@@ -32,37 +32,37 @@ public class Player extends Role{
 
     /**
      * TODO: move to a room by room name/description
+     *
      * @param roomName
      */
-    public boolean moveTo(String roomName){
+    public boolean moveTo(String roomName) {
         Room targetRoom = this.canMoveToRoom(roomName);
         Challenge currRoomChallenge = this.getCurrentPosition().getChallenge();
         boolean roomChallengeflag;
 
         //if the room has no challenge
-        if(currRoomChallenge == null)
+        if (currRoomChallenge == null)
             roomChallengeflag = true;
         else
             roomChallengeflag = currRoomChallenge.isCleared();
 
-        if(targetRoom != null && roomChallengeflag){
+        if (targetRoom != null && roomChallengeflag) {
             String previous = this.getCurrentPosition().getName();
             this.setCurrentPosition(targetRoom);
             System.out.printf("Player %s moved from the %s to the %s\n", this.getName(), previous, this.getCurrentPosition().getName());
             return true;
-        }
-        else if(targetRoom == null){
-            System.out.printf("Player %s's current room %s doesn't connect to room: %s %n", this.getName(), this.getCurrentPosition().getName(),roomName);
+        } else if (targetRoom == null) {
+            System.out.printf("Player %s's current room %s doesn't connect to room: %s %n", this.getName(), this.getCurrentPosition().getName(), roomName);
             return false;
-        }
-        else {
-            System.out.println(currRoomChallenge.getDescription() +" must be cleared before you can move to "+targetRoom);
+        } else {
+            System.out.println(currRoomChallenge.getDescription() + " must be cleared before you can move to " + targetRoom);
             return false;
         }
     }
 
     /**
      * decide next valid movement with target room name
+     *
      * @param roomName
      * @return Room reference if input room name is valid for my next movement
      */
@@ -79,6 +79,7 @@ public class Player extends Role{
 
     /**
      * helper method that provide me a list which room can i go to
+     *
      * @return
      */
     private List<Room> whichRoomNext() {

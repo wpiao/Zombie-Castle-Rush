@@ -26,13 +26,12 @@ public class Room extends Entity {
     }
 
     /**
-     *
      * @return
      */
     @JsonGetter("connectedRooms")
-    public List<String> displayConnectedRooms(){
+    public List<String> displayConnectedRooms() {
         List<String> list = new ArrayList<>();
-        for(Room r : this.connectedRooms){
+        for (Room r : this.connectedRooms) {
             list.add(r.getName());
         }
         return list;
@@ -53,7 +52,7 @@ public class Room extends Entity {
 
     //Methods
     //add room to the connected rooms List for this room
-    public void addConnectedRooms(Room ...rooms) {
+    public void addConnectedRooms(Room... rooms) {
         this.connectedRooms.addAll(Arrays.asList(rooms));
     }
 }

@@ -13,7 +13,7 @@ public class Item {
     public Item(
             @JsonProperty("name") String name,
             @JsonProperty("description") String description,
-            @JsonProperty("price") double price){
+            @JsonProperty("price") double price) {
         this.setName(name);
         this.setDescription(description);
         this.setPrice(price);
