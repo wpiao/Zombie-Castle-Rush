@@ -9,6 +9,7 @@ import java.util.List;
  * TODO: what does Player class provide?
  */
 public class Player extends Role{
+    private double acctBalance=50.0;
 
     public Player(String name){
         super(name);
@@ -16,6 +17,17 @@ public class Player extends Role{
 
     public Player(String name, Room room) {
         super(name, room);
+    }
+
+    //getter and setter
+
+
+    public double getAcctBalance() {
+        return acctBalance;
+    }
+
+    public void setAcctBalance(double acctBalance) {
+        this.acctBalance = acctBalance;
     }
 
     /**
@@ -36,7 +48,7 @@ public class Player extends Role{
         if(targetRoom != null && roomChallengeflag){
             String previous = this.getCurrentPosition().getName();
             this.setCurrentPosition(targetRoom);
-            System.out.printf("Player %s moved from room %s to room %s\n", this.getName(), previous, this.getCurrentPosition().getName());
+            System.out.printf("Player %s moved from the %s to the %s\n", this.getName(), previous, this.getCurrentPosition().getName());
             return true;
         }
         else if(targetRoom == null){

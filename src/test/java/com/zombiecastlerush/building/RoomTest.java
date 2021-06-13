@@ -14,8 +14,8 @@ public class RoomTest {
     Room room0 = new Room("room-0", "This is the first room.");
     private Room r1;
     Player player = new Player("Test Player");
-    Item testItem0 = new Item("Test Item 0", "This is a test item.");
-    Item testItem1 = new Item("Test Item 1", "This is a test item.");
+    Item testItem0 = new Item("Test Item 0", "This is a test item.",50.0);
+    Item testItem1 = new Item("Test Item 1", "This is a test item.",100.0);
 
     @Before
     public void setUp() {
