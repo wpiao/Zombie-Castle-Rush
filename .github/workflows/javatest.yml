@@ -22,4 +22,5 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          path: staging/Zombie-Castle-Rush-1.0-SNAPSHOT.jar
+          name: automatic-build
+          path: staging
