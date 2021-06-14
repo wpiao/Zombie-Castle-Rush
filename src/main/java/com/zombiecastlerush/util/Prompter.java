@@ -77,14 +77,21 @@ public class Prompter {
                 case 1:
                     switch (action) {
                         case "fight":
-                            if (userInputList.get(0).equals("fight")) {
-                                if (currentRoom.getChallenge() != null && currentRoom.getChallenge() instanceof Combat) {
+                            System.out.println(currentRoom.getChallenge().isCleared());
+                            if (!currentRoom.getChallenge().isCleared() && userInputList.get(0).equals("fight")) {
+                                if (currentRoom.getChallenge() != null && currentRoom.getChallenge() instanceof Combat && !currentRoom.getChallenge().isCleared()) {
                                     getUserInput("\nPrepare for COMBAT... press enter to continue");
-                                    combat(player, new Enemy("Zombie"));
-                                } else
+                                    combat(player, new Enemy("Zombie"), action);
+                                } else {
                                     System.out.println("There is no Monster in the room");
+                                    break;
+                                }
+                            } else {
+                                System.out.println("There is no Monster in the room");
+                                break;
                             }
                             break;
+
 
                         case "quit":
                             Game.getInstance().stop();
@@ -118,22 +125,29 @@ public class Prompter {
         }
     }
 
-    public static void combat(Role player, Role enemy) {
-
-        System.out.println("Prepare for Combat");
-        Combat.combat(player, enemy);
-
-        while (player.getHealth() > 0 && enemy.getHealth() > 0) {
-            String msg = "what would you like to do, \"fight\" or \"run\"?";
-            String combatChoice = Prompter.getUserInput(msg);
-            if (combatChoice.isEmpty()) {
+    public static void combat(Role player, Role enemy, String action) {
+        var cleared = player.getCurrentPosition().getChallenge().isCleared();
+        if (!cleared) {
+            Combat.combat(player, enemy);
+            while (player.getHealth() > 0 && enemy.getHealth() > 0) {
+                String msg = "what would you like to do, \"fight\" or \"run\"?";
+                String combatChoice = Prompter.getUserInput(msg);
+                if (combatChoice.isEmpty()) {
+                    continue;
+                } else if (combatChoice.equals("fight")) {
+                    Combat.combat(player, enemy);
+                } else if (combatChoice.equals("run")) {
+                    System.out.println("don't be a coward");
+                    Combat.enemyFight(player, enemy);
+                }
                 continue;
-            } else if (combatChoice.equals("fight")){
-                Combat.combat(player, enemy);
-            } else if (combatChoice.equals("run")){
-                System.out.println("don't be a coward");
-                Combat.enemyFight(player, enemy);
-            }else break;
+            }
+            if (enemy.getHealth() < 0 || player.getHealth() < 0) {
+                player.getCurrentPosition().getChallenge().setCleared(true);
+            }
+
+        } else {
+            System.out.println("Room has no Enemy");
         }
     }
 

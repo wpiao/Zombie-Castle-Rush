@@ -33,7 +33,7 @@ public class Combat extends Challenge {
     public static void enemyFight(Role player, Role enemy) {
         int enemyDamageToPlayer = new Random().nextInt(50) + 1;
 
-        if (player.getHealth() > 0 && enemy.getHealth() > 0) {
+        if (enemy.getHealth() > 0 && player.getHealth() > 0) {
             System.out.println("Enemy attacks...... ");
             player.decreaseHealth(enemyDamageToPlayer);
             if (player.getHealth() < 0) player.setHealth(0);
