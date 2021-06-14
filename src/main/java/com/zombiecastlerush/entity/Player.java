@@ -2,12 +2,10 @@ package com.zombiecastlerush.entity;
 
 import com.zombiecastlerush.building.Challenge;
 import com.zombiecastlerush.building.Room;
+import com.zombiecastlerush.util.Parser;
 
 import java.util.List;
 
-/**
- * TODO: what does Player class provide?
- */
 public class Player extends Role {
     private double acctBalance = 50.0;
 
@@ -20,8 +18,6 @@ public class Player extends Role {
     }
 
     //getter and setter
-
-
     public double getAcctBalance() {
         return acctBalance;
     }
@@ -49,13 +45,13 @@ public class Player extends Role {
         if (targetRoom != null && roomChallengeflag) {
             String previous = this.getCurrentPosition().getName();
             this.setCurrentPosition(targetRoom);
-            System.out.printf("Player %s moved from the %s to the %s\n", this.getName(), previous, this.getCurrentPosition().getName());
+            System.out.printf(Parser.GREEN+"Player %s moved from the %s to the %s\n", this.getName(), previous, this.getCurrentPosition().getName()+Parser.GREEN);
             return true;
         } else if (targetRoom == null) {
             System.out.printf("Player %s's current room %s doesn't connect to room: %s %n", this.getName(), this.getCurrentPosition().getName(), roomName);
             return false;
         } else {
-            System.out.println(currRoomChallenge.getDescription() + " must be cleared before you can move to " + targetRoom);
+            System.out.println(Parser.RED+currRoomChallenge.getDescription() + " must be cleared before you can move to " + targetRoom + Parser.ANSI_RESET);
             return false;
         }
     }
