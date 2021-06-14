@@ -1,6 +1,5 @@
 package com.zombiecastlerush.building;
 
-
 import com.zombiecastlerush.entity.Role;
 import com.zombiecastlerush.util.Parser;
 import com.zombiecastlerush.util.Prompter;
@@ -14,7 +13,7 @@ public class Combat extends Challenge {
     }
 
     public static void combat(Role player, Role enemy) {
-            playerFight(player, enemy);
+        playerFight(player, enemy);
 
     }
 
@@ -31,15 +30,15 @@ public class Combat extends Challenge {
         }
     }
 
-    static void enemyFight(Role player, Role enemy) {
+    public static void enemyFight(Role player, Role enemy) {
         int enemyDamageToPlayer = new Random().nextInt(50) + 1;
 
         if (player.getHealth() > 0 && enemy.getHealth() > 0) {
             System.out.println("Enemy attacks...... ");
             player.decreaseHealth(enemyDamageToPlayer);
             if (player.getHealth() < 0) player.setHealth(0);
-            System.out.printf("You sustained %s damage ", enemyDamageToPlayer);
-            System.out.printf("Your health is now: %s ", player.getHealth());
+            System.out.printf("You sustained %s damage \n", enemyDamageToPlayer);
+            System.out.printf("Your health is now: %s \n", player.getHealth());
         }
     }
 }
