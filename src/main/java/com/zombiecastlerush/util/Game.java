@@ -61,14 +61,6 @@ public class Game {
         System.out.printf("%2s %-30s %1s %-1s %n", "10.", "display instructions","|    ", "\"help\"");
         System.out.printf("%2s %-30s %1s %-1s %n", "11.", "quit the game","|    ", "\"quit\"");
 
-        System.out.println("\n1. To go somewhere, please type go and one of the available locations displayed");
-        System.out.println("2. To attempt a puzzle, please type \"attempt puzzle\"");
-        System.out.println("3. To display player's status, please type \"display status\"");
-        System.out.println("4. To pick-up or drop an item, please type \"pick-up\", \"drop\" and \"item name\"");
-        System.out.println("5. To buy an item from the shop, please type \"buy\" and \"item name\"");
-        System.out.println("6. To sell an item to the shop, please type \"sell\" and \"item name");
-        System.out.println("7. Enter \"help\" to display the commands");
-        System.out.println("8. Enter \"quit\" to quit the game");
         Prompter.getUserInput("\nPress enter to continue...");
         Prompter.clearScreen();
     }
