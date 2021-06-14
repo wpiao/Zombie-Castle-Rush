@@ -15,7 +15,7 @@ public class InventoryTest {
 
     @Before
     public void setUp() throws Exception {
-        item0 = new Item("item 0", "item 0");
+        item0 = new Item("item 0", "item 0", 100.0);
         inventory.addItems(item0);
     }
 
@@ -28,7 +28,7 @@ public class InventoryTest {
 
     @Test
     public void addItems_addOneItemToInventory() {
-        Item item1 = new Item("item 1", "item 1");
+        Item item1 = new Item("item 1", "item 1", 25.0);
         inventory.addItems(item1);
         List<Item> itemList = new ArrayList<>(inventory.getItems());
         var actual = itemList.contains(item1);
@@ -37,8 +37,8 @@ public class InventoryTest {
 
     @Test
     public void addItems_acceptsVarArgs_addTwoItemsToInventory() {
-        Item item2 = new Item("item 2", "item 2");
-        Item item3 = new Item("item 3", "item 3");
+        Item item2 = new Item("item 2", "item 2", 50.0);
+        Item item3 = new Item("item 3", "item 3", 75.0);
         inventory.addItems(item2, item3);
         List<Item> itemList = new ArrayList<>(inventory.getItems());
         var actual = itemList.contains(item2);
@@ -49,7 +49,7 @@ public class InventoryTest {
 
     @Test
     public void deleteItems_removesItemFromInventory() {
-        Item item3 = new Item("item 3", "item 3");
+        Item item3 = new Item("item 3", "item 3", 75.0);
         inventory.addItems(item3);
         inventory.deleteItems(item3);
         var actual = !inventory.getItems().contains(item3);
@@ -58,8 +58,8 @@ public class InventoryTest {
 
     @Test
     public void deleteItems_removesTwoItemsFromInventory() {
-        Item item3 = new Item("item 3", "item 3");
-        Item item4 = new Item("item 4", "item 4");
+        Item item3 = new Item("item 3", "item 3", 75.0);
+        Item item4 = new Item("item 4", "item 4", 100.0);
         inventory.addItems(item3, item4);
         inventory.deleteItems(item3, item4);
         List<Item> itemList = new ArrayList<>(inventory.getItems());
@@ -82,7 +82,7 @@ public class InventoryTest {
         Player player = new Player("Player");
         Room room = new Room("Room", "just a room");
         //TODO: need to test Puzzle inventory once updated version available
-        Item item = new Item("target item", "I will be moved between objects");
+        Item item = new Item("target item", "I will be moved between objects", 100.0);
         player.getInventory().addItems(item);
         Assert.assertEquals(room.getInventory().getItems().size(), 0); //empty inventory
         Assert.assertEquals(player.getInventory().getItems().get(0), item); //one item in inventory
@@ -97,7 +97,7 @@ public class InventoryTest {
         Player player = new Player("Player");
         Room room = new Room("Room", "just a room");
         //TODO: need to test Puzzle inventory once updated version available
-        Item item = new Item("target item", "I will be moved between objects");
+        Item item = new Item("target item", "I will be moved between objects", 100.0);
         player.getInventory().addItems(item);
         assertEquals(room.getInventory().getItems().size(), 0); //empty inventory
         assertEquals(player.getInventory().getItems().get(0), item); //one item in inventory
@@ -124,7 +124,7 @@ public class InventoryTest {
     public void testMoveItem_throwExceptionDestinationObjectNull() {
         Player player = new Player("Player");
         Room room = null;
-        Item item = new Item("target item", "I will be moved between objects");
+        Item item = new Item("target item", "I will be moved between objects", 100.0);
         player.getInventory().getItems().add(item);
         Assert.assertEquals(player.getInventory().getItems().get(0), item);
         //can not move item to null
@@ -135,8 +135,8 @@ public class InventoryTest {
     public void testMoveItem_throwExceptionMovingNonexistentItem() {
         Player player = new Player("Player");
         Room room = new Room("Room", "just a room");
-        Item item = new Item("target item", "I will be moved between objects");
-        Item nonExistentItem = new Item("nonexistent item", "i don't belong to you and you can not move me");
+        Item item = new Item("target item", "I will be moved between objects", 100.0);
+        Item nonExistentItem = new Item("nonexistent item", "i don't belong to you and you can not move me", 0.0);
         player.getInventory().getItems().add(item);
         Assert.assertEquals(player.getInventory().getItems().get(0), item);
         // item doesn't belong to player, so cannot be moved

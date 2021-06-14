@@ -128,6 +128,7 @@ public class Role extends Entity {
 
     /**
      * display Role's status in Json format {"name", "currentRoom", "health", "inventory"}
+     *
      * @return String Json format status {"name", "currentRoom", "health", "inventory"}
      * @throws JsonProcessingException
      */
