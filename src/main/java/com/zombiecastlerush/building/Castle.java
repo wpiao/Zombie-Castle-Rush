@@ -31,13 +31,11 @@ public class Castle {
         drawBridge.setChallenge(new Puzzle("Draw-Bridge-Puzzle", "What is (2+2) X (2-2)?", "0"));
 
         //add items to Rooms inventory
-        List<Item> shopItems = new ArrayList<>(Arrays.asList(
-                /* name    description                                                                                      price*/
+        shop.getInventory().addItems(
                 new Item("Sword", "This is the sword of Destiny, made up of the Valyrian Steel", 100.0),
                 new Item("Helmet", "This is the ultimate shield which will be carried by Captain America in the distant future", 50.0),
                 new Item("Potion", "Drinking this potion will restore your health", 100.0)
-        ));
-        shop.getInventory().addItems(shopItems.toArray(new Item[0]));
+        );
 
         //Add rooms to castleRooms
         castleRooms.put(eastWing.getName(), eastWing);
