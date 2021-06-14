@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zombiecastlerush.building.Inventory;
 import com.zombiecastlerush.building.Item;
 import com.zombiecastlerush.building.Room;
+import com.zombiecastlerush.util.Parser;
 
 /**
  * base class for all roles
@@ -100,7 +101,7 @@ public class Role extends Entity {
             if (item.equals(existingItem)) {
                 this.getInventory().addItems(item);
                 this.getCurrentPosition().getInventory().deleteItems(item);
-                System.out.println(item.getName() + " picked up by " + this.getName());
+                System.out.println(Parser.GREEN + item.getName() + " picked up by " + this.getName() + Parser.ANSI_RESET);
                 return item;
             }
         }
@@ -112,7 +113,7 @@ public class Role extends Entity {
             if (item.equals(existingItem)) {
                 this.getCurrentPosition().getInventory().addItems(item);
                 this.getInventory().deleteItems(item);
-                System.out.println(item.getName() + " dropped by " + this.getName());
+                System.out.println(Parser.GREEN + item.getName() + " dropped by " + this.getName() + Parser.ANSI_RESET);
                 return item;
             }
         }
