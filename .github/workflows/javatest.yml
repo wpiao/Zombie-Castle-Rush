@@ -17,8 +17,9 @@ jobs:
         run: mvn --batch-mode --update-snapshots verify
       - name: Run tests with Maven
         run: mvn -B test --file pom.xml
-      - name: Build and upload artifact
+      - name: Build artifact
         run: mkdir staging & cp target/*.jar staging
+      - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
           name: Package
