@@ -26,7 +26,7 @@ public class ShopTest {
     public void testBuyWhenPlayerDoesNotHaveEnoughMoney() {
         //can't buy when player does not have enough money
         double preBuy_balance = p1.getAcctBalance();
-        s1.buy(p1, i1);
+        s1.sellItemToPlayer(p1, i1);
         assertFalse(p1.getInventory().getItems().contains(i1));
         assertTrue(s1.getInventory().getItems().contains(i1));
         assertEquals(preBuy_balance, p1.getAcctBalance(), 0.001);
@@ -37,7 +37,7 @@ public class ShopTest {
         //can buy when player has enough money
         p1.setAcctBalance(550.0);
         double preBuy_balance = p1.getAcctBalance();
-        s1.buy(p1, i1);
+        s1.sellItemToPlayer(p1, i1);
         assertTrue(p1.getInventory().getItems().contains(i1));
         assertFalse(s1.getInventory().getItems().contains(i1));
         assertEquals(p1.getAcctBalance(), preBuy_balance - i1.getPrice(), 0.01);
@@ -47,7 +47,7 @@ public class ShopTest {
     public void testSell() {
         //player's balance should increase by 75% of item's price
         double preSell_balance = p1.getAcctBalance();
-        s1.sell(p1, i2);
+        s1.buyItemFromPlayer(p1, i2);
         assertEquals((preSell_balance + 0.75 * i2.getPrice()), p1.getAcctBalance(), 0.01);
 
         //player's inventory should not contain, shops's inventory should contain

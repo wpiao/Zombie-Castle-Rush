@@ -86,7 +86,7 @@ public class Prompter {
                     if (currentRoom instanceof Shop) {
                         for (Item item : currentRoom.getInventory().getItems()) {
                             if (item.getName().equalsIgnoreCase(userInputList.get(1))) {
-                                ((Shop) currentRoom).buy(player, item);
+                                ((Shop) currentRoom).sellItemToPlayer(player, item);
                                 break;
                             }
                         }
@@ -96,7 +96,7 @@ public class Prompter {
                     if (currentRoom instanceof Shop) {
                         for (Item item : player.getInventory().getItems()) {
                             if (item.getName().equalsIgnoreCase(userInputList.get(1))) {
-                                ((Shop) currentRoom).sell(player, item);
+                                ((Shop) currentRoom).buyItemFromPlayer(player, item);
                                 break;
                             }
                         }
