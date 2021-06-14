@@ -1,10 +1,13 @@
 package com.zombiecastlerush.util;
 
+import com.zombiecastlerush.building.Combat;
 import com.zombiecastlerush.building.Room;
+import com.zombiecastlerush.entity.Enemy;
 import com.zombiecastlerush.entity.Player;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.zombiecastlerush.building.Item;
 import com.zombiecastlerush.building.Puzzle;
+import com.zombiecastlerush.entity.Role;
 
 import java.util.List;
 import java.util.Scanner;
@@ -29,6 +32,7 @@ public class Prompter {
         String numItemsString = numItemsInRoom > 0 ? numItemsInRoom + " items." : "0 items.";
 
         System.out.println("You are in " + currentRoom + ". " + currentRoom.getDescription());
+
         if (currentRoom.getChallenge() != null && !currentRoom.getChallenge().isCleared()) {
             String currRoomChallenge = currentRoom.getChallenge().getDescription();
             System.out.println("The room has " + currRoomChallenge + " and " + numItemsString);
@@ -56,6 +60,15 @@ public class Prompter {
                             System.out.println("There is no puzzle in the room");
                     }
                     break;
+                case "fight":
+                    if (userInputList.get(1).equals("fight")) {
+                        if (currentRoom.getChallenge() != null && currentRoom.getChallenge() instanceof Combat) {
+                            getUserInput("\nPrepare for COMBAT... press enter to continue");
+                            combat(player, new Enemy("Zombie"));
+                        } else
+                            System.out.println("There is no Monster in the room");
+                    }
+                    break;
                 case "display":
                     if (userInputList.get(1).equalsIgnoreCase("status"))
                         System.out.println(player.displayStatus());
@@ -81,7 +94,6 @@ public class Prompter {
             Game.getInstance().showInstructions();
     }
 
-
     static void solvePuzzle(Room room) {
         Puzzle puzzle = (Puzzle) room.getChallenge();
         System.out.println("Here is your puzzle....Remember you only have " + (3 - puzzle.getAttempts()) + " tries!");
@@ -103,6 +115,19 @@ public class Prompter {
         } else {
             System.out.println("Wrong Answer!! You have had your chances...You failed...Game Over!!!");
             Game.getInstance().stop();
+        }
+    }
+
+    public static void combat(Role player, Role enemy) {
+        String msg = "Welcome to Combat mode, what would you like to do?";
+        String combatChoice = Prompter.getUserInput(msg);
+        while (player.getHealth() > 0 && enemy.getHealth() > 0) {
+            System.out.println("fight" +
+                    "run-away");
+            if (combatChoice.isEmpty()) {
+                continue;
+            }
+            Combat.combatChoiceParser(combatChoice, player, enemy);
         }
     }
 }

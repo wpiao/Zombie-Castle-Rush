@@ -26,7 +26,7 @@ public class Combat extends Challenge {
         }
     }
 
-    private static void combatChoiceParser(String choice, Role player, Role enemy) {
+    public static void combatChoiceParser(String choice, Role player, Role enemy) {
         List<String> combatCommandList = Parser.parse(choice);
         if (combatCommandList == null) {
             System.out.println("That's not a valid command. Please try again ....");
