@@ -186,15 +186,23 @@ public class Prompter {
         if (currentRoom.getChallenge() != null && !currentRoom.getChallenge().isCleared()) {
             Challenge currRoomChallenge = currentRoom.getChallenge();
             if (currRoomChallenge instanceof Puzzle) {
-                System.out.println("The box pulses with power. You know not how, but it has a riddle for you, and it will not let you leave until you have solved it. Perhaps you should " + Parser.GREEN + "attempt puzzle" +  Parser.ANSI_RESET);
+                System.out.println("The box pulses with power. You know not how, but it has a riddle for you, and it will not let you leave until you have solved it. Perhaps you should " + Parser.GREEN + "attempt puzzle" + Parser.ANSI_RESET);
+            } else if (currRoomChallenge instanceof Combat) {
+                System.out.println("A rotting hand reaches and knocks the lid to the ground with a resounding crash. A monster rises from the coffin and fixes its lifeless, pitiless gaze upon you. It's time to " + Parser.GREEN + "fight" + Parser.ANSI_RESET + ".");
             }
         } else {
+
             String roomInventory = currentRoom.getInventory().toString();
-            if (currentRoom instanceof Shop)
-                roomInventory = ((Shop) currentRoom).toStringShopInventory() + "\nYou've $" + player.getAcctBalance();
-            System.out.println(numItemsString + " " + roomInventory +
-                    "\nYou have the following items: " + player.getInventory().toString() +
-                    "\nYou can go to one of the following locations " + availableRooms);
+            if (currentRoom instanceof Shop) {
+                roomInventory = ((Shop) currentRoom).toStringShopInventory() + "\nYou have $" + player.getAcctBalance();
+            }
+            System.out.println(numItemsString + " " + roomInventory);
+
+            if (player.getInventory().getItems().size() > 0) {
+                String dropOrSellText = (currentRoom instanceof Shop) ? "sell" : "drop";
+                System.out.println("You have the following items that you can " + Parser.GREEN + dropOrSellText + Parser.ANSI_RESET + ": " + player.getInventory().toString());
+            }
+            System.out.println("\nYou can " + Parser.GREEN + "go" + Parser.ANSI_RESET + " to one of the following locations " + availableRooms);
         }
     }
 
