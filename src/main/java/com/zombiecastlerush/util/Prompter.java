@@ -142,7 +142,7 @@ public class Prompter {
         }
     }
 
-    public static void combat(Role player, Role enemy, String action) {
+    public static void combat(Role player, Role enemy) {
         var cleared = player.getCurrentPosition().getChallenge().isCleared();
         if (!cleared) {
             Combat.combat(player, enemy);
