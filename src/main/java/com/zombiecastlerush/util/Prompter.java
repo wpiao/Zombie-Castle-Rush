@@ -95,7 +95,7 @@ public class Prompter {
                 case 1:
                     switch (action) {
                         case "fight":
-                            System.out.println(currentRoom.getChallenge().isCleared());
+
                             if (!currentRoom.getChallenge().isCleared() && userInputList.get(0).equals("fight")) {
                                 if (currentRoom.getChallenge() != null && currentRoom.getChallenge() instanceof Combat && !currentRoom.getChallenge().isCleared()) {
                                     getUserInput("\nPrepare for COMBAT... press enter to continue");
@@ -156,7 +156,7 @@ public class Prompter {
                     Combat.enemyFight(player, enemy);
                 }
             }
-            if (enemy.getHealth() < 0 || player.getHealth() < 0) {
+            if (enemy.getHealth() <= 0 || player.getHealth() <= 0) {
                 player.getCurrentPosition().getChallenge().setCleared(true);
             }
 
