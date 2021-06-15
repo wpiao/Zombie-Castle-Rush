@@ -14,19 +14,16 @@ public class Challenge extends Entity {
     private boolean cleared;
 
     public Challenge(String description) {
-        //TODO: build our Challenge
         super.setDescription(description);
-        this.cleared = false;
+        this.setCleared(false);
     }
 
     /**
-     * TODO: what does validation() provide?
-     *
-     * @param answer
+     * @param flag
      * @return
      */
-    public void setCleared(boolean answer) {
-        this.cleared = answer;
+    public void setCleared(boolean flag) {
+        this.cleared = flag;
     }
 
     public boolean isCleared() {

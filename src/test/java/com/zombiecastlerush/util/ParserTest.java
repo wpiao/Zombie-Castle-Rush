@@ -20,6 +20,7 @@ public class ParserTest {
     public void parseAcceptsTwoWordStringReturnsArrayListOfTwoStrings() {
         List<String> expected = Arrays.asList("go", "west");
         List<String> actual = Parser.parse("go west");
+
         assertEquals(expected, actual);
     }
 

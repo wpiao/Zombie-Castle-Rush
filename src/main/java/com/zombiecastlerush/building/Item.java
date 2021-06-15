@@ -4,17 +4,19 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonPropertyOrder({"name", "description"})
+@JsonPropertyOrder({"name", "description", "price"})
 public class Item {
     private String name, description;
+    private double price;
 
     @JsonCreator
     public Item(
             @JsonProperty("name") String name,
-            @JsonProperty("description") String description) {
-
-        setName(name);
-        setDescription(description);
+            @JsonProperty("description") String description,
+            @JsonProperty("price") double price) {
+        this.setName(name);
+        this.setDescription(description);
+        this.setPrice(price);
     }
 
     public String getName() {
@@ -31,6 +33,14 @@ public class Item {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     @Override

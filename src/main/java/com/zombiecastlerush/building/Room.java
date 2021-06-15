@@ -12,6 +12,7 @@ import java.util.List;
 public class Room extends Entity {
     private String name;
     private String description;
+    private boolean isExit;
     private List<Room> connectedRooms = new ArrayList<>();
     private Challenge challenge;
 
@@ -26,13 +27,12 @@ public class Room extends Entity {
     }
 
     /**
-     *
      * @return
      */
     @JsonGetter("connectedRooms")
-    public List<String> displayConnectedRooms(){
+    public List<String> displayConnectedRooms() {
         List<String> list = new ArrayList<>();
-        for(Room r : this.connectedRooms){
+        for (Room r : this.connectedRooms) {
             list.add(r.getName());
         }
         return list;
@@ -46,6 +46,14 @@ public class Room extends Entity {
         this.challenge = challenge;
     }
 
+    public boolean isExit() {
+        return isExit;
+    }
+
+    public void setExit(boolean value) {
+        isExit = value;
+    }
+
     @Override
     public String toString() {
         return getName();//+ "Connected Rooms: " + connectedRooms.toString(;
@@ -53,7 +61,7 @@ public class Room extends Entity {
 
     //Methods
     //add room to the connected rooms List for this room
-    public void addConnectedRooms(Room ...rooms) {
+    public void addConnectedRooms(Room... rooms) {
         this.connectedRooms.addAll(Arrays.asList(rooms));
     }
 }
