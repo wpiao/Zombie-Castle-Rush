@@ -99,7 +99,7 @@ public class Prompter {
                             if (!currentRoom.getChallenge().isCleared() && userInputList.get(0).equals("fight")) {
                                 if (currentRoom.getChallenge() != null && currentRoom.getChallenge() instanceof Combat && !currentRoom.getChallenge().isCleared()) {
                                     getUserInput("\nPrepare for COMBAT... press enter to continue");
-                                    combat(player, new Enemy("Zombie"), action);
+                                    combat(player, new Enemy("Zombie"));
                                 } else {
                                     System.out.println("There is no Monster in the room");
                                     break;
