@@ -51,11 +51,15 @@ public class Prompter {
                                 System.out.println(player.displayStatus());
                             break;
                         case "pick-up":
-                            for (Item item : currentRoom.getInventory().getItems()) {
-                                if (item.getName().equalsIgnoreCase(userInputList.get(1))) {
-                                    player.pickUp(item);
-                                    break;
+                            if(!(currentRoom instanceof Shop)) {
+                                for (Item item : currentRoom.getInventory().getItems()) {
+                                    if (item.getName().equalsIgnoreCase(userInputList.get(1))) {
+                                        player.pickUp(item);
+                                        break;
+                                    }
                                 }
+                            } else {
+                                System.out.println(Parser.RED + "You can't do that here." + Parser.ANSI_RESET);
                             }
                             break;
                         case "drop":
