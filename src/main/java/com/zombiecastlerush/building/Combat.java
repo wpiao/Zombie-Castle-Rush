@@ -16,10 +16,10 @@ public class Combat extends Challenge {
     }
 
     public static void combat(Role player, Role enemy) {
-
-
         if (player.getHealth() > 0 && enemy.getHealth() > 0) {
             playerAttack(player, enemy);
+        }
+        if (enemy.getHealth() > 0 && player.getHealth() > 0) {
             enemyAttack(player, enemy);
         }
     }
