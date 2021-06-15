@@ -10,7 +10,7 @@ public class Parser {
     public static final String YELLOW = "\u001B[33m"; //YELLOW
     public static final String ANSI_RESET = "\u001B[0m";
 
-    final static List<String> ALLOWED_ACTIONS = Arrays.asList("go", "look", "pick-up", "drop", "attempt","display","quit", "buy", "sell");
+    final static List<String> ALLOWED_ACTIONS = Arrays.asList("go", "look", "pick-up", "drop", "attempt", "display", "quit", "buy", "sell", "fight");
 
     public static List<String> parse(String input) {
         List<String> inputWords = Arrays.asList(input.toLowerCase().split(" "));

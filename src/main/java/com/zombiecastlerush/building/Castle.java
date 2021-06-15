@@ -13,13 +13,15 @@ public class Castle {
         Room westWing = new Room("West-Wing", "This room is on the West side.");
         Room castleHall = new Room("Castle-Hall", "This hall connects the West Wing, East Wing, the Draw Bridge and the Shop");
         Room drawBridge = new Room("Draw-Bridge", "This is the draw bridge");
+        Room combatHall = new Room("Combat-Hall", "The hall where souls are laid to rest.");
         Shop shop = new Shop("Shop", "Welcome to our shop!");
 
         //add connected rooms to room
-        eastWing.addConnectedRooms(castleHall);
+        eastWing.addConnectedRooms(castleHall, combatHall);
         castleHall.addConnectedRooms(drawBridge, eastWing, westWing, shop);
         drawBridge.addConnectedRooms(westWing, castleHall);
         westWing.addConnectedRooms(castleHall, drawBridge);
+        combatHall.addConnectedRooms(eastWing);
         shop.addConnectedRooms(castleHall);
 
         //add Challenge to room
@@ -29,6 +31,7 @@ public class Castle {
         castleHall.setChallenge(new Puzzle("Castle-Hall-Puzzle", "What is (2+2) X (2-2)?", "0"));
         castleHall.getChallenge().getInventory().addItems(new Item("Fork", "This is a fork", 5.0));
         drawBridge.setChallenge(new Puzzle("Draw-Bridge-Puzzle", "What is (2+2) X (2-2)?", "0"));
+        combatHall.setChallenge(new Combat("Life or Death Battle"));
 
         //add items to Rooms inventory
         shop.getInventory().addItems(
@@ -42,6 +45,7 @@ public class Castle {
         castleRooms.put(westWing.getName(), westWing);
         castleRooms.put(castleHall.getName(), castleHall);
         castleRooms.put(drawBridge.getName(), drawBridge);
+        castleRooms.put(combatHall.getName(), combatHall);
         castleRooms.put(shop.getName(), shop);
 
     }

@@ -1,11 +1,14 @@
 package com.zombiecastlerush.util;
 
+import com.zombiecastlerush.building.Combat;
 import com.zombiecastlerush.building.Room;
+import com.zombiecastlerush.entity.Enemy;
 import com.zombiecastlerush.building.Shop;
 import com.zombiecastlerush.entity.Player;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.zombiecastlerush.building.Item;
 import com.zombiecastlerush.building.Puzzle;
+import com.zombiecastlerush.entity.Role;
 
 import java.util.List;
 import java.util.Scanner;
@@ -26,14 +29,14 @@ public class Prompter {
     static void advanceGame(Player player) throws JsonProcessingException {
         displayCurrentScene(player);
         Room currentRoom = player.getCurrentPosition();
-
         String userInput = Prompter.getUserInput("\nEnter \"help\" if you need help with the commands");
         List<String> userInputList = Parser.parse(userInput);
         clearScreen();
 
         if (userInputList != null) {
             String action = userInputList.get(0);
-            switch (userInputList.size()){
+
+            switch (userInputList.size()) {
                 case 2:
                     switch (action) {
                         case "go":
@@ -87,34 +90,46 @@ public class Prompter {
                                 }
                             }
                             break;
-            }
+                    }
 
                 case 1:
-                    switch (action){
-                        case "quit":{
+                    switch (action) {
+                        case "fight":
+
+                            if (!currentRoom.getChallenge().isCleared() && userInputList.get(0).equals("fight")) {
+                                if (currentRoom.getChallenge() != null && currentRoom.getChallenge() instanceof Combat && !currentRoom.getChallenge().isCleared()) {
+                                    getUserInput("\nPrepare for COMBAT... press enter to continue");
+                                    combat(player, new Enemy("Zombie"));
+                                } else {
+                                    System.out.println("There is no Monster in the room");
+                                    break;
+                                }
+                            } else {
+                                System.out.println("There is no Monster in the room");
+                                break;
+                            }
+                            break;
+                        case "quit":
                             Game.getInstance().stop();
                             break;
-                        }
-
                     }
                     break;
             }
-        }else
+        } else {
             Game.getInstance().showInstructions();
+        }
     }
-
 
     static void solvePuzzle(Room room) {
         Puzzle puzzle = (Puzzle) room.getChallenge();
-        System.out.println(Parser.YELLOW+"Here is your puzzle....Remember you only have " + (3 - puzzle.getAttempts()) + " tries!"+Parser.ANSI_RESET);
+        System.out.println(Parser.YELLOW + "Here is your puzzle....Remember you only have " + (3 - puzzle.getAttempts()) + " tries!" + Parser.ANSI_RESET);
         puzzle.attemptPuzzle(getUserInput(puzzle.getQuestion()));
         if (puzzle.getAttempts() < 3 && !puzzle.isCleared())
             solvePuzzle(room);
         else if (puzzle.isCleared()) {
-            System.out.println(Parser.GREEN+"Right answer. You can now move to the available rooms");
+            System.out.println(Parser.GREEN + "Right answer. You can now move to the available rooms");
             if (puzzle.getInventory().getItems().size() > 0) {
-                System.out.println(puzzle.getDescription() + " drops " + puzzle.getInventory().toString() + "\n"+Parser.ANSI_RESET);
-
+                System.out.println(puzzle.getDescription() + " drops " + puzzle.getInventory().toString() + "\n" + Parser.ANSI_RESET);
                 puzzle.getInventory().transferItem(
                         puzzle.getInventory(),
                         room.getInventory(),
@@ -122,12 +137,35 @@ public class Prompter {
                 );
             }
         } else {
-            System.out.println(Parser.RED+"Wrong Answer!! You have had your chances...You failed...Game Over!!!"+Parser.ANSI_RESET);
+            System.out.println(Parser.RED + "Wrong Answer!! You have had your chances...You failed...Game Over!!!" + Parser.ANSI_RESET);
             Game.getInstance().stop();
         }
     }
 
-    public static void displayCurrentScene(Player player){
+    public static void combat(Role player, Role enemy) {
+        var cleared = player.getCurrentPosition().getChallenge().isCleared();
+        if (!cleared) {
+            Combat.combat(player, enemy);
+            while (player.getHealth() > 0 && enemy.getHealth() > 0) {
+                String msg = "what would you like to do, \"fight\" or \"run\"?";
+                String combatChoice = Prompter.getUserInput(msg);
+                if (combatChoice.equals("fight")) {
+                    Combat.combat(player, enemy);
+                } else if (combatChoice.equals("run")) {
+                    System.out.println("don't be a coward");
+                    Combat.enemyAttack(player, enemy);
+                }
+            }
+            if (enemy.getHealth() <= 0 || player.getHealth() <= 0) {
+                player.getCurrentPosition().getChallenge().setCleared(true);
+            }
+
+        } else {
+            System.out.println("Room has no Enemy");
+        }
+    }
+
+    public static void displayCurrentScene(Player player) {
         Room currentRoom = player.getCurrentPosition();
         List<Room> availableRooms = currentRoom.getConnectedRooms();
         int numItemsInRoom = currentRoom.getInventory().getItems().size();
@@ -146,11 +184,11 @@ public class Prompter {
                     "\nYou have the following items: " + player.getInventory().toString() +
                     "\nYou can go to one of the following locations " + availableRooms);
         }
-
     }
 
     public static void clearScreen() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
+
     }
 }
