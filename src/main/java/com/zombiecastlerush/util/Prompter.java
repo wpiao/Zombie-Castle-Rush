@@ -51,11 +51,15 @@ public class Prompter {
                                 System.out.println(player.displayStatus());
                             break;
                         case "pick-up":
-                            for (Item item : currentRoom.getInventory().getItems()) {
-                                if (item.getName().equalsIgnoreCase(userInputList.get(1))) {
-                                    player.pickUp(item);
-                                    break;
+                            if(!(currentRoom instanceof Shop)) {
+                                for (Item item : currentRoom.getInventory().getItems()) {
+                                    if (item.getName().equalsIgnoreCase(userInputList.get(1))) {
+                                        player.pickUp(item);
+                                        break;
+                                    }
                                 }
+                            } else {
+                                System.out.println(Parser.RED + "You can't do that here." + Parser.ANSI_RESET);
                             }
                             break;
                         case "drop":
@@ -182,11 +186,11 @@ public class Prompter {
         }
         String numItemsString = numItemsInRoom > 0 ? numItemsInRoom + " item(s) in here which you can " + itemClueText : "";
 
-        System.out.println("You are in the " + currentRoom + ". " + currentRoom.getDescription());
+        System.out.println("You are in the " + currentRoom + ". " + currentRoom.getDescription() + "\n");
         if (currentRoom.getChallenge() != null && !currentRoom.getChallenge().isCleared()) {
             Challenge currRoomChallenge = currentRoom.getChallenge();
             if (currRoomChallenge instanceof Puzzle) {
-                System.out.println("The box pulses with power. You know not how, but it has a riddle for you, and it will not let you leave until you have solved it. Perhaps you should " + Parser.GREEN + "attempt puzzle" + Parser.ANSI_RESET);
+                System.out.println("The box pulses with power. You know not how, but it has a riddle for you, and it will not let you leave until you have solved it. Perhaps you should " + Parser.GREEN + "attempt puzzle" + Parser.ANSI_RESET + ".");
             } else if (currRoomChallenge instanceof Combat) {
                 System.out.println("A rotting hand reaches and knocks the lid to the ground with a resounding crash. A monster rises from the coffin and fixes its lifeless, pitiless gaze upon you. It's time to " + Parser.GREEN + "fight" + Parser.ANSI_RESET + ".");
             }
