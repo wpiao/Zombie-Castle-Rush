@@ -6,6 +6,8 @@ import com.zombiecastlerush.entity.Player;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.zombiecastlerush.entity.Role;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -24,7 +26,7 @@ public class Prompter {
     static void advanceGame(Player player) throws JsonProcessingException {
         displayCurrentScene(player);
         Room currentRoom = player.getCurrentPosition();
-        String userInput = Prompter.getUserInput("\nEnter \"help\" if you need help with the commands");
+        String userInput = Prompter.getUserInput("Enter \"help\" if you need help with the commands");
         List<String> userInputList = Parser.parse(userInput);
         clearScreen();
 
@@ -51,7 +53,7 @@ public class Prompter {
                                 System.out.println(player.displayStatus());
                             break;
                         case "pick-up":
-                            if(!(currentRoom instanceof Shop)) {
+                            if (!(currentRoom instanceof Shop)) {
                                 for (Item item : currentRoom.getInventory().getItems()) {
                                     if (item.getName().equalsIgnoreCase(userInputList.get(1))) {
                                         player.pickUp(item);
@@ -126,9 +128,9 @@ public class Prompter {
         if (puzzle.getAttempts() < 3 && !puzzle.isCleared())
             solvePuzzle(room);
         else if (puzzle.isCleared()) {
-            System.out.println(Parser.GREEN + "Right answer. You can now move to the available rooms");
+            System.out.println(Parser.GREEN + "Right answer. You can now move to the available rooms" + Parser.ANSI_RESET);
             if (puzzle.getInventory().getItems().size() > 0) {
-                System.out.println(puzzle.getDescription() + " drops " + puzzle.getInventory().toString() + "\n" + Parser.ANSI_RESET);
+                System.out.println(Parser.GREEN + puzzle.getDescription() + " drops " + puzzle.getInventory().toString() + "\n" + Parser.ANSI_RESET);
                 puzzle.getInventory().transferItem(
                         puzzle.getInventory(),
                         room.getInventory(),
@@ -208,6 +210,33 @@ public class Prompter {
             }
             System.out.println("\nYou can " + Parser.GREEN + "go" + Parser.ANSI_RESET + " to one of the following locations " + availableRooms);
         }
+        System.out.print("\nActions applicable: " + sceneContextmenu(currentRoom, player) + "  ");
+
+    }
+
+    public static List<String> sceneContextmenu(Room room, Player player) {
+        List<String> actionApplicable = new ArrayList<>(Arrays.asList(
+                Parser.GREEN + "go" + Parser.ANSI_RESET,
+                Parser.GREEN + "display status" + Parser.ANSI_RESET,
+                Parser.GREEN + "help" + Parser.ANSI_RESET,
+                Parser.GREEN + "quit" + Parser.ANSI_RESET));
+
+        if (room.getChallenge() instanceof Puzzle && !room.getChallenge().isCleared())
+            actionApplicable.add(Parser.GREEN + "attempt puzzle" + Parser.ANSI_RESET);
+        if (room instanceof Shop) {
+            actionApplicable.add(Parser.GREEN + "buy" + Parser.ANSI_RESET);
+            if (player.getInventory().getItems().size() > 0)
+                actionApplicable.add(Parser.GREEN + "sell" + Parser.ANSI_RESET);
+        }
+        if (!(room instanceof Shop) && room.getInventory().getItems().size() > 0) {
+            actionApplicable.add(Parser.GREEN + "pick-up" + Parser.ANSI_RESET);
+        }
+        if (!(room instanceof Shop) && player.getInventory().getItems().size() > 0) {
+            actionApplicable.add(Parser.GREEN + "drop" + Parser.ANSI_RESET);
+        }
+        if (room.getName().equalsIgnoreCase("Combat-Hall") && !room.getChallenge().isCleared())
+            actionApplicable.add(Parser.GREEN + "fight" + Parser.ANSI_RESET);
+        return actionApplicable;
     }
 
     public static void clearScreen() {

@@ -28,9 +28,11 @@ public class Castle {
         eastWing.setChallenge(new Puzzle("East-Wing-Puzzle", "What is (2+2) X (2-2)?", "0"));
         eastWing.getChallenge().getInventory().addItems(new Item("Knife", "This is a knife", 25.0));
         westWing.setChallenge(new Puzzle("West-Wing-Puzzle", "What is (2+2) X (2-2)?", "0"));
+        westWing.getChallenge().getInventory().addItems(new Item("Spoon", "This is a spoon", 25.0));
         castleHall.setChallenge(new Puzzle("Castle-Hall-Puzzle", "What is (2+2) X (2-2)?", "0"));
         castleHall.getChallenge().getInventory().addItems(new Item("Fork", "This is a fork", 5.0));
         drawBridge.setChallenge(new Puzzle("Draw-Bridge-Puzzle", "What is (2+2) X (2-2)?", "0"));
+        drawBridge.getChallenge().getInventory().addItems(new Item("Vase", "This is a vase", 5.0));
         combatHall.setChallenge(new Combat("Life or Death Battle"));
         combatHall.setExit(true);
 
