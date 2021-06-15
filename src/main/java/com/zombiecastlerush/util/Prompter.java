@@ -20,10 +20,9 @@ import java.util.Scanner;
  */
 public class Prompter {
     public static String getUserInput(String displayMessage) {
-        System.out.println(displayMessage);
+        System.out.printf(displayMessage + "\n>");
         Scanner sc = new Scanner(System.in);
-        String result = sc.nextLine();
-        return result;
+        return sc.nextLine();
     }
 
     static void advanceGame(Player player) throws JsonProcessingException {
