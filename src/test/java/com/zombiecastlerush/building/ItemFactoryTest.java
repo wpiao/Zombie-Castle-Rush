@@ -22,7 +22,7 @@ public class ItemFactoryTest {
         System.out.println(outputPath);
         File file = new File(outputPath);
         for (int i = 0; i < 10; i++) {
-            Item item = new Item("item" + i, "i am #" + i + " item");
+            Item item = new Item("item" + i, "i am #" + i + " item", 50 + i);
             items.add(item);
         }
         ItemFactory.writeItemsToDir(file, items); // generate .json file
@@ -97,9 +97,10 @@ public class ItemFactoryTest {
     public void testItemToJson_convertItemObjectToJson() throws JsonProcessingException {
         String name = "iTeM2";
         String description = "jUsT aNoThEr iTeM";
-        Item item = new Item(name, description);
+        double price = 100.0;
+        Item item = new Item(name, description, price);
         // json format not the toString()
-        String expectedJson = String.format("{\"name\":\"%s\",\"description\":\"%s\"}", name, description);
+        String expectedJson = String.format("{\"name\":\"%s\",\"description\":\"%s\",\"price\":%.1f}", name, description, price);
         String resultJson = ItemFactory.itemToJson(item, false);
         Assert.assertEquals(expectedJson, resultJson);
     }
@@ -112,8 +113,8 @@ public class ItemFactoryTest {
 
     @Test
     public void testItemToJson_convertNullAttributesToJson() throws JsonProcessingException {
-        Item item = new Item(null, null);
-        String expectedJson = "{\"name\":null,\"description\":null}";
+        Item item = new Item(null, null, 0.0);
+        String expectedJson = "{\"name\":null,\"description\":null,\"price\":0.0}";
         String resultJson = ItemFactory.itemToJson(item, false); // not pretty json
         Assert.assertEquals(expectedJson, resultJson);
     }
