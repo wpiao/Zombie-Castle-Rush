@@ -157,7 +157,19 @@ public class Prompter {
                 }
             }
             if (enemy.getHealth() <= 0 || player.getHealth() <= 0) {
-                player.getCurrentPosition().getChallenge().setCleared(true);
+                Room currentPosition = player.getCurrentPosition();
+                if (player.getHealth() <= 0) {
+                    Prompter.getUserInput("You are dead. Press Enter to continue.");
+                    Game.getInstance().stop();
+                }
+                currentPosition.getChallenge().setCleared(true);
+                if (enemy.getHealth() <= 0) {
+                    if (currentPosition.isExit()) {
+                        Prompter.getUserInput("You have found the exit, killed the last monster, and beaten the game! Press Enter to continue");
+                        Game.getInstance().stop();
+                    }
+                }
+
             }
 
         } else {

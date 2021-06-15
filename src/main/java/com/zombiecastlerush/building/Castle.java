@@ -32,6 +32,7 @@ public class Castle {
         castleHall.getChallenge().getInventory().addItems(new Item("Fork", "This is a fork", 5.0));
         drawBridge.setChallenge(new Puzzle("Draw-Bridge-Puzzle", "What is (2+2) X (2-2)?", "0"));
         combatHall.setChallenge(new Combat("Life or Death Battle"));
+        combatHall.setExit(true);
 
         //add items to Rooms inventory
         shop.getInventory().addItems(
