@@ -14,10 +14,10 @@ public class Combat extends Challenge {
     }
 
     public static void combat(Role player, Role enemy) {
-        playerFight(player, enemy);
+        playerAttack(player, enemy);
     }
 
-    static void playerFight(Role player, Role enemy) {
+    static void playerAttack(Role player, Role enemy) {
         int playerDamageToEnemy = new Random().nextInt(50) + 1;
         List<Item> items = player.getInventory().getItems();
         for (Item item : items) {
@@ -33,11 +33,11 @@ public class Combat extends Challenge {
             if (enemy.getHealth() < 0) enemy.setHealth(0);
             System.out.println("Enemy sustained " + playerDamageToEnemy + " damage. ");
             System.out.println("Enemy health is now: " + enemy.getHealth());
-            enemyFight(player, enemy);
+            enemyAttack(player, enemy);
         }
     }
 
-    public static void enemyFight(Role player, Role enemy) {
+    public static void enemyAttack(Role player, Role enemy) {
         int enemyDamageToPlayer = new Random().nextInt(50) + 1;
 
         if (enemy.getHealth() > 0 && player.getHealth() > 0) {

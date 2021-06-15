@@ -153,7 +153,7 @@ public class Prompter {
                     Combat.combat(player, enemy);
                 } else if (combatChoice.equals("run")) {
                     System.out.println("don't be a coward");
-                    Combat.enemyFight(player, enemy);
+                    Combat.enemyAttack(player, enemy);
                 }
             }
             if (enemy.getHealth() <= 0 || player.getHealth() <= 0) {
