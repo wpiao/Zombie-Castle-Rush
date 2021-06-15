@@ -1,13 +1,9 @@
 package com.zombiecastlerush.util;
 
-import com.zombiecastlerush.building.Combat;
-import com.zombiecastlerush.building.Room;
+import com.zombiecastlerush.building.*;
 import com.zombiecastlerush.entity.Enemy;
-import com.zombiecastlerush.building.Shop;
 import com.zombiecastlerush.entity.Player;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.zombiecastlerush.building.Item;
-import com.zombiecastlerush.building.Puzzle;
 import com.zombiecastlerush.entity.Role;
 
 import java.util.List;
@@ -20,10 +16,9 @@ import java.util.Scanner;
  */
 public class Prompter {
     public static String getUserInput(String displayMessage) {
-        System.out.println(displayMessage);
+        System.out.printf(displayMessage + "\n>");
         Scanner sc = new Scanner(System.in);
-        String result = sc.nextLine();
-        return result;
+        return sc.nextLine();
     }
 
     static void advanceGame(Player player) throws JsonProcessingException {
@@ -45,7 +40,7 @@ public class Prompter {
                         case "attempt":
                             if (userInputList.get(1).equals("puzzle")) {
                                 if (currentRoom.getChallenge() != null && currentRoom.getChallenge() instanceof Puzzle && !currentRoom.getChallenge().isCleared()) {
-                                    getUserInput("\nYou've dared to attempt the Puzzle... press enter to solve the Puzzle");
+                                    getUserInput("\nYou touch your hands to the box and cannot let go. You feel that the box demands you answer its question. You do not know how or why you are compelled, but you are.\nPress Enter to solve the Puzzle.");
                                     solvePuzzle(currentRoom);
                                 } else
                                     System.out.println("There is no puzzle in the room");
@@ -181,20 +176,33 @@ public class Prompter {
         Room currentRoom = player.getCurrentPosition();
         List<Room> availableRooms = currentRoom.getConnectedRooms();
         int numItemsInRoom = currentRoom.getInventory().getItems().size();
-        String numItemsString = numItemsInRoom > 0 ? numItemsInRoom + " items." : "0 items.";
+        String itemClueText = Parser.GREEN + "pick-up" + Parser.ANSI_RESET + ":";
+        if (currentRoom instanceof Shop) {
+            itemClueText = Parser.GREEN + "buy" + Parser.ANSI_RESET + " or" + Parser.GREEN + " sell" + Parser.ANSI_RESET + ":";
+        }
+        String numItemsString = numItemsInRoom > 0 ? numItemsInRoom + " item(s) in here which you can " + itemClueText : "";
 
         System.out.println("You are in the " + currentRoom + ". " + currentRoom.getDescription());
         if (currentRoom.getChallenge() != null && !currentRoom.getChallenge().isCleared()) {
-            String currRoomChallenge = currentRoom.getChallenge().getDescription();
-            System.out.println("The Room has " + currRoomChallenge + " and " + numItemsString);
-            System.out.println("After the " + currRoomChallenge + " is solved, you can go to one of the following available locations: " + availableRooms);
+            Challenge currRoomChallenge = currentRoom.getChallenge();
+            if (currRoomChallenge instanceof Puzzle) {
+                System.out.println("The box pulses with power. You know not how, but it has a riddle for you, and it will not let you leave until you have solved it. Perhaps you should " + Parser.GREEN + "attempt puzzle" + Parser.ANSI_RESET);
+            } else if (currRoomChallenge instanceof Combat) {
+                System.out.println("A rotting hand reaches and knocks the lid to the ground with a resounding crash. A monster rises from the coffin and fixes its lifeless, pitiless gaze upon you. It's time to " + Parser.GREEN + "fight" + Parser.ANSI_RESET + ".");
+            }
         } else {
+
             String roomInventory = currentRoom.getInventory().toString();
-            if (currentRoom instanceof Shop)
-                roomInventory = ((Shop) currentRoom).toStringShopInventory() + "\nYou've $" + player.getAcctBalance();
-            System.out.println("The " + currentRoom.getClass().getSimpleName() + " has " + numItemsString + " " + roomInventory +
-                    "\nYou have the following items: " + player.getInventory().toString() +
-                    "\nYou can go to one of the following locations " + availableRooms);
+            if (currentRoom instanceof Shop) {
+                roomInventory = ((Shop) currentRoom).toStringShopInventory() + "\nYou have $" + player.getAcctBalance();
+            }
+            System.out.println(numItemsString + " " + roomInventory);
+
+            if (player.getInventory().getItems().size() > 0) {
+                String dropOrSellText = (currentRoom instanceof Shop) ? "sell" : "drop";
+                System.out.println("You have the following items that you can " + Parser.GREEN + dropOrSellText + Parser.ANSI_RESET + ": " + player.getInventory().toString());
+            }
+            System.out.println("\nYou can " + Parser.GREEN + "go" + Parser.ANSI_RESET + " to one of the following locations " + availableRooms);
         }
     }
 
