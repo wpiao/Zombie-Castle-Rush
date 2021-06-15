@@ -1,7 +1,9 @@
 package com.zombiecastlerush.building;
 
+import com.zombiecastlerush.entity.Entity;
 import com.zombiecastlerush.entity.Role;
 
+import java.util.List;
 import java.util.Random;
 
 public class Combat extends Challenge {
@@ -13,6 +15,14 @@ public class Combat extends Challenge {
     }
 
     public static void combat(Role player, Role enemy) {
+        List<Item> items = player.getInventory().getItems();
+        for (Item item : items) {
+            if (item.getName().equals("Sword")){
+                playerDamageToEnemy += 20;
+                System.out.println("You draw your " + item.getDescription());
+            }
+        }
+
         if (player.getHealth() > 0 && enemy.getHealth() > 0) {
             playerAttack(player, enemy);
         }

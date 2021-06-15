@@ -26,7 +26,7 @@ public class Castle {
 
         //add Challenge to room
         eastWing.setChallenge(new Puzzle("East-Wing-Puzzle", "What is (2+2) X (2-2)?", "0"));
-        eastWing.getChallenge().getInventory().addItems(new Item("Knife", "This is a knife", 25.0));
+        eastWing.getChallenge().getInventory().addItems(new Item("Knife", "This is a knife", 25.0),new Item("Sword", "The Sword of Light", 100));
         westWing.setChallenge(new Puzzle("West-Wing-Puzzle", "What is (2+2) X (2-2)?", "0"));
         westWing.getChallenge().getInventory().addItems(new Item("Spoon", "This is a spoon", 25.0));
         castleHall.setChallenge(new Puzzle("Castle-Hall-Puzzle", "What is (2+2) X (2-2)?", "0"));
@@ -35,6 +35,7 @@ public class Castle {
         drawBridge.getChallenge().getInventory().addItems(new Item("Vase", "This is a vase", 5.0));
         combatHall.setChallenge(new Combat("Life or Death Battle"));
         combatHall.setExit(true);
+
 
         //add items to Rooms inventory
         shop.getInventory().addItems(
@@ -50,7 +51,6 @@ public class Castle {
         castleRooms.put(drawBridge.getName(), drawBridge);
         castleRooms.put(combatHall.getName(), combatHall);
         castleRooms.put(shop.getName(), shop);
-
     }
 
     //getter
