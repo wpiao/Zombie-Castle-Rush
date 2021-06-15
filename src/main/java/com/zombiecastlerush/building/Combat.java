@@ -3,6 +3,7 @@ package com.zombiecastlerush.building;
 import com.zombiecastlerush.entity.Entity;
 import com.zombiecastlerush.entity.Role;
 
+import java.util.List;
 import java.util.Random;
 
 public class Combat extends Challenge {
