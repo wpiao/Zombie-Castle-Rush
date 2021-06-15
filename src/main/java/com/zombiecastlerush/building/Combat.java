@@ -16,7 +16,7 @@ public class Combat extends Challenge {
         super(description);
     }
 
-    static void combat(Role player, Role enemy) {
+    public static void combat(Role player, Role enemy) {
         List<Item> items = player.getInventory().getItems();
         for (Item item : items) {
             if (item.getName().equals("Sword")){
