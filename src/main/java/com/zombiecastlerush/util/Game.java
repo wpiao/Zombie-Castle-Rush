@@ -57,9 +57,8 @@ public class Game {
         System.out.printf("%2s %-30s %1s %-1s %n", " 6.", "sell an item to the shop","|    ", "\"sell\" and \"item name\"");
         System.out.printf("%2s %-30s %1s %-1s %n", " 7.", "fight a monster","|    ", "\"fight\"");
         System.out.printf("%2s %-30s %1s %-1s %n", " 8.", "Go somewhere","|    ", "\"go\" and one of the available locations displayed");
-        System.out.printf("%2s %-30s %1s %-1s %n", " 9.", "Go somewhere","|    ", "\"go\" and one of the available locations displayed");
-        System.out.printf("%2s %-30s %1s %-1s %n", "10.", "display instructions","|    ", "\"help\"");
-        System.out.printf("%2s %-30s %1s %-1s %n", "11.", "quit the game","|    ", "\"quit\"");
+        System.out.printf("%2s %-30s %1s %-1s %n", " 9.", "display instructions","|    ", "\"help\"");
+        System.out.printf("%2s %-30s %1s %-1s %n", "10.", "quit the game","|    ", "\"quit\"");
 
         Prompter.getUserInput("\nPress enter to continue...");
         Prompter.clearScreen();
