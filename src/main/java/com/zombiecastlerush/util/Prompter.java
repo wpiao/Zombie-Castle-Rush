@@ -122,9 +122,9 @@ public class Prompter {
         if (puzzle.getAttempts() < 3 && !puzzle.isCleared())
             solvePuzzle(room);
         else if (puzzle.isCleared()) {
-            System.out.println(Parser.GREEN + "Right answer. You can now move to the available rooms");
+            System.out.println(Parser.GREEN + "Right answer. You can now move to the available rooms" + Parser.ANSI_RESET);
             if (puzzle.getInventory().getItems().size() > 0) {
-                System.out.println(puzzle.getDescription() + " drops " + puzzle.getInventory().toString() + "\n" + Parser.ANSI_RESET);
+                System.out.println(Parser.GREEN + puzzle.getDescription() + " drops " + puzzle.getInventory().toString() + "\n" + Parser.ANSI_RESET);
                 puzzle.getInventory().transferItem(
                         puzzle.getInventory(),
                         room.getInventory(),
