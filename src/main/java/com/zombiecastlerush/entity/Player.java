@@ -45,7 +45,7 @@ public class Player extends Role {
         if (targetRoom != null && roomChallengeflag) {
             String previous = this.getCurrentPosition().getName();
             this.setCurrentPosition(targetRoom);
-            System.out.printf(Parser.GREEN+"Player %s moved from the %s to the %s\n", this.getName(), previous, this.getCurrentPosition().getName()+Parser.GREEN);
+            System.out.printf(Parser.GREEN+"Player %s moved from the %s to the %s\n", this.getName(), previous, this.getCurrentPosition().getName()+Parser.ANSI_RESET);
             return true;
         } else if (targetRoom == null) {
             System.out.printf("Player %s's current room %s doesn't connect to room: %s %n", this.getName(), this.getCurrentPosition().getName(), roomName);
