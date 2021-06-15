@@ -27,7 +27,7 @@ public class Game {
      * TODO: What does start() provide?
      */
     public void start() throws JsonProcessingException {
-        String userName = Prompter.getUserInput("Welcome to Zombie Castle Rush! \n\nPlease enter your name");
+        String userName = Prompter.getUserInput("Welcome to Zombie Castle Rush! \n\nPlease enter your name:");
         player = new Player(userName);
         player.setCurrentPosition(castle.getCastleRooms().get("Castle-Hall"));
         showInstructions();
@@ -56,9 +56,8 @@ public class Game {
         System.out.printf("%2s %-30s %1s %-1s %n", " 5.", "buy an item from the shop","|    ", "\"buy\" and \"item name\"");
         System.out.printf("%2s %-30s %1s %-1s %n", " 6.", "sell an item to the shop","|    ", "\"sell\" and \"item name\"");
         System.out.printf("%2s %-30s %1s %-1s %n", " 7.", "fight a monster","|    ", "\"fight\"");
-        System.out.printf("%2s %-30s %1s %-1s %n", " 8.", "Go somewhere","|    ", "\"go\" and one of the available locations displayed");
-        System.out.printf("%2s %-30s %1s %-1s %n", " 9.", "display instructions","|    ", "\"help\"");
-        System.out.printf("%2s %-30s %1s %-1s %n", "10.", "quit the game","|    ", "\"quit\"");
+        System.out.printf("%2s %-30s %1s %-1s %n", " 8.", "display instructions","|    ", "\"help\"");
+        System.out.printf("%2s %-30s %1s %-1s %n", " 9.", "quit the game","|    ", "\"quit\"");
 
         Prompter.getUserInput("\nPress enter to continue...");
         Prompter.clearScreen();

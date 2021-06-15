@@ -48,7 +48,7 @@ public class Player extends Role {
             System.out.printf(Parser.GREEN+"Player %s moved from the %s to the %s\n", this.getName(), previous, this.getCurrentPosition().getName()+Parser.ANSI_RESET);
             return true;
         } else if (targetRoom == null) {
-            System.out.printf("Player %s's current room %s doesn't connect to room: %s %n", this.getName(), this.getCurrentPosition().getName(), roomName);
+            System.out.printf(Parser.RED + "Player %s's current room %s doesn't connect to room: %s %n" + Parser.ANSI_RESET, this.getName(), this.getCurrentPosition().getName(), roomName);
             return false;
         } else {
             System.out.println(Parser.RED+currRoomChallenge.getDescription() + " must be cleared before you can move to " + targetRoom + Parser.ANSI_RESET);

@@ -12,6 +12,7 @@ import java.util.List;
 public class Room extends Entity {
     private String name;
     private String description;
+    private boolean isExit;
     private List<Room> connectedRooms = new ArrayList<>();
     private Challenge challenge;
 
@@ -43,6 +44,14 @@ public class Room extends Entity {
 
     public void setChallenge(Challenge challenge) {
         this.challenge = challenge;
+    }
+
+    public boolean isExit() {
+        return isExit;
+    }
+
+    public void setExit(boolean value) {
+        isExit = value;
     }
 
     @Override
