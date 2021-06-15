@@ -7,6 +7,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.zombiecastlerush.building.Item;
 import com.zombiecastlerush.building.Puzzle;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -27,7 +29,7 @@ public class Prompter {
         displayCurrentScene(player);
         Room currentRoom = player.getCurrentPosition();
 
-        String userInput = Prompter.getUserInput("\nEnter \"help\" if you need help with the commands");
+        String userInput = Prompter.getUserInput("Enter \"help\" if you need help with the commands");
         List<String> userInputList = Parser.parse(userInput);
         clearScreen();
 
@@ -53,12 +55,13 @@ public class Prompter {
                                 System.out.println(player.displayStatus());
                             break;
                         case "pick-up":
-                            for (Item item : currentRoom.getInventory().getItems()) {
-                                if (item.getName().equalsIgnoreCase(userInputList.get(1))) {
-                                    player.pickUp(item);
-                                    break;
+                            if(!(currentRoom instanceof Shop))
+                                for (Item item : currentRoom.getInventory().getItems()) {
+                                    if (item.getName().equalsIgnoreCase(userInputList.get(1))) {
+                                        player.pickUp(item);
+                                        break;
+                                    }
                                 }
-                            }
                             break;
                         case "drop":
                             for (Item item : player.getInventory().getItems()) {
@@ -146,6 +149,30 @@ public class Prompter {
                     "\nYou have the following items: " + player.getInventory().toString() +
                     "\nYou can go to one of the following locations " + availableRooms);
         }
+
+        System.out.print("\nActions applicable: " + sceneContextmenu(currentRoom,player) +"  ");
+
+    }
+
+    public static List<String> sceneContextmenu(Room room, Player player){
+        List<String> actionApplicable = new ArrayList<>(Arrays.asList("go","display status","help","quit"));
+
+        if(room.getChallenge() instanceof Puzzle && !room.getChallenge().isCleared())
+            actionApplicable.add("attempt");
+        if(room instanceof Shop){
+            actionApplicable.add("buy");
+            if(player.getInventory().getItems().size()>0)
+                actionApplicable.add("sell");
+        }
+        if(!(room instanceof Shop) && room.getInventory().getItems().size()>0){
+            actionApplicable.add("pick-up");
+        }
+        if(!(room instanceof Shop) && player.getInventory().getItems().size()>0){
+            actionApplicable.add("drop");
+        }
+        if(room.getName().equalsIgnoreCase("Combat-Hall") && !room.getChallenge().isCleared())
+            actionApplicable.add("fight");
+        return actionApplicable;
 
     }
 
