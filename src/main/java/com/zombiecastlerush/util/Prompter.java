@@ -9,7 +9,6 @@ import com.zombiecastlerush.entity.Role;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * static class and methods
@@ -17,11 +16,11 @@ import java.util.Scanner;
  * TODO: deploy APIs that supports the web game version
  */
 public class Prompter {
-    public static String getUserInput(String displayMessage) {
-        System.out.printf(displayMessage + "\n>");
-        Scanner sc = new Scanner(System.in);
-        return sc.nextLine();
-    }
+    // public static String getUserInput(String displayMessage) {
+    //     System.out.printf(displayMessage + "\n>");
+    //     Scanner sc = new Scanner(System.in);
+    //     return sc.nextLine();
+    // }
 
     public static void showInstructions() {
         System.out.println("\nGame Instructions:");
@@ -37,14 +36,14 @@ public class Prompter {
         System.out.printf("%2s %-30s %1s %-1s %n", " 8.", "display instructions","|    ", "\"help\"");
         System.out.printf("%2s %-30s %1s %-1s %n", " 9.", "quit the game","|    ", "\"quit\"");
 
-        getUserInput("\nPress enter to continue...");
+        Inputs.getUserInput("\nPress enter to continue...");
         clearScreen();
     }
 
     static void advanceGame(Player player) throws JsonProcessingException {
         displayCurrentScene(player);
         Room currentRoom = player.getCurrentPosition();
-        String userInput = Prompter.getUserInput("Enter \"help\" if you need help with the commands");
+        String userInput = Inputs.getUserInput("Enter \"help\" if you need help with the commands");
         List<String> userInputList = Parser.parse(userInput);
         clearScreen();
 
@@ -60,7 +59,7 @@ public class Prompter {
                         case "attempt":
                             if (userInputList.get(1).equals("puzzle")) {
                                 if (currentRoom.getChallenge() != null && currentRoom.getChallenge() instanceof Puzzle && !currentRoom.getChallenge().isCleared()) {
-                                    getUserInput("\nYou touch your hands to the box and cannot let go. You feel that the box demands you answer its question. You do not know how or why you are compelled, but you are.\nPress Enter to solve the Puzzle.");
+                                    Inputs.getUserInput("\nYou touch your hands to the box and cannot let go. You feel that the box demands you answer its question. You do not know how or why you are compelled, but you are.\nPress Enter to solve the Puzzle.");
                                     solvePuzzle(currentRoom);
                                 } else
                                     System.out.println("There is no puzzle in the room");
@@ -117,7 +116,7 @@ public class Prompter {
 
                             if (!currentRoom.getChallenge().isCleared() && userInputList.get(0).equals("fight")) {
                                 if (currentRoom.getChallenge() != null && currentRoom.getChallenge() instanceof Combat && !currentRoom.getChallenge().isCleared()) {
-                                    getUserInput("\nPrepare for COMBAT... press enter to continue");
+                                    Inputs.getUserInput("\nPrepare for COMBAT... press enter to continue");
                                     combat(player, new Enemy("Zombie"));
                                 } else {
                                     System.out.println("There is no Monster in the room");
@@ -142,7 +141,7 @@ public class Prompter {
     static void solvePuzzle(Room room) {
         Puzzle puzzle = (Puzzle) room.getChallenge();
         System.out.println(Parser.YELLOW + "Here is your puzzle....Remember you only have " + (3 - puzzle.getAttempts()) + " tries!" + Parser.ANSI_RESET);
-        puzzle.attemptPuzzle(getUserInput(puzzle.getQuestion()));
+        puzzle.attemptPuzzle(Inputs.getUserInput(puzzle.getQuestion()));
         if (puzzle.getAttempts() < 3 && !puzzle.isCleared())
             solvePuzzle(room);
         else if (puzzle.isCleared()) {
@@ -167,7 +166,7 @@ public class Prompter {
             Combat.combat(player, enemy);
             while (player.getHealth() > 0 && enemy.getHealth() > 0) {
                 String msg = "what would you like to do, \"fight\" or \"run\"?";
-                String combatChoice = Prompter.getUserInput(msg);
+                String combatChoice = Inputs.getUserInput(msg);
                 if (combatChoice.equals("fight")) {
                     Combat.combat(player, enemy);
                 } else if (combatChoice.equals("run")) {
@@ -178,13 +177,13 @@ public class Prompter {
             if (enemy.getHealth() <= 0 || player.getHealth() <= 0) {
                 Room currentPosition = player.getCurrentPosition();
                 if (player.getHealth() <= 0) {
-                    Prompter.getUserInput("You are dead. Press Enter to continue.");
+                    Inputs.getUserInput("You are dead. Press Enter to continue.");
                     Game.getInstance().stop();
                 }
                 currentPosition.getChallenge().setCleared(true);
                 if (enemy.getHealth() <= 0) {
                     if (currentPosition.isExit()) {
-                        Prompter.getUserInput("You have found the exit, killed the last monster, and beaten the game! Press Enter to continue");
+                        Inputs.getUserInput("You have found the exit, killed the last monster, and beaten the game! Press Enter to continue");
                         Game.getInstance().stop();
                     }
                 }
