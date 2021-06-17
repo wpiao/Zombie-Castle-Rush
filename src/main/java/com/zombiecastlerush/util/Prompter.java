@@ -23,6 +23,24 @@ public class Prompter {
         return sc.nextLine();
     }
 
+    public static void showInstructions() {
+        System.out.println("\nGame Instructions:");
+        System.out.printf(Parser.GREEN+"%2s %8s %47s %n", "", "Action   ", "       Command to Type"+Parser.ANSI_RESET);
+        System.out.printf("%2s %8s %45s %n", "", "----------------------------", "         --------------------------------------------------");
+        System.out.printf("%2s %-30s %1s %-10s %n", " 1.", "Go somewhere","|    ", "\"go\" and one of the available locations displayed");
+        System.out.printf("%2s %-30s %1s %-10s %n", " 2.", "attempt a puzzle","|    ", "\"attempt puzzle\"");
+        System.out.printf("%2s %-30s %1s %-1s %n", " 3.", "display player's status","|    ", "\"display status\"");
+        System.out.printf("%2s %-30s %1s %-1s %n", " 4.", "pick-up or drop an item","|    ", "\"pick-up\", \"drop\" and \"item name\"");
+        System.out.printf("%2s %-30s %1s %-1s %n", " 5.", "buy an item from the shop","|    ", "\"buy\" and \"item name\"");
+        System.out.printf("%2s %-30s %1s %-1s %n", " 6.", "sell an item to the shop","|    ", "\"sell\" and \"item name\"");
+        System.out.printf("%2s %-30s %1s %-1s %n", " 7.", "fight a monster","|    ", "\"fight\"");
+        System.out.printf("%2s %-30s %1s %-1s %n", " 8.", "display instructions","|    ", "\"help\"");
+        System.out.printf("%2s %-30s %1s %-1s %n", " 9.", "quit the game","|    ", "\"quit\"");
+
+        getUserInput("\nPress enter to continue...");
+        clearScreen();
+    }
+
     static void advanceGame(Player player) throws JsonProcessingException {
         displayCurrentScene(player);
         Room currentRoom = player.getCurrentPosition();
@@ -117,7 +135,7 @@ public class Prompter {
                     break;
             }
         } else {
-            Game.getInstance().showInstructions();
+            showInstructions();
         }
     }
 
