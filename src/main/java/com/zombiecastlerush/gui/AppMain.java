@@ -30,16 +30,6 @@ public class AppMain extends JFrame implements KeyListener {
         repaint();
     }
 
-
-
-    public static void main(String[] args) {
-        AppMain app = new AppMain();
-        app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        app.setVisible(true);
-
-    }
-
-
     private static String readWelcome(){
         String path = "Resources/Welcome/welcome.txt";
         String welcome = null;
