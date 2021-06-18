@@ -31,11 +31,14 @@ public class AppMain extends JFrame implements KeyListener {
     }
 
 
-    // public static void main(String[] args) {
-    //     AppMain app = new AppMain();
-    //     app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    //     app.setVisible(true);
-    // }
+
+    public static void main(String[] args) {
+        AppMain app = new AppMain();
+        app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        app.setVisible(true);
+
+    }
+
 
     private static String readWelcome(){
         String path = "Resources/Welcome/welcome.txt";
