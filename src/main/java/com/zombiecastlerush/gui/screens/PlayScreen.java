@@ -1,5 +1,6 @@
 package com.zombiecastlerush.gui.screens;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import asciiPanel.AsciiPanel;
 import com.zombiecastlerush.gui.World;
@@ -14,13 +15,13 @@ public class PlayScreen implements Screen {
     private int screenHeight;
 
     public PlayScreen(){
-        screenWidth = 80;
-        screenHeight = 21;
+        screenWidth = 90;
+        screenHeight = 51;
         createWorld();
     }
 
     private void createWorld() {
-        world = new WorldBuilder(90, 31)
+        world = new WorldBuilder(100, 51)
                 .makeCaves()
                 .build();
     }
@@ -32,7 +33,12 @@ public class PlayScreen implements Screen {
 
         displayTiles(terminal, left, top);
         terminal.write('X', centerX - left, centerY - top);
-        terminal.writeCenter("-- press [escape] to lose or [enter] to win --", 22);
+        terminal.writeCenter("-- press [escape] to lose or [enter] to win --", 52);
+        terminal.write("Status",91,1, Color.BLUE);
+    }
+
+    private String drawDotLine(int length){
+        return null;
     }
 
     public Screen respondToUserInput(KeyEvent key) {

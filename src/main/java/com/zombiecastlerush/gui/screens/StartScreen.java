@@ -6,8 +6,8 @@ import asciiPanel.AsciiPanel;
 public class StartScreen implements Screen {
 
     public void displayOutput(AsciiPanel terminal) {
-        terminal.write("rl tutorial", 1, 1);
-        terminal.writeCenter("-- press [enter] to start --", 22);
+        terminal.write("Welcome to Zombie Castle", 1, 1);
+        terminal.writeCenter("-- press [enter] to start --", 31);
     }
 
     public Screen respondToUserInput(KeyEvent key) {

@@ -1,6 +1,8 @@
 package com.zombiecastlerush.gui;
 
 import javax.swing.*;
+
+import asciiPanel.AsciiFont;
 import asciiPanel.AsciiPanel;
 import com.zombiecastlerush.gui.screens.Screen;
 import com.zombiecastlerush.gui.screens.StartScreen;
@@ -18,7 +20,7 @@ class AppMain extends JFrame implements KeyListener {
 
     public AppMain(){
         super();
-        terminal = new AsciiPanel();
+        terminal = new AsciiPanel(120,60,AsciiFont.QBICFEET_10x10);
 //        String banner = readWelcome();
 //
 //        terminal.write(banner.stripTrailing(), 1, 1);
