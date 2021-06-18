@@ -3,6 +3,9 @@ package com.zombiecastlerush.util;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.zombiecastlerush.building.Castle;
 import com.zombiecastlerush.entity.Player;
+import com.zombiecastlerush.gui.AppMain;
+
+import javax.swing.*;
 
 /**
  * singleton class Game
@@ -27,13 +30,25 @@ public class Game {
      * TODO: What does start() provide?
      */
     public void start() throws JsonProcessingException {
-        String userName = Inputs.getUserInput("Welcome to Zombie Castle Rush! \n\nPlease enter your name:");
-        player = new Player(userName);
-        player.setCurrentPosition(castle.getCastleRooms().get("Castle-Hall"));
-        Prompter.showInstructions();
+        Prompter.showWelcomeScreen();
+        // choose game mode
+        Prompter.showGameModeOptions();
 
-        while (true) {
-            GameLogic.advanceGame(player);
+        String gameOption = Prompter.chooseGameMode();
+        if (gameOption.equals("1")) {
+            // console mode
+            String userName = Inputs.getUserInput("Welcome to Zombie Castle Rush! \n\nPlease enter your name:");
+            player = new Player(userName);
+            player.setCurrentPosition(castle.getCastleRooms().get("Castle-Hall"));
+            Prompter.showInstructions();
+            while (true) {
+                GameLogic.advanceGame(player);
+            }
+        } else if (gameOption.equals("2")) {
+            // roguelike mode
+            AppMain app = new AppMain();
+            app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            app.setVisible(true);
         }
     }
 

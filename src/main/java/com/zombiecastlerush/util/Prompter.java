@@ -1,11 +1,11 @@
 package com.zombiecastlerush.util;
 
 import com.zombiecastlerush.building.*;
-import com.zombiecastlerush.entity.Enemy;
 import com.zombiecastlerush.entity.Player;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.zombiecastlerush.entity.Role;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -99,5 +99,43 @@ public class Prompter {
         System.out.print("\033[H\033[2J");
         System.out.flush();
 
+    }
+
+    public static void showWelcomeScreen() {
+        String welcome = null;
+        try {
+            welcome = new String(Files.readAllBytes(Paths.get("Resources/Welcome/welcome-console.txt")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            System.out.println(Parser.RED + welcome + Parser.ANSI_RESET);
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void showGameModeOptions() {
+        try {
+            String options = new String(Files.readAllBytes(Paths.get("Resources/Welcome/chooseGameMode.txt")));
+            System.out.println(Parser.GREEN + options + Parser.ANSI_RESET);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String chooseGameMode() {
+        String inputs = Inputs.getUserInput("Choose game mode. Please, type 1 or 2.");
+        List<String> inputWords = Arrays.asList(inputs.toLowerCase().split(" "));
+        inputWords = Parser.reduceInputWordsToList(inputWords);
+        List<String> availableOptions = new ArrayList<>(Arrays.asList("1", "2"));
+        while (!availableOptions.contains(inputWords.get(0)) || inputWords.size() != 1) {
+            inputs = Inputs.getUserInput("Choose game mode. Please, type 1 or 2.");
+            inputWords = Arrays.asList(inputs.toLowerCase().split(" "));
+            inputWords = Parser.reduceInputWordsToList(inputWords);
+        }
+        return inputWords.get(0);
     }
 }
