@@ -1,6 +1,7 @@
 /*
 .idea/
 !/src
+!/Resources
 /test
 !/.github
 !/pom.xml
