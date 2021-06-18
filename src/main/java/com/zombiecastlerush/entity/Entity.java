@@ -2,7 +2,7 @@ package com.zombiecastlerush.entity;
 
 import com.zombiecastlerush.building.Inventory;
 
-public class Entity {
+public abstract class Entity {
     private String name;
     private Inventory inventory = new Inventory();
     private String description;
