@@ -15,16 +15,14 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 class AppMain extends JFrame implements KeyListener {
-    private AsciiPanel terminal;
+    private final AsciiPanel terminal;
     private Screen screen;
 
 
     public AppMain(){
         super();
         terminal = new AsciiPanel(120,60,AsciiFont.TALRYTH_15_15);
-//        String banner = readWelcome();
-//
-//        terminal.write(banner.stripTrailing(), 1, 1);
+
         add(terminal);
         pack();
         screen = new StartScreen();
