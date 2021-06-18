@@ -1,11 +1,11 @@
 package com.zombiecastlerush.util;
 
 import com.zombiecastlerush.building.*;
-import com.zombiecastlerush.entity.Enemy;
 import com.zombiecastlerush.entity.Player;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.zombiecastlerush.entity.Role;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -99,5 +99,22 @@ public class Prompter {
         System.out.print("\033[H\033[2J");
         System.out.flush();
 
+    }
+
+    public static void showWelcomeScreen() {
+        String welcome = "";
+        try {
+            welcome = new String(Files.readAllBytes(Paths.get("Resources/Welcome/welcome-console.txt")));
+            welcome = Parser.RED + welcome;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            System.out.println(welcome + Parser.ANSI_RESET);
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
