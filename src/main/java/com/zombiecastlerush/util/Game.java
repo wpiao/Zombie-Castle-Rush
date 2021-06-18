@@ -33,7 +33,7 @@ public class Game {
         Prompter.showInstructions();
 
         while (true) {
-            Prompter.advanceGame(player);
+            GameLogic.advanceGame(player);
         }
     }
 
