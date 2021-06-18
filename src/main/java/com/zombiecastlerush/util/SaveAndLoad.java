@@ -40,7 +40,7 @@ class SaveAndLoad {
             ObjectNode root = mapper.createObjectNode();
             root.set("castle", castleNode);
             root.set("player", playerNode);
-            mapper.writeValue(new File(saveLocation), root);
+            mapper.writerWithDefaultPrettyPrinter().writeValue(new File(saveLocation), root);
         } catch (IOException e) {
             System.err.println("There was an error creating save file.");
         }
