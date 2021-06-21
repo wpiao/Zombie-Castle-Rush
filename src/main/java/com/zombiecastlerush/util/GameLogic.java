@@ -104,6 +104,7 @@ class GameLogic {
                             }
                             break;
                         case "quit":
+                            Game.getBackgroundMusic().close();
                             Game.getInstance().stop();
                             break;
                     }
@@ -132,6 +133,7 @@ class GameLogic {
             }
         } else {
             System.out.println(Parser.RED + "Wrong Answer!! You have had your chances...You failed...Game Over!!!" + Parser.ANSI_RESET);
+            Game.getBackgroundMusic().close();
             Game.getInstance().stop();
         }
     }
@@ -154,12 +156,14 @@ class GameLogic {
                 Room currentPosition = player.getCurrentPosition();
                 if (player.getHealth() <= 0) {
                     Inputs.getUserInput("You are dead. Press Enter to continue.");
+                    Game.getBackgroundMusic().close();
                     Game.getInstance().stop();
                 }
                 currentPosition.getChallenge().setCleared(true);
                 if (enemy.getHealth() <= 0) {
                     if (currentPosition.isExit()) {
                         Inputs.getUserInput("You have found the exit, killed the last monster, and beaten the game! Press Enter to continue");
+                        Game.getBackgroundMusic().close();
                         Game.getInstance().stop();
                     }
                 }
@@ -170,5 +174,4 @@ class GameLogic {
             System.out.println("Room has no Enemy");
         }
     }
-
 }
