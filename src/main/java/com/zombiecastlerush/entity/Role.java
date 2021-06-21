@@ -3,7 +3,6 @@ package com.zombiecastlerush.entity;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zombiecastlerush.building.Inventory;
 import com.zombiecastlerush.building.Item;
 import com.zombiecastlerush.building.Room;
 import com.zombiecastlerush.util.Parser;
