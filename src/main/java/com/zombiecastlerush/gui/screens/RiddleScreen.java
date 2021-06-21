@@ -1,6 +1,7 @@
 package com.zombiecastlerush.gui.screens;
 
 import asciiPanel.AsciiPanel;
+import com.zombiecastlerush.gui.Riddle;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -9,21 +10,41 @@ public class RiddleScreen implements Screen {
     private final int screenWidth;
     private final int screenHeight;
 
+    private KeyEvent key;
+
     public RiddleScreen() {
         screenWidth = 90;
         screenHeight = 51;
+        Riddle.answer = "";
     }
 
     public void displayOutput(AsciiPanel terminal) {
-        displayUserInput(terminal,0, terminal.getHeightInCharacters() - 10);
-        terminal.writeCenter(chooseRandomRiddle(), (screenHeight -10) /2 );
+        displayUserInput(terminal, 0, terminal.getHeightInCharacters() - 10);
+        terminal.writeCenter(Riddle.chooseRandomRiddle(), (screenHeight - 10) / 2);
 
     }
 
     private void displayUserInput(AsciiPanel terminal, int left, int top) {
-        terminal.write(drawLine(terminal.getWidthInCharacters()-1), left, top, Color.orange);
-        terminal.write("Enter command -> ", left, top + 1, Color.red);
+        terminal.write(drawLine(terminal.getWidthInCharacters() - 1), left, top, Color.orange);
+        terminal.write("Answer is -> ", left, top + 1, Color.red);
+
+        if (key!=null) {
+            int keyCode = key.getKeyCode();
+            if (keyCode <= 126 && keyCode != 10) {
+                if (keyCode == 8 && Riddle.answer.length() > 0) {
+                    Riddle.answer = Riddle.answer.substring(0, Riddle.answer.length() - 1);
+                } else if (keyCode == 8) {
+                    Riddle.answer = "";
+                } else {
+                    Riddle.answer += (char) keyCode;
+                }
+                terminal.write(Riddle.answer, left, top + 3, Color.MAGENTA);
+            }
+        }
+
+
     }
+
     private String drawLine(int length) {
 
         String line = "";
@@ -35,12 +56,9 @@ public class RiddleScreen implements Screen {
 
 
     public Screen respondToUserInput(KeyEvent key) {
-
-        return key.getKeyCode() == KeyEvent.VK_ENTER ? new StartScreen() : this;
-    }
-
-    private String chooseRandomRiddle() {
-        //placeholder for riddles from external files.
-        return "What is (2+2)x(2-2)?";
+        this.key = key;
+        if (Riddle.answer.equals("0") && key.getKeyCode() == KeyEvent.VK_ENTER) {
+            return new CastleScreen();
+        } else return this;
     }
 }
