@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 
 import asciiPanel.AsciiPanel;
+import com.zombiecastlerush.gui.Creature;
+import com.zombiecastlerush.gui.CreatureFactory;
 import com.zombiecastlerush.gui.World;
 import com.zombiecastlerush.gui.WorldBuilder;
 
@@ -12,6 +14,7 @@ public class StartScreen implements Screen {
     private World world;
     private int centerX;
     private int centerY;
+    private final Creature player;
     private final int screenWidth;
     private final int screenHeight;
 
@@ -19,6 +22,8 @@ public class StartScreen implements Screen {
         screenWidth = 90;
         screenHeight = 51;
         createWorld();
+        CreatureFactory creatureFactory = new CreatureFactory(world);
+        player = creatureFactory.newPlayer();
     }
 
     private void createWorld() {
@@ -45,7 +50,7 @@ public class StartScreen implements Screen {
         //user input
         displayUserInput(terminal,0,terminal.getHeightInCharacters()-3);
 
-        terminal.write('X', centerX - left, centerY - top);
+        terminal.write(player.glyph(), player.x - left, player.y - top,player.color());
 
 
     }
@@ -55,19 +60,19 @@ public class StartScreen implements Screen {
         switch (key.getKeyCode()) {
             case KeyEvent.VK_LEFT:
             case KeyEvent.VK_H:
-                scrollBy(-1, 0);
+                player.moveBy(-1, 0);
                 break;
             case KeyEvent.VK_RIGHT:
             case KeyEvent.VK_L:
-                scrollBy(1, 0);
+                player.moveBy(1, 0);
                 break;
             case KeyEvent.VK_UP:
             case KeyEvent.VK_K:
-                scrollBy(0, -1);
+                player.moveBy(0, -1);
                 break;
             case KeyEvent.VK_DOWN:
             case KeyEvent.VK_J:
-                scrollBy(0, 1);
+                player.moveBy(0, 1);
                 break;
 
         }
@@ -76,17 +81,17 @@ public class StartScreen implements Screen {
     }
 
     public int getScrollX() {
-        return Math.max(0, Math.min(centerX - screenWidth / 2, world.width() - screenWidth));
+        return Math.max(0, Math.min(player.x - screenWidth / 2, world.width() - screenWidth));
     }
 
     public int getScrollY() {
-        return Math.max(0, Math.min(centerY - screenHeight / 2, world.height() - screenHeight));
+        return Math.max(0, Math.min(player.y - screenHeight / 2, world.height() - screenHeight));
     }
 
-    private void scrollBy(int mx, int my) {
-        centerX = Math.max(0, Math.min(centerX + mx, world.width() - 1));
-        centerY = Math.max(0, Math.min(centerY + my, world.height() - 1));
-    }
+//    private void scrollBy(int mx, int my) {
+//        centerX = Math.max(0, Math.min(centerX + mx, world.width() - 1));
+//        centerY = Math.max(0, Math.min(centerY + my, world.height() - 1));
+//    }
 
     private void displayTiles(AsciiPanel terminal, int left, int top) {
         for (int x = 0; x < screenWidth; x++) {
