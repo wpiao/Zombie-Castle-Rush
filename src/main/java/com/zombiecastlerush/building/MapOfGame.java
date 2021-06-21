@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public class MapOfGame {
-    private static final Path path = Path.of("./ascii/", "map.txt");
+    private static final Path path = Path.of("./Resources/ascii/", "map.txt");
 
     public static void readMap() {
         try {
