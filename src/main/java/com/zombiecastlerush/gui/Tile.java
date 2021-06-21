@@ -14,7 +14,7 @@ public enum Tile {
     TOP_SOLID_BLOCK((char)223, AsciiPanel.green),
     FULL_SOLID_BLOCK((char)219,AsciiPanel.green),
 
-    BOUNDS('@', AsciiPanel.brightBlack);
+    BOUNDS('x', AsciiPanel.brightBlack);
 
     private char glyph;
     public char glyph() { return glyph; }
@@ -25,6 +25,14 @@ public enum Tile {
     Tile(char glyph, Color color){
         this.glyph = glyph;
         this.color = color;
+    }
+
+    public boolean isGround() {
+        return this == FLOOR;
+    }
+
+    public boolean isDiggable() {
+        return this != Tile.FLOOR;
     }
 }
 
