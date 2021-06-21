@@ -1,19 +1,17 @@
 package com.zombiecastlerush.gui.screens;
 
-import java.awt.*;
-import java.awt.event.KeyEvent;
-
 import asciiPanel.AsciiPanel;
 import com.zombiecastlerush.gui.Creature;
 import com.zombiecastlerush.gui.CreatureFactory;
 import com.zombiecastlerush.gui.World;
 import com.zombiecastlerush.gui.WorldBuilder;
 
+import java.awt.*;
+import java.awt.event.KeyEvent;
+
 public class StartScreen implements Screen {
 
     private World world;
-    private int centerX;
-    private int centerY;
     private final Creature player;
     private final int screenWidth;
     private final int screenHeight;
@@ -40,41 +38,45 @@ public class StartScreen implements Screen {
         //playground
         displayTiles(terminal, left, top);
         //status
-        displayStatus(terminal, screenWidth+1, 0);
+        displayStatus(terminal, screenWidth + 1, 0);
         //inventory
-        displayInventory(terminal, screenWidth+1, (screenHeight-screenHeight%3)/3);
+        displayInventory(terminal, screenWidth + 1, (screenHeight - screenHeight % 3) / 3);
         //display map
-        displayMap(terminal, screenWidth+1, (screenHeight-screenHeight%3)*2/3);
+        displayMap(terminal, screenWidth + 1, (screenHeight - screenHeight % 3) * 2 / 3);
         //prompt
-        displayDescription(terminal,0,screenHeight);
+        displayDescription(terminal, 0, screenHeight);
         //user input
-        displayUserInput(terminal,0,terminal.getHeightInCharacters()-3);
+        displayUserInput(terminal, 0, terminal.getHeightInCharacters() - 3);
 
-        terminal.write(player.glyph(), player.x - left, player.y - top,player.color());
+        terminal.write(player.glyph(), player.x - left, player.y - top, player.color());
 
 
     }
 
 
     public Screen respondToUserInput(KeyEvent key) {
-        switch (key.getKeyCode()) {
-            case KeyEvent.VK_LEFT:
-            case KeyEvent.VK_H:
-                player.moveBy(-1, 0);
-                break;
-            case KeyEvent.VK_RIGHT:
-            case KeyEvent.VK_L:
-                player.moveBy(1, 0);
-                break;
-            case KeyEvent.VK_UP:
-            case KeyEvent.VK_K:
-                player.moveBy(0, -1);
-                break;
-            case KeyEvent.VK_DOWN:
-            case KeyEvent.VK_J:
-                player.moveBy(0, 1);
-                break;
+        if ((player.x == 52 || player.x == 53) && player.y == 47){
+            return new RiddleScreen();
+        }else {
+            switch (key.getKeyCode()) {
+                case KeyEvent.VK_LEFT:
+                case KeyEvent.VK_H:
+                    player.moveBy(-1, 0);
+                    break;
+                case KeyEvent.VK_RIGHT:
+                case KeyEvent.VK_L:
+                    player.moveBy(1, 0);
+                    break;
+                case KeyEvent.VK_UP:
+                case KeyEvent.VK_K:
+                    player.moveBy(0, -1);
+                    break;
+                case KeyEvent.VK_DOWN:
+                case KeyEvent.VK_J:
+                    player.moveBy(0, 1);
+                    break;
 
+            }
         }
 
         return this;
@@ -122,24 +124,24 @@ public class StartScreen implements Screen {
 
     private void displayMap(AsciiPanel terminal, int right, int bottom) {
         int length = terminal.getWidthInCharacters() - screenWidth - 2;
-        terminal.write(drawLine(length),right,bottom,Color.orange);
+        terminal.write(drawLine(length), right, bottom, Color.orange);
         int height = terminal.getHeightInCharacters();
 
         for (int i = 0; i < height; i++) {
-            terminal.write("|", right-1, i, Color.orange);
+            terminal.write("|", right - 1, i, Color.orange);
         }
-        terminal.write("Map",right,bottom+1,Color.green);
-        terminal.write("placeholder",right,bottom + 2,Color.magenta);
+        terminal.write("Map", right, bottom + 1, Color.green);
+        terminal.write("placeholder", right, bottom + 2, Color.magenta);
     }
 
     private void displayUserInput(AsciiPanel terminal, int left, int i) {
-        terminal.write(drawLine(screenWidth),left,i,Color.orange);
-        terminal.write("Enter command -> ",left,i+1,Color.red);
+        terminal.write(drawLine(screenWidth), left, i, Color.orange);
+        terminal.write("Enter command -> ", left, i + 1, Color.red);
     }
 
     private void displayDescription(AsciiPanel terminal, int left, int bottom) {
-        terminal.write("Prompt placeholder",left,bottom+1,Color.RED );
-        terminal.write(" ",left,bottom+2,Color.red);
+        terminal.write("Prompt placeholder", left, bottom + 1, Color.RED);
+        terminal.write(" ", left, bottom + 2, Color.red);
     }
 
     private String drawLine(int length) {
