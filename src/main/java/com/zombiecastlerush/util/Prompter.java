@@ -131,7 +131,7 @@ public class Prompter {
         List<String> inputWords = Arrays.asList(inputs.toLowerCase().split(" "));
         inputWords = Parser.reduceInputWordsToList(inputWords);
         List<String> availableOptions = new ArrayList<>(Arrays.asList("1", "2"));
-        while (!availableOptions.contains(inputWords.get(0)) || inputWords.size() != 1) {
+        while (inputWords.size() == 0 || inputWords.size() != 1 || !availableOptions.contains(inputWords.get(0))) {
             inputs = Inputs.getUserInput("Choose game mode. Please, type 1 or 2.");
             inputWords = Arrays.asList(inputs.toLowerCase().split(" "));
             inputWords = Parser.reduceInputWordsToList(inputWords);
