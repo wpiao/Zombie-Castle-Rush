@@ -6,6 +6,7 @@ import com.zombiecastlerush.entity.Player;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.zombiecastlerush.entity.Role;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -28,7 +29,8 @@ public class Prompter {
         System.out.printf("%2s %-30s %1s %-1s %n", " 6.", "sell an item to the shop","|    ", "\"sell\" and \"item name\"");
         System.out.printf("%2s %-30s %1s %-1s %n", " 7.", "fight a monster","|    ", "\"fight\"");
         System.out.printf("%2s %-30s %1s %-1s %n", " 8.", "display instructions","|    ", "\"help\"");
-        System.out.printf("%2s %-30s %1s %-1s %n", " 9.", "quit the game","|    ", "\"quit\"");
+        System.out.printf("%2s %-30s %1s %-1s %n", " 9.", "save the game","|    ", "\"save\"");
+        System.out.printf("%2s %-29s %1s %-1s %n", " 10.", "quit the game","|    ", "\"quit\"");
 
         Inputs.getUserInput("\nPress enter to continue...");
         clearScreen();
@@ -75,6 +77,7 @@ public class Prompter {
                 Parser.GREEN + "go" + Parser.ANSI_RESET,
                 Parser.GREEN + "display status" + Parser.ANSI_RESET,
                 Parser.GREEN + "help" + Parser.ANSI_RESET,
+                Parser.GREEN + "save" + Parser.ANSI_RESET,
                 Parser.GREEN + "quit" + Parser.ANSI_RESET));
 
         if (room.getChallenge() instanceof Puzzle && !room.getChallenge().isCleared())
@@ -96,8 +99,16 @@ public class Prompter {
     }
 
     public static void clearScreen() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
+        if (System.getProperty("os.name").contains("Windows")) {
+            try {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.print("\033[H\033[2J");
+            System.out.flush();
+        }
 
     }
 }

@@ -51,6 +51,10 @@ public class Castle {
         castleRooms.put(drawBridge.getName(), drawBridge);
         castleRooms.put(combatHall.getName(), combatHall);
         castleRooms.put(shop.getName(), shop);
+        //Add room names to Room.connectedRoomNames
+        for (Room room : castleRooms.values()) {
+            room.addConnectedRoomNames();
+        }
     }
 
     //getter

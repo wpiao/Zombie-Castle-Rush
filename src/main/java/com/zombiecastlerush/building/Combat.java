@@ -1,14 +1,18 @@
 package com.zombiecastlerush.building;
 
-import com.zombiecastlerush.entity.Entity;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.zombiecastlerush.entity.Role;
 
 import java.util.List;
 import java.util.Random;
 
+@JsonTypeName("combat")
 public class Combat extends Challenge {
     static int playerDamageToEnemy = new Random().nextInt(50) + 1;
     static int enemyDamageToPlayer = new Random().nextInt(50) + 1;
+
+    // needed for ObjectMapper
+    public Combat() {}
 
     public Combat(String description) {
         super(description);

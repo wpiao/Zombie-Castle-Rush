@@ -10,7 +10,9 @@ import com.zombiecastlerush.building.Castle;
 import com.zombiecastlerush.entity.Player;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * Writes the current state of a Castle and Player object to a save.json file.
@@ -41,8 +43,24 @@ class SaveAndLoad {
             root.set("castle", castleNode);
             root.set("player", playerNode);
             mapper.writerWithDefaultPrettyPrinter().writeValue(new File(saveLocation), root);
+            System.out.println("Game successfully saved.");
         } catch (IOException e) {
-            System.err.println("There was an error creating save file.");
+            System.err.println("There was an error creating the save file.");
+            System.out.println();
+            e.printStackTrace();
         }
+    }
+
+    static File load() throws FileNotFoundException {
+        File dir = new File("Resources");
+        if (Objects.requireNonNull(dir.listFiles((file) -> file.getName().equals("save.json"))).length != 0) {
+            return new File("Resources/save.json");
+        } else {
+            throw new FileNotFoundException();
+        }
+    }
+
+    static String getSaveLocation() {
+        return saveLocation;
     }
 }
