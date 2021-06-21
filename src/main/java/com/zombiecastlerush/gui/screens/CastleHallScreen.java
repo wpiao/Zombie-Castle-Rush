@@ -9,14 +9,14 @@ import com.zombiecastlerush.gui.WorldBuilder;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
-public class CastleScreen implements Screen{
+public class CastleHallScreen implements Screen{
 
     private World world;
     private final Creature player;
     private final int screenWidth;
     private final int screenHeight;
 
-    public CastleScreen() {
+    public CastleHallScreen() {
         screenWidth = 90;
         screenHeight = 51;
         createWorld();
@@ -25,8 +25,9 @@ public class CastleScreen implements Screen{
     }
 
     private void createWorld() {
-        world = new WorldBuilder(100, 51)
-                .design()
+        String path = "Resources/Castle/Rooms.txt";
+        world = new WorldBuilder(90, 51)
+                .design(path)
                 .build();
     }
 
@@ -140,7 +141,7 @@ public class CastleScreen implements Screen{
     }
 
     private void displayDescription(AsciiPanel terminal, int left, int bottom) {
-        terminal.write("Prompt placeholder", left, bottom + 1, Color.RED);
+        terminal.write("You are in the Castle Hall", left, bottom + 1, Color.RED);
         terminal.write(" ", left, bottom + 2, Color.red);
     }
 

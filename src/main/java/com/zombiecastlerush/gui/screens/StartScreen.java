@@ -12,7 +12,7 @@ import java.awt.event.KeyEvent;
 public class StartScreen implements Screen {
 
     private World world;
-    private final Creature player;
+    public final Creature player;
     private final int screenWidth;
     private final int screenHeight;
 
@@ -25,8 +25,9 @@ public class StartScreen implements Screen {
     }
 
     private void createWorld() {
+        String path = "Resources/Castle/Castle.txt";
         world = new WorldBuilder(100, 51)
-                .design()
+                .design(path)
                 .build();
     }
 
