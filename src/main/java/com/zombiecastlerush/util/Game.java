@@ -15,6 +15,7 @@ public class Game {
     private static Game game;
     private Castle castle = new Castle();
     private Player player;
+    private static Music backgroundMusic = new Music("Resources/sounds/background.wav");
 
     private Game() {
     }
@@ -30,6 +31,7 @@ public class Game {
      * TODO: What does start() provide?
      */
     public void start() throws JsonProcessingException {
+        backgroundMusic.loop();
         Prompter.showWelcomeScreen();
         // choose game mode
         Prompter.showGameModeOptions();
@@ -58,5 +60,9 @@ public class Game {
     public void stop() {
         System.out.println("Thank you for playing Zombie Castle Rush!");
         System.exit(0);
+    }
+
+    public static Music getBackgroundMusic() {
+        return backgroundMusic;
     }
 }
