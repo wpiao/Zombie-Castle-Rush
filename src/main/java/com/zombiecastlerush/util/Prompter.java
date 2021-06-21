@@ -28,7 +28,8 @@ public class Prompter {
         System.out.printf("%2s %-30s %1s %-1s %n", " 6.", "sell an item to the shop","|    ", "\"sell\" and \"item name\"");
         System.out.printf("%2s %-30s %1s %-1s %n", " 7.", "fight a monster","|    ", "\"fight\"");
         System.out.printf("%2s %-30s %1s %-1s %n", " 8.", "display instructions","|    ", "\"help\"");
-        System.out.printf("%2s %-30s %1s %-1s %n", " 9.", "quit the game","|    ", "\"quit\"");
+        System.out.printf("%2s %-30s %1s %-1s %n", " 9.", "show map","|    ", "\"show map\"");
+        System.out.printf("%2s %-30s %1s %-1s %n", " 10.", "quit the game","|    ", "\"quit\"");
 
         Inputs.getUserInput("\nPress enter to continue...");
         clearScreen();
@@ -75,7 +76,8 @@ public class Prompter {
                 Parser.GREEN + "go" + Parser.ANSI_RESET,
                 Parser.GREEN + "display status" + Parser.ANSI_RESET,
                 Parser.GREEN + "help" + Parser.ANSI_RESET,
-                Parser.GREEN + "quit" + Parser.ANSI_RESET));
+                Parser.GREEN + "quit" + Parser.ANSI_RESET,
+                Parser.GREEN + "show map" + Parser.ANSI_RESET));
 
         if (room.getChallenge() instanceof Puzzle && !room.getChallenge().isCleared())
             actionApplicable.add(Parser.GREEN + "attempt puzzle" + Parser.ANSI_RESET);
