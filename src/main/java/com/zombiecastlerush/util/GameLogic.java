@@ -142,7 +142,7 @@ class GameLogic {
             Combat.combat(player, enemy);
             while (player.getHealth() > 0 && enemy.getHealth() > 0) {
                 String msg = "what would you like to do, \"fight\" or \"run\"?";
-                String combatChoice = Inputs.getUserInput(msg);
+                String combatChoice = Inputs.getUserInput(msg).toLowerCase();
                 if (combatChoice.equals("fight")) {
                     Combat.combat(player, enemy);
                 } else if (combatChoice.equals("run")) {
