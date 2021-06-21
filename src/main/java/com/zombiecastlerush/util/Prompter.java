@@ -7,6 +7,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.zombiecastlerush.entity.Role;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -29,8 +31,9 @@ public class Prompter {
         System.out.printf("%2s %-30s %1s %-1s %n", " 6.", "sell an item to the shop","|    ", "\"sell\" and \"item name\"");
         System.out.printf("%2s %-30s %1s %-1s %n", " 7.", "fight a monster","|    ", "\"fight\"");
         System.out.printf("%2s %-30s %1s %-1s %n", " 8.", "display instructions","|    ", "\"help\"");
-        System.out.printf("%2s %-30s %1s %-1s %n", " 9.", "save the game","|    ", "\"save\"");
-        System.out.printf("%2s %-29s %1s %-1s %n", " 10.", "quit the game","|    ", "\"quit\"");
+        System.out.printf("%2s %-30s %1s %-1s %n", " 9.", "show map","|    ", "\"show map\"");
+        System.out.printf("%2s %-29s %1s %-1s %n", " 10.", "save the game","|    ", "\"save\"");
+        System.out.printf("%2s %-29s %1s %-1s %n", " 11.", "quit the game","|    ", "\"quit\"");
 
         Inputs.getUserInput("\nPress enter to continue...");
         clearScreen();
@@ -77,6 +80,7 @@ public class Prompter {
                 Parser.GREEN + "go" + Parser.ANSI_RESET,
                 Parser.GREEN + "display status" + Parser.ANSI_RESET,
                 Parser.GREEN + "help" + Parser.ANSI_RESET,
+                Parser.GREEN + "show map" + Parser.ANSI_RESET,
                 Parser.GREEN + "save" + Parser.ANSI_RESET,
                 Parser.GREEN + "quit" + Parser.ANSI_RESET));
 
@@ -110,5 +114,43 @@ public class Prompter {
             System.out.flush();
         }
 
+    }
+
+    public static void showWelcomeScreen() {
+        String welcome = null;
+        try {
+            welcome = new String(Files.readAllBytes(Paths.get("Resources/Welcome/welcome-console.txt")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            System.out.println(Parser.RED + welcome + Parser.ANSI_RESET);
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void showGameModeOptions() {
+        try {
+            String options = new String(Files.readAllBytes(Paths.get("Resources/Welcome/chooseGameMode.txt")));
+            System.out.println(Parser.GREEN + options + Parser.ANSI_RESET);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String chooseGameMode() {
+        String inputs = Inputs.getUserInput("Choose game mode. Please, type 1 or 2.");
+        List<String> inputWords = Arrays.asList(inputs.toLowerCase().split(" "));
+        inputWords = Parser.reduceInputWordsToList(inputWords);
+        List<String> availableOptions = new ArrayList<>(Arrays.asList("1", "2"));
+        while (inputWords.size() == 0 || inputWords.size() != 1 || !availableOptions.contains(inputWords.get(0))) {
+            inputs = Inputs.getUserInput("Choose game mode. Please, type 1 or 2.");
+            inputWords = Arrays.asList(inputs.toLowerCase().split(" "));
+            inputWords = Parser.reduceInputWordsToList(inputWords);
+        }
+        return inputWords.get(0);
     }
 }

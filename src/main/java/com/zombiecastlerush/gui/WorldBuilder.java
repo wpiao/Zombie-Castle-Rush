@@ -1,5 +1,10 @@
 package com.zombiecastlerush.gui;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Arrays;
+import java.util.Scanner;
+
 public class WorldBuilder {
     private int width;
     private int height;
@@ -53,12 +58,55 @@ public class WorldBuilder {
 //        return this;
 //    }
 
-    public WorldBuilder makeFloor() {
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                tiles[x][y] =  Tile.FLOOR;
+    public WorldBuilder design() {
+        //read file from txt and transform into 2D Character array
+        //map 2d array into tile object
+
+        //tiles[50][25] = Tile.BOUNDS;
+        File infile = new File("Resources/Castle/Castle.txt");
+        char[] lineArr;
+        try {
+            Scanner sc = new Scanner(infile);
+            char[][] charArr = new char[height][width];
+            for(int i = 0; i< height;i++){
+                lineArr = sc.nextLine().toCharArray();
+                charArr[i] = lineArr;
             }
+        char[][] tileArr = new char[width][height];
+            for(int i =0;i<width;i++){
+                for (int j=0;j<height;j++){
+                    tileArr[i][j] = charArr[j][i];
+                    switch (tileArr[i][j]){
+                        case '▓':
+                            tiles[i][j] = Tile.HEAVY_WALL;
+                            break;
+                        case '░':
+                            tiles[i][j] = Tile.LIGHT_WALL;
+                            break;
+                        case '▒':
+                            tiles[i][j] = Tile.MID_WALL;
+                            break;
+                        case '▄':
+                            tiles[i][j] = Tile.BOT_SOLID_BLOCK;
+                            break;
+                        case '▀':
+                            tiles[i][j] = Tile.TOP_SOLID_BLOCK;
+                            break;
+                        case '█':
+                            tiles[i][j] = Tile.FULL_SOLID_BLOCK;
+                            break;
+                        default:
+                            tiles[i][j] = Tile.FLOOR;
+                    }
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
+
+
+
+
         return this;
     }
 

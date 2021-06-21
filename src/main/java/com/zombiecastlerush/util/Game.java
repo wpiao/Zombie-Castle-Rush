@@ -6,6 +6,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zombiecastlerush.building.Castle;
 import com.zombiecastlerush.building.Room;
 import com.zombiecastlerush.entity.Player;
+import com.zombiecastlerush.gui.AppMain;
+
+import javax.swing.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,6 +23,7 @@ public class Game {
     private static Game game;
     private Castle castle = new Castle();
     private Player player;
+    private static Music backgroundMusic = new Music("Resources/sounds/background.wav");
 
     private Game() {
     }
@@ -35,26 +39,39 @@ public class Game {
      * TODO: What does start() provide?
      */
     public void start() throws JsonProcessingException {
-        System.out.println("Welcome to Zombie Castle Rush!\n");
-        String startType;
-        do {
-            startType = Inputs.getUserInput("\nType 'N' for new game or 'C' to continue:").strip().toLowerCase();
+        backgroundMusic.loop();
+        Prompter.showWelcomeScreen();
+        // choose game mode
+        Prompter.showGameModeOptions();
 
-            if (startType.equals("n")) {
-                String userName = Inputs.getUserInput("Please enter your name:");
-                player = new Player(userName);
-                player.setCurrentPosition(castle.getCastleRooms().get("Castle-Hall"));
-                Prompter.showInstructions();
-            } else if (startType.equals("c")) {
-                load();
-            } else {
-                Inputs.getUserInput("You entered invalid input.\nHit Enter to continue.");
-                Prompter.clearScreen();
+        String gameOption = Prompter.chooseGameMode();
+        if (gameOption.equals("1")) {
+            // console mode
+            System.out.println("Welcome to Zombie Castle Rush!\n");
+            String startType;
+            do {
+                startType = Inputs.getUserInput("\nType 'N' for new game or 'C' to continue:").strip().toLowerCase();
+
+                if (startType.equals("n")) {
+                    String userName = Inputs.getUserInput("Please enter your name:");
+                    player = new Player(userName);
+                    player.setCurrentPosition(castle.getCastleRooms().get("Castle-Hall"));
+                    Prompter.showInstructions();
+                } else if (startType.equals("c")) {
+                    load();
+                } else {
+                    Inputs.getUserInput("You entered invalid input.\nHit Enter to continue.");
+                    Prompter.clearScreen();
+                }
+            } while(!startType.equals("n") && !startType.equals("c"));
+            while (true) {
+                GameLogic.advanceGame(player);
             }
-        } while(!startType.equals("n") && !startType.equals("c"));
-
-        while (true) {
-            GameLogic.advanceGame(player);
+        } else if (gameOption.equals("2")) {
+            // roguelike mode
+            AppMain app = new AppMain();
+            app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            app.setVisible(true);
         }
     }
 
@@ -94,6 +111,10 @@ public class Game {
     public void stop() {
         System.out.println("Thank you for playing Zombie Castle Rush!");
         System.exit(0);
+    }
+
+    public static Music getBackgroundMusic() {
+        return backgroundMusic;
     }
 
     public void checkConnections() {

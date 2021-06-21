@@ -8,6 +8,8 @@ import com.zombiecastlerush.entity.Role;
 
 import java.util.List;
 
+import static com.zombiecastlerush.building.MapOfGame.readMap;
+
 class GameLogic {
     static void advanceGame(Player player) throws JsonProcessingException {
         Prompter.displayCurrentScene(player);
@@ -32,6 +34,11 @@ class GameLogic {
                                     solvePuzzle(currentRoom);
                                 } else
                                     System.out.println("There is no puzzle in the room");
+                            }
+                            break;
+                        case "show":
+                            if(userInputList.get(1).equals("map")){
+                                readMap();
                             }
                             break;
                         case "display":
@@ -100,6 +107,7 @@ class GameLogic {
                             Game.getInstance().save();
                             break;
                         case "quit":
+                            Game.getBackgroundMusic().close();
                             Game.getInstance().stop();
                             break;
                     }
@@ -128,6 +136,7 @@ class GameLogic {
             }
         } else {
             System.out.println(Parser.RED + "Wrong Answer!! You have had your chances...You failed...Game Over!!!" + Parser.ANSI_RESET);
+            Game.getBackgroundMusic().close();
             Game.getInstance().stop();
         }
     }
@@ -138,7 +147,7 @@ class GameLogic {
             Combat.combat(player, enemy);
             while (player.getHealth() > 0 && enemy.getHealth() > 0) {
                 String msg = "what would you like to do, \"fight\" or \"run\"?";
-                String combatChoice = Inputs.getUserInput(msg);
+                String combatChoice = Inputs.getUserInput(msg).toLowerCase();
                 if (combatChoice.equals("fight")) {
                     Combat.combat(player, enemy);
                 } else if (combatChoice.equals("run")) {
@@ -150,12 +159,14 @@ class GameLogic {
                 Room currentPosition = player.getCurrentPosition();
                 if (player.getHealth() <= 0) {
                     Inputs.getUserInput("You are dead. Press Enter to continue.");
+                    Game.getBackgroundMusic().close();
                     Game.getInstance().stop();
                 }
                 currentPosition.getChallenge().setCleared(true);
                 if (enemy.getHealth() <= 0) {
                     if (currentPosition.isExit()) {
                         Inputs.getUserInput("You have found the exit, killed the last monster, and beaten the game! Press Enter to continue");
+                        Game.getBackgroundMusic().close();
                         Game.getInstance().stop();
                     }
                 }
@@ -166,5 +177,4 @@ class GameLogic {
             System.out.println("Room has no Enemy");
         }
     }
-
 }
