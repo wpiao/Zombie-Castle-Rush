@@ -7,7 +7,6 @@ import com.zombiecastlerush.entity.Player;
 import com.zombiecastlerush.entity.Role;
 
 import java.util.List;
-import java.util.Locale;
 
 import static com.zombiecastlerush.building.MapOfGame.readMap;
 
