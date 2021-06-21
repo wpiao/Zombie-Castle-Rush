@@ -8,6 +8,8 @@ import com.zombiecastlerush.entity.Role;
 
 import java.util.List;
 
+import static com.zombiecastlerush.building.MapOfGame.readMap;
+
 class GameLogic {
     static void advanceGame(Player player) throws JsonProcessingException {
         Prompter.displayCurrentScene(player);
@@ -32,6 +34,11 @@ class GameLogic {
                                     solvePuzzle(currentRoom);
                                 } else
                                     System.out.println("There is no puzzle in the room");
+                            }
+                            break;
+                        case "show":
+                            if(userInputList.get(1).equals("map")){
+                                readMap();
                             }
                             break;
                         case "display":
