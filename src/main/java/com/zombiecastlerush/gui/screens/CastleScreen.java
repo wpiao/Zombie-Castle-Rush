@@ -9,14 +9,14 @@ import com.zombiecastlerush.gui.WorldBuilder;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
-public class StartScreen implements Screen {
+public class CastleScreen implements Screen{
 
     private World world;
     private final Creature player;
     private final int screenWidth;
     private final int screenHeight;
 
-    public StartScreen() {
+    public CastleScreen() {
         screenWidth = 90;
         screenHeight = 51;
         createWorld();
@@ -152,6 +152,4 @@ public class StartScreen implements Screen {
         }
         return line;
     }
-
-
 }
