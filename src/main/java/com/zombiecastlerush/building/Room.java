@@ -1,15 +1,16 @@
 package com.zombiecastlerush.building;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.*;
 import com.zombiecastlerush.entity.Entity;
-import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.zombiecastlerush.util.Parser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME) @JsonSubTypes({
+        @JsonSubTypes.Type(value = Shop.class, name = "shop")
+})
 @JsonPropertyOrder({"name", "description", "connectedRoomNames", "challenge", "inventory"})
 public class Room extends Entity {
     private boolean isExit;

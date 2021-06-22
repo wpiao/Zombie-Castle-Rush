@@ -48,25 +48,33 @@ public class Game {
         if (gameOption.equals("1")) {
             // console mode
             System.out.println("Welcome to Zombie Castle Rush!\n");
-            String startType;
-            do {
-                startType = Inputs.getUserInput("\nType 'N' for new game or 'C' to continue:").strip().toLowerCase();
+            if (new File("Resources/save.json").exists()) {
+                String startType;
+                do {
+                    startType = Inputs.getUserInput("\nType 'N' for new game or 'C' to continue:").strip().toLowerCase();
 
-                if (startType.equals("n")) {
-                    String userName = Inputs.getUserInput("Please enter your name:");
-                    player = new Player(userName);
-                    player.setCurrentPosition(castle.getCastleRooms().get("Castle-Hall"));
-                    Prompter.showInstructions();
-                } else if (startType.equals("c")) {
-                    load();
-                } else {
-                    Inputs.getUserInput("You entered invalid input.\nHit Enter to continue.");
-                    Prompter.clearScreen();
-                }
-            } while(!startType.equals("n") && !startType.equals("c"));
+                    if (startType.equals("n")) {
+                        newGame();
+                    } else if (startType.equals("c")) {
+                        try {
+                            load();
+                        } catch (IOException e) {
+                            startType = "x";
+                            Inputs.getUserInput("Hit Enter to continue.");
+                            Prompter.clearScreen();
+                        }
+                    } else {
+                        Inputs.getUserInput("You entered invalid input.\nHit Enter to continue.");
+                        Prompter.clearScreen();
+                    }
+                } while (!startType.equals("n") && !startType.equals("c"));
+            } else {
+                newGame();
+            }
             while (true) {
                 GameLogic.advanceGame(player);
             }
+
         } else if (gameOption.equals("2")) {
             // roguelike mode
             AppMain app = new AppMain();
@@ -75,11 +83,18 @@ public class Game {
         }
     }
 
+    void newGame() {
+        String userName = Inputs.getUserInput("Please enter your name:");
+        player = new Player(userName);
+        player.setCurrentPosition(castle.getCastleRooms().get("Castle-Hall"));
+        Prompter.showInstructions();
+    }
+
     void save() {
         SaveAndLoad.save(castle, player);
     }
 
-    void load() {
+    void load() throws IOException {
         try {
             File saveFile = new File(SaveAndLoad.getSaveLocation());
             ObjectMapper mapper = new ObjectMapper();
@@ -98,10 +113,11 @@ public class Game {
             player.setCurrentPosition(castle.getCastleRooms().get(player.getCurrentPosition().getName()));
         } catch (FileNotFoundException e) {
             System.err.println("Save file not found.");
+            throw e;
         } catch (IOException e) {
             System.err.println("Error reading save file.");
-            System.out.println();
-            e.printStackTrace(); // remove for final build.
+            e.printStackTrace();
+            throw e;
         }
     }
 

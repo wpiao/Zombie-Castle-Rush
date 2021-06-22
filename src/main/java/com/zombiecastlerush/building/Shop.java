@@ -1,12 +1,15 @@
 package com.zombiecastlerush.building;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.zombiecastlerush.entity.Player;
 import com.zombiecastlerush.util.Parser;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
+@JsonTypeName("shop")
 public class Shop extends Room {
+
+    public Shop() {}
 
     public Shop(String name, String description) {
         super(name, description);
