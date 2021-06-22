@@ -55,8 +55,6 @@ public class WestWingScreen implements Screen {
         displayUserInput(terminal, 0, terminal.getHeightInCharacters() - 3);
 
         terminal.write(player.glyph(), player.x - left, player.y - top, player.color());
-
-
     }
 
 
@@ -69,22 +67,17 @@ public class WestWingScreen implements Screen {
         } else {
             switch (key.getKeyCode()) {
                 case KeyEvent.VK_LEFT:
-                case KeyEvent.VK_H:
                     player.moveBy(-1, 0);
                     break;
                 case KeyEvent.VK_RIGHT:
-                case KeyEvent.VK_L:
                     player.moveBy(1, 0);
                     break;
                 case KeyEvent.VK_UP:
-                case KeyEvent.VK_K:
                     player.moveBy(0, -1);
                     break;
                 case KeyEvent.VK_DOWN:
-                case KeyEvent.VK_J:
                     player.moveBy(0, 1);
                     break;
-
             }
         }
 

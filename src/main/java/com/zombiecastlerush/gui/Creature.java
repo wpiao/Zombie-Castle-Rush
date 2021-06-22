@@ -17,10 +17,26 @@ public class Creature {
     private CreatureAi ai;
     public void setCreatureAi(CreatureAi ai) { this.ai = ai; }
 
-    public Creature(World world, char glyph, Color color){
+    private int maxHp;
+    public int maxHp() { return maxHp; }
+
+    private int hp;
+    public int hp() { return hp; }
+
+    private int attackValue;
+    public int attackValue() { return attackValue; }
+
+    private int defenseValue;
+    public int defenseValue() { return defenseValue; }
+
+    public Creature(World world, char glyph, Color color, int maxHp, int attack, int defense){
         this.world = world;
         this.glyph = glyph;
         this.color = color;
+        this.maxHp = maxHp;
+        this.hp = maxHp;
+        this.attackValue = attack;
+        this.defenseValue = defense;
     }
 
     public void setWorld(World world) {
@@ -28,6 +44,31 @@ public class Creature {
     }
 
     public void moveBy(int mx, int my){
-        ai.onEnter(x+mx, y+my, world.tile(x+mx, y+my));
+        Creature other = world.creature(x+mx, y+my);
+
+        if (other == null)
+            ai.onEnter(x+mx, y+my, world.tile(x+mx, y+my));
+        else
+            attack(other);
     }
+
+    public void attack(Creature other){
+
+        int damageToOther = Math.max(0, attackValue() - other.defenseValue());
+        damageToOther = (int)(Math.random() * damageToOther) + 1;
+
+        int damageToSelf = Math.max(0, other.attackValue() - defenseValue());
+        damageToSelf =  (int)(Math.random() * damageToSelf) + 1;
+        this.modifyHp(-damageToSelf);
+        other.modifyHp(-damageToOther);
+    }
+
+    public void modifyHp(int amount) {
+        hp += amount;
+
+        if (hp < 1)
+            world.remove(this);
+    }
+
+
 }

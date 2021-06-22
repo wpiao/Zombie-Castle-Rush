@@ -1,11 +1,7 @@
 package com.zombiecastlerush.gui.screens;
 
 import asciiPanel.AsciiPanel;
-import com.zombiecastlerush.building.Castle;
-import com.zombiecastlerush.gui.Command;
-import com.zombiecastlerush.gui.Creature;
-import com.zombiecastlerush.gui.World;
-import com.zombiecastlerush.gui.WorldBuilder;
+import com.zombiecastlerush.gui.*;
 import com.zombiecastlerush.util.Game;
 
 import java.awt.*;
@@ -33,6 +29,11 @@ public class CastleHallScreen implements Screen{
             player.y = 49;
         } else if (player.x > 88){
             player.x = 1;
+        }
+
+        CreatureFactory creatureFactory = new CreatureFactory(world);
+        for (int i = 0; i < 3; i++){
+            creatureFactory.newZombies();
         }
 
     }
@@ -116,7 +117,12 @@ public class CastleHallScreen implements Screen{
                 int wx = x + left;
                 int wy = y + top;
 
-                terminal.write(world.glyph(wx, wy), x, y, world.color(wx, wy));
+                Creature creature = world.creature(wx, wy);
+                if (creature != null) {
+                    terminal.write(creature.glyph(), creature.x - left, creature.y - top, creature.color());
+                }else{
+                    terminal.write(world.glyph(wx, wy), x, y, world.color(wx, wy));
+                }
             }
         }
     }
@@ -125,7 +131,8 @@ public class CastleHallScreen implements Screen{
         int length = terminal.getWidthInCharacters() - screenWidth - 2;
         terminal.write(drawLine(length), right, top, Color.ORANGE);
         terminal.write("Status", right, top + 1, Color.green);
-        terminal.write("placeholder", right, top + 2, Color.magenta);
+        String stats = String.format("You: %3d/%3d hp", player.hp(), player.maxHp());
+        terminal.write(stats, right, top + 2, Color.magenta);
 
     }
 
