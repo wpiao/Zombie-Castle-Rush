@@ -24,22 +24,20 @@ roguelike mode.
     - Empty inputs cause error when choose game mode
     
 ## How to start
-Instructions to Build Maven on IntelliJ
 
-1. Open the project in a new window
-2. Open the Project side-tab on left
-3. Right-click on Zombie-Castle-Rush, click Add Framework Support
-4. Click Maven, then OK
-5. Open Maven side-tab on right
-6. Expand Zombie-Castle-Rush, Lifecycle, then double-click Compile
+1. Clone the repo
+2. Add dependencies
+   - jackson-annotations: 2.12.3
+   - jackson-core: 2.12.3
+   - jackson-databind: 2.12.3
+   - junit: 4.12
+   - hamcrest-core: 1.3
+   - asciiPanel
+3. Build the project and run it
 
-Running Unit Tests
+## How to play    
 
-1. With above steps completed, click Maven side-tab
-2. Expand Zombie-Castle-Rush, Lifecycle, then double-click Test
-
-Building the JAR
-
-1. With build steps completed, click Maven side-tab
-2. Expand Zombie-Castle-Rush, Lifecycle, then double-click install
-3. Check your output folder (should be /target)
+1. Download the most recent release
+2. Download zip file and extract it
+3. Double click "run.bat" for Windows OS
+4. Run "run.sh" file in the terminal in the same directory of the unzipped files for Linux or macOS
