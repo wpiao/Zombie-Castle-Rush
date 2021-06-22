@@ -1,6 +1,7 @@
 package com.zombiecastlerush.gui.screens;
 
 import asciiPanel.AsciiPanel;
+import com.zombiecastlerush.gui.Creature;
 import com.zombiecastlerush.gui.Riddle;
 
 import java.awt.*;
@@ -9,13 +10,16 @@ import java.awt.event.KeyEvent;
 public class RiddleScreen implements Screen {
     private final int screenWidth;
     private final int screenHeight;
+    private final Creature player;
+
 
     private KeyEvent key;
 
-    public RiddleScreen() {
+    public RiddleScreen(Creature player) {
         screenWidth = 90;
         screenHeight = 51;
         Riddle.answer = "";
+        this.player = player;
     }
 
     public void displayOutput(AsciiPanel terminal) {
@@ -57,8 +61,8 @@ public class RiddleScreen implements Screen {
 
     public Screen respondToUserInput(KeyEvent key) {
         this.key = key;
-        if (Riddle.answer.equals("0") && key.getKeyCode() == KeyEvent.VK_ENTER) {
-            return new CastleHallScreen();
+        if (Riddle.answer.equals(Riddle.solution) && key.getKeyCode() == KeyEvent.VK_ENTER) {
+            return new CastleHallScreen(player);
         } else return this;
     }
 }

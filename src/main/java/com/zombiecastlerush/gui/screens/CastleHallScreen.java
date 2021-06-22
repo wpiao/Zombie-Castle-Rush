@@ -1,10 +1,11 @@
 package com.zombiecastlerush.gui.screens;
 
 import asciiPanel.AsciiPanel;
+import com.zombiecastlerush.building.Castle;
 import com.zombiecastlerush.gui.Creature;
-import com.zombiecastlerush.gui.CreatureFactory;
 import com.zombiecastlerush.gui.World;
 import com.zombiecastlerush.gui.WorldBuilder;
+import com.zombiecastlerush.util.Game;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -16,16 +17,17 @@ public class CastleHallScreen implements Screen{
     private final int screenWidth;
     private final int screenHeight;
 
-    public CastleHallScreen() {
+    public CastleHallScreen(Creature player) {
+        this.player = player;
         screenWidth = 90;
         screenHeight = 51;
         createWorld();
-        CreatureFactory creatureFactory = new CreatureFactory(world);
-        player = creatureFactory.newPlayer();
+        player.setWorld(world);
+
     }
 
     private void createWorld() {
-        String path = "Resources/Castle/Rooms.txt";
+        String path = "Resources/Castle/CastleHall.txt";
         world = new WorldBuilder(90, 51)
                 .design(path)
                 .build();
@@ -56,9 +58,6 @@ public class CastleHallScreen implements Screen{
 
 
     public Screen respondToUserInput(KeyEvent key) {
-        if ((player.x == 52 || player.x == 53) && player.y == 47){
-            return new RiddleScreen();
-        }else {
             switch (key.getKeyCode()) {
                 case KeyEvent.VK_LEFT:
                 case KeyEvent.VK_H:
@@ -78,7 +77,7 @@ public class CastleHallScreen implements Screen{
                     break;
 
             }
-        }
+
 
         return this;
     }
@@ -90,11 +89,6 @@ public class CastleHallScreen implements Screen{
     public int getScrollY() {
         return Math.max(0, Math.min(player.y - screenHeight / 2, world.height() - screenHeight));
     }
-
-//    private void scrollBy(int mx, int my) {
-//        centerX = Math.max(0, Math.min(centerX + mx, world.width() - 1));
-//        centerY = Math.max(0, Math.min(centerY + my, world.height() - 1));
-//    }
 
     private void displayTiles(AsciiPanel terminal, int left, int top) {
         for (int x = 0; x < screenWidth; x++) {
@@ -141,8 +135,10 @@ public class CastleHallScreen implements Screen{
     }
 
     private void displayDescription(AsciiPanel terminal, int left, int bottom) {
-        terminal.write("You are in the Castle Hall", left, bottom + 1, Color.RED);
-        terminal.write(" ", left, bottom + 2, Color.red);
+        terminal.write("Castle Hall", left, bottom + 1, Color.RED);
+        String description = Game.castle.getCastleRooms().get("Castle-Hall").getDescription();
+        terminal.write(description, left, bottom + 2, Color.magenta);
+        terminal.write(" ", left, bottom + 3, Color.red);
     }
 
     private String drawLine(int length) {
