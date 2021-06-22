@@ -21,6 +21,9 @@ public class ShopScreen implements Screen{
         screenHeight = 51;
         createWorld();
         player.setWorld(world);
+        if (player.x <= 45 && player.x >= 40 && player.y == 0){
+            player.y = 49;
+        }
 
     }
 
@@ -56,28 +59,30 @@ public class ShopScreen implements Screen{
 
 
     public Screen respondToUserInput(KeyEvent key) {
-        switch (key.getKeyCode()) {
-            case KeyEvent.VK_LEFT:
-            case KeyEvent.VK_H:
-                player.moveBy(-1, 0);
-                break;
-            case KeyEvent.VK_RIGHT:
-            case KeyEvent.VK_L:
-                player.moveBy(1, 0);
-                break;
-            case KeyEvent.VK_UP:
-            case KeyEvent.VK_K:
-                player.moveBy(0, -1);
-                break;
-            case KeyEvent.VK_DOWN:
-            case KeyEvent.VK_J:
-                player.moveBy(0, 1);
-                break;
+        if (player.x <= 45 && player.x >= 40 && player.y == 50) {
+            return new CastleHallScreen(player);
+        } else {
+            switch (key.getKeyCode()) {
+                case KeyEvent.VK_LEFT:
+                case KeyEvent.VK_H:
+                    player.moveBy(-1, 0);
+                    break;
+                case KeyEvent.VK_RIGHT:
+                case KeyEvent.VK_L:
+                    player.moveBy(1, 0);
+                    break;
+                case KeyEvent.VK_UP:
+                case KeyEvent.VK_K:
+                    player.moveBy(0, -1);
+                    break;
+                case KeyEvent.VK_DOWN:
+                case KeyEvent.VK_J:
+                    player.moveBy(0, 1);
+                    break;
 
+            }
+            return this;
         }
-
-
-        return this;
     }
 
     public int getScrollX() {

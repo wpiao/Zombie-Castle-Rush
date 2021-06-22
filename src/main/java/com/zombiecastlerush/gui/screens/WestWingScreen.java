@@ -20,8 +20,11 @@ public class WestWingScreen implements Screen {
         screenHeight = 51;
         createWorld();
         player.setWorld(world);
-        player.x = screenWidth - 2;
-
+        if (player.x >=14 && player.x <= 19 && player.y == 0){
+            player.y = 49;
+        } else if (player.x == 0) {
+            player.x = 88;
+        }
     }
 
     private void createWorld() {
@@ -56,9 +59,9 @@ public class WestWingScreen implements Screen {
 
 
     public Screen respondToUserInput(KeyEvent key) {
-        if (player.x == 89 && (player.y == 18 || player.y == 19 || player.y == 20)) {
+        if (player.x == 89 && (player.y == 17 || player.y == 18 || player.y == 19)) {
             return new CastleHallScreen(player);
-        } else if (player.x <= 20 && player.x >= 15 && player.y == 51) {
+        } else if (player.x <= 19 && player.x >= 14 && player.y == 50) {
             return new DrawBridgeScreen(player);
         } else {
             switch (key.getKeyCode()) {

@@ -21,6 +21,11 @@ public class EastWingScreen implements Screen{
         screenHeight = 51;
         createWorld();
         player.setWorld(world);
+        if (player.x == 89 && (player.y == 17 || player.y == 18 || player.y == 19)) {
+            player.x = 1;
+        } else if (player.x == 0 && (player.y == 17 || player.y == 18 || player.y == 19)) {
+            player.x = 88;
+        }
 
     }
 
@@ -56,28 +61,34 @@ public class EastWingScreen implements Screen{
 
 
     public Screen respondToUserInput(KeyEvent key) {
-        switch (key.getKeyCode()) {
-            case KeyEvent.VK_LEFT:
-            case KeyEvent.VK_H:
-                player.moveBy(-1, 0);
-                break;
-            case KeyEvent.VK_RIGHT:
-            case KeyEvent.VK_L:
-                player.moveBy(1, 0);
-                break;
-            case KeyEvent.VK_UP:
-            case KeyEvent.VK_K:
-                player.moveBy(0, -1);
-                break;
-            case KeyEvent.VK_DOWN:
-            case KeyEvent.VK_J:
-                player.moveBy(0, 1);
-                break;
+        if (player.x == 89 && (player.y == 17 || player.y == 18 || player.y == 19)) {
+            return new CombatHallScreen(player);
+        } else if (player.x == 0 && (player.y == 17 || player.y == 18 || player.y == 19)) {
+            return new CastleHallScreen(player);
+        } else {
+            switch (key.getKeyCode()) {
+                case KeyEvent.VK_LEFT:
+                case KeyEvent.VK_H:
+                    player.moveBy(-1, 0);
+                    break;
+                case KeyEvent.VK_RIGHT:
+                case KeyEvent.VK_L:
+                    player.moveBy(1, 0);
+                    break;
+                case KeyEvent.VK_UP:
+                case KeyEvent.VK_K:
+                    player.moveBy(0, -1);
+                    break;
+                case KeyEvent.VK_DOWN:
+                case KeyEvent.VK_J:
+                    player.moveBy(0, 1);
+                    break;
 
+            }
+
+
+            return this;
         }
-
-
-        return this;
     }
 
     public int getScrollX() {

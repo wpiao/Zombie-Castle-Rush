@@ -23,6 +23,15 @@ public class CastleHallScreen implements Screen{
         screenHeight = 51;
         createWorld();
         player.setWorld(world);
+        if (player.x < 1){
+            player.x = 88;
+        } else if (player.x >= 40 && player.x <=45 && player.y == 50 ){
+            player.y = 1;
+        } else if (player.x >= 71 && player.x <=76 && player.y == 0){
+            player.y = 49;
+        } else if (player.x > 88){
+            player.x = 1;
+        }
 
     }
 
@@ -58,15 +67,15 @@ public class CastleHallScreen implements Screen{
 
 
     public Screen respondToUserInput(KeyEvent key) {
-        if (player.x == 89 && (player.y == 18 || player.y == 19 || player.y ==20)){
+        if (player.x == 89 && (player.y == 17 || player.y == 18 || player.y ==19)){
             return new EastWingScreen(player);
-        }else if (player.x == 0 && (player.y == 18 || player.y == 19 || player.y ==20)){
+        }else if (player.x == 0 && (player.y == 17 || player.y == 18 || player.y ==19)){
             return new WestWingScreen(player);
         }
-        else if (player.x <=46 && player.x >= 41 && player.y == 1){
+        else if (player.x <=45 && player.x >= 40 && player.y == 0){
             return new ShopScreen(player);
         }
-        else if(player.x <=77 && player.x >= 72 && player.y == 51) {
+        else if(player.x <=76 && player.x >= 71 && player.y == 50) {
             return new DrawBridgeScreen(player);
         } else{
             switch (key.getKeyCode()) {
