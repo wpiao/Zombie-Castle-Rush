@@ -1,6 +1,7 @@
 package com.zombiecastlerush.gui.screens;
 
 import asciiPanel.AsciiPanel;
+import com.zombiecastlerush.gui.Command;
 import com.zombiecastlerush.gui.Creature;
 import com.zombiecastlerush.gui.World;
 import com.zombiecastlerush.gui.WorldBuilder;
@@ -14,6 +15,7 @@ public class ShopScreen implements Screen{
     private final Creature player;
     private final int screenWidth;
     private final int screenHeight;
+    private KeyEvent key;
 
     public ShopScreen(Creature player) {
         this.player = player;
@@ -59,6 +61,7 @@ public class ShopScreen implements Screen{
 
 
     public Screen respondToUserInput(KeyEvent key) {
+        this.key = key;
         if (player.x <= 45 && player.x >= 40 && player.y == 50) {
             return new CastleHallScreen(player);
         } else {
@@ -135,6 +138,7 @@ public class ShopScreen implements Screen{
     private void displayUserInput(AsciiPanel terminal, int left, int i) {
         terminal.write(drawLine(screenWidth), left, i, Color.orange);
         terminal.write("Enter command -> ", left, i + 1, Color.red);
+        Command.type(key, terminal, 18, i + 1);
     }
 
     private void displayDescription(AsciiPanel terminal, int left, int bottom) {
