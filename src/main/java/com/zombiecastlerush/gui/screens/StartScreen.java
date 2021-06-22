@@ -57,7 +57,7 @@ public class StartScreen implements Screen {
 
     public Screen respondToUserInput(KeyEvent key) {
         if ((player.x == 52 || player.x == 53) && player.y == 47){
-            return new RiddleScreen(player);
+            return new CastleHallScreen(player);
         }else {
             switch (key.getKeyCode()) {
                 case KeyEvent.VK_LEFT:

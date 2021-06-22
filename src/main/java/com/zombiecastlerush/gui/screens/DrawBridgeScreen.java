@@ -25,7 +25,7 @@ public class DrawBridgeScreen implements Screen {
     }
 
     private void createWorld() {
-        String path = "Resources/Castle/CastleHall.txt";
+        String path = "Resources/Castle/DrawBridge.txt";
         world = new WorldBuilder(90, 51)
                 .design(path)
                 .build();
@@ -134,8 +134,8 @@ public class DrawBridgeScreen implements Screen {
 
     private void displayDescription(AsciiPanel terminal, int left, int bottom) {
         terminal.write("Draw Bridge", left, bottom + 1, Color.RED);
-        String description = Game.castle.getCastleRooms().get("Draw-Bridge").getDescription();
-        terminal.write(description, left, bottom + 2, Color.magenta);
+        //String description = Game.castle.getCastleRooms().get("Draw-Bridge").getDescription();
+        //terminal.write(description, left, bottom + 2, Color.magenta);
         terminal.write(" ", left, bottom + 3, Color.red);
     }
 

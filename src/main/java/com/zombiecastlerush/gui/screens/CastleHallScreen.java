@@ -58,6 +58,17 @@ public class CastleHallScreen implements Screen{
 
 
     public Screen respondToUserInput(KeyEvent key) {
+        if (player.x == 89 && (player.y == 18 || player.y == 19 || player.y ==20)){
+            return new EastWingScreen(player);
+        }else if (player.x == 0 && (player.y == 18 || player.y == 19 || player.y ==20)){
+            return new WestWingScreen(player);
+        }
+        else if (player.x <=46 && player.x >= 41 && player.y == 1){
+            return new ShopScreen(player);
+        }
+        else if(player.x <=77 && player.x >= 72 && player.y == 51) {
+            return new DrawBridgeScreen(player);
+        } else{
             switch (key.getKeyCode()) {
                 case KeyEvent.VK_LEFT:
                 case KeyEvent.VK_H:
@@ -77,6 +88,7 @@ public class CastleHallScreen implements Screen{
                     break;
 
             }
+        }
 
 
         return this;

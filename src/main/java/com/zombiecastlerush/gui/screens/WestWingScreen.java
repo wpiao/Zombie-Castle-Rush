@@ -4,12 +4,11 @@ import asciiPanel.AsciiPanel;
 import com.zombiecastlerush.gui.Creature;
 import com.zombiecastlerush.gui.World;
 import com.zombiecastlerush.gui.WorldBuilder;
-import com.zombiecastlerush.util.Game;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
-public class WestWingScreen implements Screen{
+public class WestWingScreen implements Screen {
     private World world;
     private final Creature player;
     private final int screenWidth;
@@ -21,11 +20,12 @@ public class WestWingScreen implements Screen{
         screenHeight = 51;
         createWorld();
         player.setWorld(world);
+        player.x = screenWidth - 2;
 
     }
 
     private void createWorld() {
-        String path = "Resources/Castle/CastleHall.txt";
+        String path = "Resources/Castle/WestWing.txt";
         world = new WorldBuilder(90, 51)
                 .design(path)
                 .build();
@@ -56,26 +56,31 @@ public class WestWingScreen implements Screen{
 
 
     public Screen respondToUserInput(KeyEvent key) {
-        switch (key.getKeyCode()) {
-            case KeyEvent.VK_LEFT:
-            case KeyEvent.VK_H:
-                player.moveBy(-1, 0);
-                break;
-            case KeyEvent.VK_RIGHT:
-            case KeyEvent.VK_L:
-                player.moveBy(1, 0);
-                break;
-            case KeyEvent.VK_UP:
-            case KeyEvent.VK_K:
-                player.moveBy(0, -1);
-                break;
-            case KeyEvent.VK_DOWN:
-            case KeyEvent.VK_J:
-                player.moveBy(0, 1);
-                break;
+        if (player.x == 89 && (player.y == 18 || player.y == 19 || player.y == 20)) {
+            return new CastleHallScreen(player);
+        } else if (player.x <= 20 && player.x >= 15 && player.y == 51) {
+            return new DrawBridgeScreen(player);
+        } else {
+            switch (key.getKeyCode()) {
+                case KeyEvent.VK_LEFT:
+                case KeyEvent.VK_H:
+                    player.moveBy(-1, 0);
+                    break;
+                case KeyEvent.VK_RIGHT:
+                case KeyEvent.VK_L:
+                    player.moveBy(1, 0);
+                    break;
+                case KeyEvent.VK_UP:
+                case KeyEvent.VK_K:
+                    player.moveBy(0, -1);
+                    break;
+                case KeyEvent.VK_DOWN:
+                case KeyEvent.VK_J:
+                    player.moveBy(0, 1);
+                    break;
 
+            }
         }
-
 
         return this;
     }
@@ -134,8 +139,8 @@ public class WestWingScreen implements Screen{
 
     private void displayDescription(AsciiPanel terminal, int left, int bottom) {
         terminal.write("West Wing", left, bottom + 1, Color.RED);
-        String description = Game.castle.getCastleRooms().get("West-Wing").getDescription();
-        terminal.write(description, left, bottom + 2, Color.magenta);
+        //String description = Game.castle.getCastleRooms().get("West-Wing").getDescription();
+        //terminal.write(description, left, bottom + 2, Color.magenta);
         terminal.write(" ", left, bottom + 3, Color.red);
     }
 
