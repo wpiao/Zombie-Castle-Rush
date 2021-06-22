@@ -62,6 +62,7 @@ public class RiddleScreen implements Screen {
     public Screen respondToUserInput(KeyEvent key) {
         this.key = key;
         if (Riddle.answer.equals(Riddle.solution) && key.getKeyCode() == KeyEvent.VK_ENTER) {
+            Riddle.answer = "";
             return new CastleHallScreen(player);
         } else return this;
     }

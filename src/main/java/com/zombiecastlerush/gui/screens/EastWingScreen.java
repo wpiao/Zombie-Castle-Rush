@@ -1,6 +1,7 @@
 package com.zombiecastlerush.gui.screens;
 
 import asciiPanel.AsciiPanel;
+import com.zombiecastlerush.gui.Command;
 import com.zombiecastlerush.gui.Creature;
 import com.zombiecastlerush.gui.World;
 import com.zombiecastlerush.gui.WorldBuilder;
@@ -14,6 +15,7 @@ public class EastWingScreen implements Screen{
     private final Creature player;
     private final int screenWidth;
     private final int screenHeight;
+    private KeyEvent key;
 
     public EastWingScreen(Creature player) {
         this.player = player;
@@ -61,6 +63,7 @@ public class EastWingScreen implements Screen{
 
 
     public Screen respondToUserInput(KeyEvent key) {
+        this.key = key;
         if (player.x == 89 && (player.y == 17 || player.y == 18 || player.y == 19)) {
             return new CombatHallScreen(player);
         } else if (player.x == 0 && (player.y == 17 || player.y == 18 || player.y == 19)) {
@@ -141,6 +144,9 @@ public class EastWingScreen implements Screen{
     private void displayUserInput(AsciiPanel terminal, int left, int i) {
         terminal.write(drawLine(screenWidth), left, i, Color.orange);
         terminal.write("Enter command -> ", left, i + 1, Color.red);
+        Command.type(key, terminal, 18, i + 1);
+
+
     }
 
     private void displayDescription(AsciiPanel terminal, int left, int bottom) {
