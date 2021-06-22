@@ -21,7 +21,7 @@ public class Role extends Entity {
     private int health; // range from 0-100
 
     // cannot have a Role without name
-    private Role() {
+    public Role() {
         this.health = MAX_HEALTH;
         this.currentRoom = null;
     }

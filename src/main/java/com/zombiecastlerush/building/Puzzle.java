@@ -1,16 +1,18 @@
 package com.zombiecastlerush.building;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
-@JsonPropertyOrder({"question, attempts"})
-@JsonIgnoreProperties({"solution"})
+@JsonTypeName("puzzle")
+@JsonPropertyOrder({"question, solution, attempts"})
 public class Puzzle extends Challenge {
 
     private int attempts;
     private String question, solution;
 
     //Constructor
+    public Puzzle() {} // needed for ObjectMapper
+
     public Puzzle(String description, String question, String solution) {
         super(description);
         this.attempts = 0;

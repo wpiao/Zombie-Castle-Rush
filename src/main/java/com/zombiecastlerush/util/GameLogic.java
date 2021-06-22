@@ -103,6 +103,9 @@ class GameLogic {
                                 break;
                             }
                             break;
+                        case "save":
+                            Game.getInstance().save();
+                            break;
                         case "quit":
                             Game.getBackgroundMusic().close();
                             Game.getInstance().stop();
