@@ -14,6 +14,11 @@ public enum Tile {
     TOP_SOLID_BLOCK((char)223, AsciiPanel.green),
     FULL_SOLID_BLOCK((char)219,AsciiPanel.green),
 
+    CASTLE_VER_DOOR((char)124,AsciiPanel.red),
+    CASTLE_HOR_DOOR((char)95, AsciiPanel.red),
+    ROOM_HOR_DOOR((char)45,AsciiPanel.red),
+    ROOM_VER_DOOR((char)93,AsciiPanel.red),
+
     BOUNDS('x', AsciiPanel.brightBlack);
 
     private char glyph;
@@ -28,7 +33,7 @@ public enum Tile {
     }
 
     public boolean isGround() {
-        return this == FLOOR;
+        return this.glyph() < 128 || this.glyph() == 250;
     }
 
     public boolean isDiggable() {

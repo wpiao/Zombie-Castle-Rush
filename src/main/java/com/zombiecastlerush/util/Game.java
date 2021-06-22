@@ -21,7 +21,7 @@ import java.util.ArrayList;
  */
 public class Game {
     private static Game game;
-    private Castle castle = new Castle();
+    public static Castle castle = new Castle();
     private Player player;
     private static Music backgroundMusic = new Music("Resources/sounds/background.wav");
 

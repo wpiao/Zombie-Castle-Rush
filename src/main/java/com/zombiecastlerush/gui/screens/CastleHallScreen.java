@@ -1,32 +1,46 @@
 package com.zombiecastlerush.gui.screens;
 
 import asciiPanel.AsciiPanel;
+import com.zombiecastlerush.building.Castle;
+import com.zombiecastlerush.gui.Command;
 import com.zombiecastlerush.gui.Creature;
-import com.zombiecastlerush.gui.CreatureFactory;
 import com.zombiecastlerush.gui.World;
 import com.zombiecastlerush.gui.WorldBuilder;
+import com.zombiecastlerush.util.Game;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
-public class CastleScreen implements Screen{
+public class CastleHallScreen implements Screen{
 
     private World world;
     private final Creature player;
     private final int screenWidth;
     private final int screenHeight;
+    private KeyEvent key;
 
-    public CastleScreen() {
+    public CastleHallScreen(Creature player) {
+        this.player = player;
         screenWidth = 90;
         screenHeight = 51;
         createWorld();
-        CreatureFactory creatureFactory = new CreatureFactory(world);
-        player = creatureFactory.newPlayer();
+        player.setWorld(world);
+        if (player.x < 1){
+            player.x = 88;
+        } else if (player.x >= 40 && player.x <=45 && player.y == 50 ){
+            player.y = 1;
+        } else if (player.x >= 71 && player.x <=76 && player.y == 0){
+            player.y = 49;
+        } else if (player.x > 88){
+            player.x = 1;
+        }
+
     }
 
     private void createWorld() {
-        world = new WorldBuilder(100, 51)
-                .design()
+        String path = "Resources/Castle/CastleHall.txt";
+        world = new WorldBuilder(90, 51)
+                .design(path)
                 .build();
     }
 
@@ -55,29 +69,35 @@ public class CastleScreen implements Screen{
 
 
     public Screen respondToUserInput(KeyEvent key) {
-        if ((player.x == 52 || player.x == 53) && player.y == 47){
-            return new RiddleScreen();
-        }else {
+        this.key = key;
+        if (player.x == 89 && (player.y == 17 || player.y == 18 || player.y ==19)){
+            return new EastWingScreen(player);
+        }else if (player.x == 0 && (player.y == 17 || player.y == 18 || player.y ==19)){
+            return new WestWingScreen(player);
+        }
+        else if (player.x <=45 && player.x >= 40 && player.y == 0){
+            return new ShopScreen(player);
+        }
+        else if(player.x <=76 && player.x >= 71 && player.y == 50) {
+            return new DrawBridgeScreen(player);
+        } else{
             switch (key.getKeyCode()) {
                 case KeyEvent.VK_LEFT:
-                case KeyEvent.VK_H:
                     player.moveBy(-1, 0);
                     break;
                 case KeyEvent.VK_RIGHT:
-                case KeyEvent.VK_L:
                     player.moveBy(1, 0);
                     break;
                 case KeyEvent.VK_UP:
-                case KeyEvent.VK_K:
                     player.moveBy(0, -1);
                     break;
                 case KeyEvent.VK_DOWN:
-                case KeyEvent.VK_J:
                     player.moveBy(0, 1);
                     break;
 
             }
         }
+
 
         return this;
     }
@@ -89,11 +109,6 @@ public class CastleScreen implements Screen{
     public int getScrollY() {
         return Math.max(0, Math.min(player.y - screenHeight / 2, world.height() - screenHeight));
     }
-
-//    private void scrollBy(int mx, int my) {
-//        centerX = Math.max(0, Math.min(centerX + mx, world.width() - 1));
-//        centerY = Math.max(0, Math.min(centerY + my, world.height() - 1));
-//    }
 
     private void displayTiles(AsciiPanel terminal, int left, int top) {
         for (int x = 0; x < screenWidth; x++) {
@@ -137,11 +152,15 @@ public class CastleScreen implements Screen{
     private void displayUserInput(AsciiPanel terminal, int left, int i) {
         terminal.write(drawLine(screenWidth), left, i, Color.orange);
         terminal.write("Enter command -> ", left, i + 1, Color.red);
+
+        Command.type(key, terminal, 18, i + 1);
     }
 
     private void displayDescription(AsciiPanel terminal, int left, int bottom) {
-        terminal.write("Prompt placeholder", left, bottom + 1, Color.RED);
-        terminal.write(" ", left, bottom + 2, Color.red);
+        terminal.write("Castle Hall", left, bottom + 1, Color.RED);
+        String description = Game.castle.getCastleRooms().get("Castle-Hall").getDescription();
+        terminal.write(description, left, bottom + 2, Color.magenta);
+        terminal.write(" ", left, bottom + 3, Color.red);
     }
 
     private String drawLine(int length) {
