@@ -1,15 +1,15 @@
 package com.zombiecastlerush.util;
 
 import com.zombiecastlerush.building.*;
-import com.zombiecastlerush.entity.Enemy;
 import com.zombiecastlerush.entity.Player;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.zombiecastlerush.entity.Role;
 
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * static class and methods
@@ -17,165 +17,24 @@ import java.util.Scanner;
  * TODO: deploy APIs that supports the web game version
  */
 public class Prompter {
-    public static String getUserInput(String displayMessage) {
-        System.out.printf(displayMessage + "\n>");
-        Scanner sc = new Scanner(System.in);
-        return sc.nextLine();
-    }
+    static void showInstructions() {
+        System.out.println("\nGame Instructions:");
+        System.out.printf(Parser.GREEN+"%2s %8s %47s %n", "", "Action   ", "       Command to Type"+Parser.ANSI_RESET);
+        System.out.printf("%2s %8s %45s %n", "", "----------------------------", "         --------------------------------------------------");
+        System.out.printf("%2s %-30s %1s %-10s %n", " 1.", "Go somewhere","|    ", "\"go\" and one of the available locations displayed");
+        System.out.printf("%2s %-30s %1s %-10s %n", " 2.", "attempt a puzzle","|    ", "\"attempt puzzle\"");
+        System.out.printf("%2s %-30s %1s %-1s %n", " 3.", "display player's status","|    ", "\"display status\"");
+        System.out.printf("%2s %-30s %1s %-1s %n", " 4.", "pick-up or drop an item","|    ", "\"pick-up\", \"drop\" and \"item name\"");
+        System.out.printf("%2s %-30s %1s %-1s %n", " 5.", "buy an item from the shop","|    ", "\"buy\" and \"item name\"");
+        System.out.printf("%2s %-30s %1s %-1s %n", " 6.", "sell an item to the shop","|    ", "\"sell\" and \"item name\"");
+        System.out.printf("%2s %-30s %1s %-1s %n", " 7.", "fight a monster","|    ", "\"fight\"");
+        System.out.printf("%2s %-30s %1s %-1s %n", " 8.", "display instructions","|    ", "\"help\"");
+        System.out.printf("%2s %-30s %1s %-1s %n", " 9.", "show map","|    ", "\"show map\"");
+        System.out.printf("%2s %-29s %1s %-1s %n", " 10.", "save the game","|    ", "\"save\"");
+        System.out.printf("%2s %-29s %1s %-1s %n", " 11.", "quit the game","|    ", "\"quit\"");
 
-    static void advanceGame(Player player) throws JsonProcessingException {
-        displayCurrentScene(player);
-        Room currentRoom = player.getCurrentPosition();
-        String userInput = Prompter.getUserInput("Enter \"help\" if you need help with the commands");
-        List<String> userInputList = Parser.parse(userInput);
+        Inputs.getUserInput("\nPress enter to continue...");
         clearScreen();
-
-        if (userInputList != null) {
-            String action = userInputList.get(0);
-
-            switch (userInputList.size()) {
-                case 2:
-                    switch (action) {
-                        case "go":
-                            player.moveTo(userInputList.get(1));
-                            break;
-                        case "attempt":
-                            if (userInputList.get(1).equals("puzzle")) {
-                                if (currentRoom.getChallenge() != null && currentRoom.getChallenge() instanceof Puzzle && !currentRoom.getChallenge().isCleared()) {
-                                    getUserInput("\nYou touch your hands to the box and cannot let go. You feel that the box demands you answer its question. You do not know how or why you are compelled, but you are.\nPress Enter to solve the Puzzle.");
-                                    solvePuzzle(currentRoom);
-                                } else
-                                    System.out.println("There is no puzzle in the room");
-                            }
-                            break;
-                        case "display":
-                            if (userInputList.get(1).equalsIgnoreCase("status"))
-                                System.out.println(player.displayStatus());
-                            break;
-                        case "pick-up":
-                            if (!(currentRoom instanceof Shop)) {
-                                for (Item item : currentRoom.getInventory().getItems()) {
-                                    if (item.getName().equalsIgnoreCase(userInputList.get(1))) {
-                                        player.pickUp(item);
-                                        break;
-                                    }
-                                }
-                            } else {
-                                System.out.println(Parser.RED + "You can't do that here." + Parser.ANSI_RESET);
-                            }
-                            break;
-                        case "drop":
-                            for (Item item : player.getInventory().getItems()) {
-                                if (item.getName().equalsIgnoreCase(userInputList.get(1))) {
-                                    player.drop(item);
-                                    break;
-                                }
-                            }
-                        case "buy":
-                            if (currentRoom instanceof Shop) {
-                                for (Item item : currentRoom.getInventory().getItems()) {
-                                    if (item.getName().equalsIgnoreCase(userInputList.get(1))) {
-                                        ((Shop) currentRoom).sellItemToPlayer(player, item);
-                                        break;
-                                    }
-                                }
-                            }
-                            break;
-                        case "sell":
-                            if (currentRoom instanceof Shop) {
-                                for (Item item : player.getInventory().getItems()) {
-                                    if (item.getName().equalsIgnoreCase(userInputList.get(1))) {
-                                        ((Shop) currentRoom).buyItemFromPlayer(player, item);
-                                        break;
-                                    }
-                                }
-                            }
-                            break;
-                    }
-
-                case 1:
-                    switch (action) {
-                        case "fight":
-
-                            if (!currentRoom.getChallenge().isCleared() && userInputList.get(0).equals("fight")) {
-                                if (currentRoom.getChallenge() != null && currentRoom.getChallenge() instanceof Combat && !currentRoom.getChallenge().isCleared()) {
-                                    getUserInput("\nPrepare for COMBAT... press enter to continue");
-                                    combat(player, new Enemy("Zombie"));
-                                } else {
-                                    System.out.println("There is no Monster in the room");
-                                    break;
-                                }
-                            } else {
-                                System.out.println("There is no Monster in the room");
-                                break;
-                            }
-                            break;
-                        case "quit":
-                            Game.getInstance().stop();
-                            break;
-                    }
-                    break;
-            }
-        } else {
-            Game.getInstance().showInstructions();
-        }
-    }
-
-    static void solvePuzzle(Room room) {
-        Puzzle puzzle = (Puzzle) room.getChallenge();
-        System.out.println(Parser.YELLOW + "Here is your puzzle....Remember you only have " + (3 - puzzle.getAttempts()) + " tries!" + Parser.ANSI_RESET);
-        puzzle.attemptPuzzle(getUserInput(puzzle.getQuestion()));
-        if (puzzle.getAttempts() < 3 && !puzzle.isCleared())
-            solvePuzzle(room);
-        else if (puzzle.isCleared()) {
-            System.out.println(Parser.GREEN + "Right answer. You can now move to the available rooms" + Parser.ANSI_RESET);
-            if (puzzle.getInventory().getItems().size() > 0) {
-                System.out.println(Parser.GREEN + puzzle.getDescription() + " drops " + puzzle.getInventory().toString() + "\n" + Parser.ANSI_RESET);
-                puzzle.getInventory().transferItem(
-                        puzzle.getInventory(),
-                        room.getInventory(),
-                        puzzle.getInventory().getItems().toArray(new Item[0])
-                );
-            }
-        } else {
-            System.out.println(Parser.RED + "Wrong Answer!! You have had your chances...You failed...Game Over!!!" + Parser.ANSI_RESET);
-            Game.getInstance().stop();
-        }
-    }
-
-    public static void combat(Role player, Role enemy) {
-        var cleared = player.getCurrentPosition().getChallenge().isCleared();
-        if (!cleared) {
-            Combat.combat(player, enemy);
-            while (player.getHealth() > 0 && enemy.getHealth() > 0) {
-                String msg = "what would you like to do, \"fight\" or \"run\"?";
-                String combatChoice = Prompter.getUserInput(msg);
-                if (combatChoice.equals("fight")) {
-                    Combat.combat(player, enemy);
-                } else if (combatChoice.equals("run")) {
-                    System.out.println("don't be a coward");
-                    Combat.enemyAttack(player, enemy);
-                }
-            }
-            if (enemy.getHealth() <= 0 || player.getHealth() <= 0) {
-                Room currentPosition = player.getCurrentPosition();
-                if (player.getHealth() <= 0) {
-                    Prompter.getUserInput("You are dead. Press Enter to continue.");
-                    Game.getInstance().stop();
-                }
-                currentPosition.getChallenge().setCleared(true);
-                if (enemy.getHealth() <= 0) {
-                    if (currentPosition.isExit()) {
-                        Prompter.getUserInput("You have found the exit, killed the last monster, and beaten the game! Press Enter to continue");
-                        Game.getInstance().stop();
-                    }
-                }
-
-            }
-
-        } else {
-            System.out.println("Room has no Enemy");
-        }
     }
 
     public static void displayCurrentScene(Player player) {
@@ -219,6 +78,8 @@ public class Prompter {
                 Parser.GREEN + "go" + Parser.ANSI_RESET,
                 Parser.GREEN + "display status" + Parser.ANSI_RESET,
                 Parser.GREEN + "help" + Parser.ANSI_RESET,
+                Parser.GREEN + "show map" + Parser.ANSI_RESET,
+                Parser.GREEN + "save" + Parser.ANSI_RESET,
                 Parser.GREEN + "quit" + Parser.ANSI_RESET));
 
         if (room.getChallenge() instanceof Puzzle && !room.getChallenge().isCleared())
@@ -240,8 +101,54 @@ public class Prompter {
     }
 
     public static void clearScreen() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
+        if (System.getProperty("os.name").contains("Windows")) {
+            try {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.print("\033[H\033[2J");
+            System.out.flush();
+        }
 
+    }
+
+    public static void showWelcomeScreen() {
+        String welcome = null;
+        try {
+            welcome = new String(Files.readAllBytes(Paths.get("Resources/Welcome/welcome-console.txt")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            System.out.println(Parser.RED + welcome + Parser.ANSI_RESET);
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void showGameModeOptions() {
+        try {
+            String options = new String(Files.readAllBytes(Paths.get("Resources/Welcome/chooseGameMode.txt")));
+            System.out.println(Parser.GREEN + options + Parser.ANSI_RESET);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String chooseGameMode() {
+        String inputs = Inputs.getUserInput("Choose game mode. Please, type 1 or 2.");
+        List<String> inputWords = Arrays.asList(inputs.toLowerCase().split(" "));
+        inputWords = Parser.reduceInputWordsToList(inputWords);
+        List<String> availableOptions = new ArrayList<>(Arrays.asList("1", "2"));
+        while (inputWords.size() == 0 || inputWords.size() != 1 || !availableOptions.contains(inputWords.get(0))) {
+            inputs = Inputs.getUserInput("Choose game mode. Please, type 1 or 2.");
+            inputWords = Arrays.asList(inputs.toLowerCase().split(" "));
+            inputWords = Parser.reduceInputWordsToList(inputWords);
+        }
+        return inputWords.get(0);
     }
 }

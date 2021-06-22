@@ -11,7 +11,7 @@ class Main {
             ZombieCastleRush.start();
             //TODO: ask prompter to stop the game
             // rushHour.stop();
-            System.out.println("Timer is up. The end ...");
+            System.out.println("GUI mode initializing...");
         } catch (JacksonException je) {
             System.out.println(je.getMessage());
         }

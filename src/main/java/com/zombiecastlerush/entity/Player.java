@@ -9,6 +9,8 @@ import java.util.List;
 public class Player extends Role {
     private double acctBalance = 50.0;
 
+    public Player() {}
+
     public Player(String name) {
         super(name);
     }
