@@ -29,7 +29,7 @@ public class Prompter {
         System.out.printf("%2s %-30s %1s %-1s %n", " 7.", "fight a monster","|    ", "\"fight\"");
         System.out.printf("%2s %-30s %1s %-1s %n", " 8.", "display instructions","|    ", "\"help\"");
         System.out.printf("%2s %-30s %1s %-1s %n", " 9.", "show map","|    ", "\"show map\"");
-        System.out.printf("%2s %-30s %1s %-1s %n", " 10.", "quit the game","|    ", "\"quit\"");
+        System.out.printf("%2s %-29s %1s %-1s %n", " 10.", "quit the game","|    ", "\"quit\"");
 
         Inputs.getUserInput("\nPress enter to continue...");
         clearScreen();

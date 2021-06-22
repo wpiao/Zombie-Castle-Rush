@@ -11,7 +11,9 @@ public class CreatureFactory {
 
     public Creature newPlayer(){
         Creature player = new Creature(world, '@', AsciiPanel.brightMagenta);
-        world.addAtEmptyLocation(player);
+        //world.addAtEmptyLocation(player);
+        player.x = 2;
+        player.y = 2;
         new PlayerAi(player);
         return player;
     }

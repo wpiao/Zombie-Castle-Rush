@@ -11,8 +11,5 @@ public class PlayerAi extends CreatureAi {
             creature.x = x;
             creature.y = y;
         }
-//        else if (tile.isDiggable()) {
-//            creature.dig(x, y);
-//        }
     }
 }
