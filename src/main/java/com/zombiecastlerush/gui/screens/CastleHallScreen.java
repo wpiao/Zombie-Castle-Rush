@@ -19,6 +19,7 @@ public class CastleHallScreen implements Screen{
     private final int screenWidth;
     private final int screenHeight;
     private KeyEvent key;
+    private Screen subscreen;
 
     public CastleHallScreen(Creature player) {
         this.player = player;
@@ -37,7 +38,7 @@ public class CastleHallScreen implements Screen{
         }
 
         CreatureFactory creatureFactory = new CreatureFactory(world);
-        for (int i = 0; i < 3; i++){
+        for (int i = 0; i < 6; i++){
             creatureFactory.newZombies();
         }
 
@@ -70,41 +71,51 @@ public class CastleHallScreen implements Screen{
 
         terminal.write(player.glyph(), player.x - left, player.y - top, player.color());
 
-
+        if (subscreen != null)
+            subscreen.displayOutput(terminal);
     }
 
 
     public Screen respondToUserInput(KeyEvent key) {
-        this.key = key;
+        if (subscreen != null) {
+            subscreen = subscreen.respondToUserInput(key);
+        } else {
+            this.key = key;
 
-        if (player.x == 89 && (player.y == 17 || player.y == 18 || player.y ==19)){
-            return new EastWingScreen(player);
-        }else if (player.x == 0 && (player.y == 17 || player.y == 18 || player.y ==19)){
-            return new WestWingScreen(player);
-        }
-        else if (player.x <=45 && player.x >= 40 && player.y == 0){
-            return new ShopScreen(player);
-        }
-        else if(player.x <=76 && player.x >= 71 && player.y == 50) {
-            return new DrawBridgeScreen(player);
-        } else{
-            switch (key.getKeyCode()) {
-                case KeyEvent.VK_LEFT:
-                    player.moveBy(-1, 0);
-                    break;
-                case KeyEvent.VK_RIGHT:
-                    player.moveBy(1, 0);
-                    break;
-                case KeyEvent.VK_UP:
-                    player.moveBy(0, -1);
-                    break;
-                case KeyEvent.VK_DOWN:
-                    player.moveBy(0, 1);
-                    break;
+            if (player.x == 89 && (player.y == 17 || player.y == 18 || player.y == 19)) {
+                return new EastWingScreen(player);
+            } else if (player.x == 0 && (player.y == 17 || player.y == 18 || player.y == 19)) {
+                return new WestWingScreen(player);
+            } else if (player.x <= 45 && player.x >= 40 && player.y == 0) {
+                return new ShopScreen(player);
+            } else if (player.x <= 76 && player.x >= 71 && player.y == 50) {
+                return new DrawBridgeScreen(player);
+            } else {
+                switch (key.getKeyCode()) {
+                    case KeyEvent.VK_LEFT:
+                        player.moveBy(-1, 0);
+                        break;
+                    case KeyEvent.VK_RIGHT:
+                        player.moveBy(1, 0);
+                        break;
+                    case KeyEvent.VK_UP:
+                        player.moveBy(0, -1);
+                        break;
+                    case KeyEvent.VK_DOWN:
+                        player.moveBy(0, 1);
+                        break;
+                    case KeyEvent.VK_D:
+                        subscreen = new RiddleScreen(player,"Castle-Hall");
+                        break;
 
+                }
             }
         }
-        world.update();
+
+        if (subscreen == null){
+            world.update();
+        }
+
         if(player.hp() < 1){return new LoseScreen();}
 
         return this;
@@ -164,10 +175,12 @@ public class CastleHallScreen implements Screen{
     }
 
     private void displayUserInput(AsciiPanel terminal, int left, int i) {
+
         terminal.write(drawLine(screenWidth), left, i, Color.orange);
         terminal.write("Enter command -> ", left, i + 1, Color.red);
-
-        Command.type(key, terminal, 18, i + 1);
+        if (subscreen == null) {
+            Command.type(key, terminal, 18, i + 1);
+        }
     }
 
     private void displayDescription(AsciiPanel terminal, int left, int bottom) {
