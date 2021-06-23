@@ -135,7 +135,7 @@ public class CastleHallScreen implements Screen{
         terminal.write("Status", right, top + 1, Color.green);
 
         // display player hp
-        String stats = String.format("You: %6d/%3d hp", player.hp(), player.maxHp());
+        String stats = player.hp() < 1 ? "":String.format("You: %6d/%3d hp", player.hp(), player.maxHp());
         terminal.write(stats, right, top + 3, Color.magenta);
 
         //if player has an opponent, aka in fight, then display its hp.

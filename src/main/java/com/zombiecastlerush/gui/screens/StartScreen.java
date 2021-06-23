@@ -33,8 +33,8 @@ public class StartScreen implements Screen {
 
 
     public void displayOutput(AsciiPanel terminal) {
-        int left = getScrollX();
-        int top = getScrollY();
+        int left = 0;
+        int top = 0;
 
         //playground
         displayTiles(terminal, left, top);
@@ -78,18 +78,6 @@ public class StartScreen implements Screen {
         return this;
     }
 
-    public int getScrollX() {
-        return Math.max(0, Math.min(player.x - screenWidth / 2, world.width() - screenWidth));
-    }
-
-    public int getScrollY() {
-        return Math.max(0, Math.min(player.y - screenHeight / 2, world.height() - screenHeight));
-    }
-
-//    private void scrollBy(int mx, int my) {
-//        centerX = Math.max(0, Math.min(centerX + mx, world.width() - 1));
-//        centerY = Math.max(0, Math.min(centerY + my, world.height() - 1));
-//    }
 
     private void displayTiles(AsciiPanel terminal, int left, int top) {
         for (int x = 0; x < screenWidth; x++) {
