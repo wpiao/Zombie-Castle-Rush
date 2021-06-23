@@ -50,8 +50,6 @@ public class StartScreen implements Screen {
         displayUserInput(terminal, 0, terminal.getHeightInCharacters() - 3);
 
         terminal.write(player.glyph(), player.x - left, player.y - top, player.color());
-
-
     }
 
 
@@ -91,11 +89,19 @@ public class StartScreen implements Screen {
     }
 
     private void displayStatus(AsciiPanel terminal, int right, int top) {
+        //draw yellow boundary lines
         int length = terminal.getWidthInCharacters() - screenWidth - 2;
         terminal.write(drawLine(length), right, top, Color.ORANGE);
         terminal.write("Status", right, top + 1, Color.green);
-        terminal.write("placeholder", right, top + 2, Color.magenta);
 
+        // display player hp
+        String stats = player.hp() < 1 ? "":String.format("You: %6d/%3d hp", player.hp(), player.maxHp());
+        terminal.write(stats, right, top + 3, Color.magenta);
+
+        //if player has an opponent, aka in fight, then display its hp.
+        String enemyStats = player.opponent() == null || player.opponent().hp() < 1 ? "":
+                String.format("Zombie: %3d/%3d hp", player.opponent().hp(), player.opponent().maxHp());
+        terminal.write(enemyStats, right, top + 4, Color.green);
     }
 
 

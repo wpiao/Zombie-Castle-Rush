@@ -50,8 +50,8 @@ public class CastleHallScreen implements Screen{
 
 
     public void displayOutput(AsciiPanel terminal) {
-        int left = getScrollX();
-        int top = getScrollY();
+        int left = 0;
+        int top = 0;
 
         //playground
         displayTiles(terminal, left, top);
@@ -107,14 +107,6 @@ public class CastleHallScreen implements Screen{
         return this;
     }
 
-    public int getScrollX() {
-        return Math.max(0, Math.min(player.x - screenWidth / 2, world.width() - screenWidth));
-    }
-
-    public int getScrollY() {
-        return Math.max(0, Math.min(player.y - screenHeight / 2, world.height() - screenHeight));
-    }
-
     private void displayTiles(AsciiPanel terminal, int left, int top) {
         for (int x = 0; x < screenWidth; x++) {
             for (int y = 0; y < screenHeight; y++) {
@@ -145,8 +137,6 @@ public class CastleHallScreen implements Screen{
         String enemyStats = player.opponent() == null || player.opponent().hp() < 1 ? "":
                 String.format("Zombie: %3d/%3d hp", player.opponent().hp(), player.opponent().maxHp());
         terminal.write(enemyStats, right, top + 4, Color.green);
-
-
     }
 
 
@@ -178,9 +168,9 @@ public class CastleHallScreen implements Screen{
 
     private void displayDescription(AsciiPanel terminal, int left, int bottom) {
 
-        Room castle = Game.castle.getCastleRooms().get("Castle-Hall");
+        Room castleHall = Game.castle.getCastleRooms().get("Castle-Hall");
         terminal.write("Castle Hall", left, bottom + 1, Color.RED);
-        String description = castle.getDescription();
+        String description = castleHall.getDescription();
         terminal.write(description, left, bottom + 3, Color.white);
         String msg1 ="The box pulses with power. You know not how, but it has a riddle for you,";
 
