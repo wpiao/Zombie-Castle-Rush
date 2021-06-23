@@ -1,4 +1,7 @@
-package com.zombiecastlerush.gui;
+package com.zombiecastlerush.gui.creature;
+
+import com.zombiecastlerush.gui.layout.Tile;
+import com.zombiecastlerush.gui.layout.World;
 
 import java.awt.Color;
 

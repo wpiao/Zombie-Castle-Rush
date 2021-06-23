@@ -1,8 +1,7 @@
-package com.zombiecastlerush.gui;
+package com.zombiecastlerush.gui.layout;
 
 import java.awt.Color;
 import asciiPanel.AsciiPanel;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 public enum Tile {
     FLOOR((char)250, AsciiPanel.white),

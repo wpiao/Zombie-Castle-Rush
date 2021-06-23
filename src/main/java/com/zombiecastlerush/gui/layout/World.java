@@ -1,4 +1,6 @@
-package com.zombiecastlerush.gui;
+package com.zombiecastlerush.gui.layout;
+
+import com.zombiecastlerush.gui.creature.Creature;
 
 import java.awt.*;
 import java.util.ArrayList;

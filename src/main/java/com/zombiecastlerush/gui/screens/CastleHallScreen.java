@@ -1,11 +1,13 @@
 package com.zombiecastlerush.gui.screens;
 
 import asciiPanel.AsciiPanel;
-import com.zombiecastlerush.building.Puzzle;
 import com.zombiecastlerush.building.Room;
 import com.zombiecastlerush.gui.*;
+import com.zombiecastlerush.gui.creature.Creature;
+import com.zombiecastlerush.gui.creature.CreatureFactory;
+import com.zombiecastlerush.gui.layout.World;
+import com.zombiecastlerush.gui.layout.WorldBuilder;
 import com.zombiecastlerush.util.Game;
-import com.zombiecastlerush.util.Parser;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -54,13 +56,13 @@ public class CastleHallScreen implements Screen{
         int top = 0;
 
         //playground
-        displayTiles(terminal, left, top);
+        displayTiles(terminal);
         //status
         displayStatus(terminal, screenWidth + 1, 0);
         //inventory
         displayInventory(terminal, screenWidth + 1, (screenHeight - screenHeight % 3) / 3);
         //display map
-        displayMap(terminal, screenWidth + 1, (screenHeight - screenHeight % 3) * 2 / 3);
+        displayHint(terminal, screenWidth + 1, (screenHeight - screenHeight % 3) * 2 / 3);
         //prompt
         displayDescription(terminal, 0, screenHeight);
         //user input
@@ -107,20 +109,18 @@ public class CastleHallScreen implements Screen{
         return this;
     }
 
-    private void displayTiles(AsciiPanel terminal, int left, int top) {
+    private void displayTiles(AsciiPanel terminal) {
         for (int x = 0; x < screenWidth; x++) {
             for (int y = 0; y < screenHeight; y++) {
-                int wx = x + left;
-                int wy = y + top;
 
-                if (player.canSee(wx, wy)){
-                    Creature creature = world.creature(wx, wy);
+                if (player.canSee(x, y)){
+                    Creature creature = world.creature(x, y);
                     if (creature != null)
-                        terminal.write(creature.glyph(), creature.x - left, creature.y - top, creature.color());
+                        terminal.write(creature.glyph(), creature.x, creature.y, creature.color());
                     else
-                        terminal.write(world.glyph(wx, wy), x, y, world.color(wx, wy));
+                        terminal.write(world.glyph(x, y), x, y, world.color(x, y));
                 } else {
-                    terminal.write(world.glyph(wx, wy), x, y, Color.black);
+                    terminal.write(world.glyph(x, y), x, y, Color.black);
                 }
             }
         }
@@ -150,7 +150,7 @@ public class CastleHallScreen implements Screen{
         terminal.write("placeholder", right, middle + 2, Color.magenta);
     }
 
-    private void displayMap(AsciiPanel terminal, int right, int bottom) {
+    private void displayHint(AsciiPanel terminal, int right, int bottom) {
         int length = terminal.getWidthInCharacters() - screenWidth - 2;
         terminal.write(drawLine(length), right, bottom, Color.orange);
         int height = terminal.getHeightInCharacters();
@@ -158,7 +158,7 @@ public class CastleHallScreen implements Screen{
         for (int i = 0; i < height; i++) {
             terminal.write("|", right - 1, i, Color.orange);
         }
-        terminal.write("Map", right, bottom + 1, Color.green);
+        terminal.write("Hint", right, bottom + 1, Color.green);
         terminal.write("placeholder", right, bottom + 2, Color.magenta);
     }
 

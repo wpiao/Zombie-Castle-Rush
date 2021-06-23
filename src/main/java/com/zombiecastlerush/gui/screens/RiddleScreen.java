@@ -1,7 +1,7 @@
 package com.zombiecastlerush.gui.screens;
 
 import asciiPanel.AsciiPanel;
-import com.zombiecastlerush.gui.Creature;
+import com.zombiecastlerush.gui.creature.Creature;
 import com.zombiecastlerush.gui.Riddle;
 
 import java.awt.*;

@@ -1,4 +1,6 @@
-package com.zombiecastlerush.gui;
+package com.zombiecastlerush.gui.creature;
+
+import com.zombiecastlerush.gui.layout.Tile;
 
 public class PlayerAi extends CreatureAi {
 

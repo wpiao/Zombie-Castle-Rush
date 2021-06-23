@@ -1,4 +1,8 @@
-package com.zombiecastlerush.gui;
+package com.zombiecastlerush.gui.creature;
+
+import com.zombiecastlerush.gui.layout.Line;
+import com.zombiecastlerush.gui.layout.Point;
+import com.zombiecastlerush.gui.layout.Tile;
 
 public abstract class CreatureAi {
     protected Creature creature;
