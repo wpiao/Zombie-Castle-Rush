@@ -6,8 +6,9 @@ import asciiPanel.AsciiPanel;
 public class LoseScreen implements Screen {
 
     public void displayOutput(AsciiPanel terminal) {
-        terminal.write("You lost.", 1, 1);
-        terminal.writeCenter("-- press [enter] to restart --", 22);
+        String msg = "You lost the game but you will be remembered by the Lord of the Castle.";
+        terminal.write(msg, (terminal.getWidthInCharacters() - msg.length()) / 2, terminal.getHeightInCharacters() / 3);
+        terminal.writeCenter("-- press [enter] to restart --", terminal.getHeightInCharacters() / 3 * 2);
     }
 
     public Screen respondToUserInput(KeyEvent key) {

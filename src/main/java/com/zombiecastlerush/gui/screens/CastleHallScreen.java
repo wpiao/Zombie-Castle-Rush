@@ -71,6 +71,7 @@ public class CastleHallScreen implements Screen{
 
     public Screen respondToUserInput(KeyEvent key) {
         this.key = key;
+        if(player.hp() < 1){return new LoseScreen();}
         if (player.x == 89 && (player.y == 17 || player.y == 18 || player.y ==19)){
             return new EastWingScreen(player);
         }else if (player.x == 0 && (player.y == 17 || player.y == 18 || player.y ==19)){
