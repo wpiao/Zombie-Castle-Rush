@@ -136,8 +136,12 @@ public class StartScreen implements Screen {
     }
 
     private void displayDescription(AsciiPanel terminal, int left, int bottom) {
-        terminal.write("Prompt placeholder", left, bottom + 1, Color.RED);
-        terminal.write(" ", left, bottom + 2, Color.red);
+        String msg1 = "Welcome to the Zombie Castle. There is only one way to survive.";
+        String msg2 = "Find the Lord and beat him.";
+        String msg3 = "Please enter the castle gate to begin your journey";
+        terminal.write(msg1, left, bottom + 1, Color.white);
+        terminal.write(msg2, left, bottom + 3, Color.white);
+        terminal.write(msg3, left, bottom + 5, Color.white);
     }
 
     private String drawLine(int length) {

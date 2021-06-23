@@ -5,6 +5,10 @@ import java.awt.Color;
 public class Creature {
     private World world;
 
+    private Creature opponent;
+    public Creature opponent() { return opponent;}
+
+
     public int x;
     public int y;
 
@@ -53,7 +57,7 @@ public class Creature {
     }
 
     public void attack(Creature other){
-
+        this.opponent=other;
         int damageToOther = Math.max(0, attackValue() - other.defenseValue());
         damageToOther = (int)(Math.random() * damageToOther) + 1;
 
