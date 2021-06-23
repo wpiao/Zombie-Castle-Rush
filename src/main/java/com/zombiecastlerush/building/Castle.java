@@ -2,6 +2,8 @@ package com.zombiecastlerush.building;
 
 import java.util.*;
 
+import static com.zombiecastlerush.util.Parser.insertLineBreaks;
+
 public class Castle {
     //create a map of rooms in castle
     private Map<String, Room> castleRooms = new HashMap<>();
@@ -25,13 +27,13 @@ public class Castle {
         shop.addConnectedRooms(castleHall);
 
         //add Challenge to room
-        eastWing.setChallenge(new Puzzle("East-Wing-Puzzle", "What is (2+2) X (2-2)?", "0"));
+        eastWing.setChallenge(new Puzzle("East-Wing-Puzzle", insertLineBreaks("What can run but never walks, has a mouth but never talks, has a head but never weeps, has a bed but never sleeps?"), "river"));
         eastWing.getChallenge().getInventory().addItems(new Item("Knife", "This is a knife", 25.0),new Item("Sword", "The Sword of Light", 100));
-        westWing.setChallenge(new Puzzle("West-Wing-Puzzle", "What is (2+2) X (2-2)?", "0"));
+        westWing.setChallenge(new Puzzle("West-Wing-Puzzle", insertLineBreaks("What has 13 hearts, but no other organs?"), "cards"));
         westWing.getChallenge().getInventory().addItems(new Item("Spoon", "This is a spoon", 25.0));
-        castleHall.setChallenge(new Puzzle("Castle-Hall-Puzzle", "What is (2+2) X (2-2)?", "0"));
+        castleHall.setChallenge(new Puzzle("Castle-Hall-Puzzle", insertLineBreaks("What is so fragile that saying its name breaks it?"), "silence"));
         castleHall.getChallenge().getInventory().addItems(new Item("Fork", "This is a fork", 5.0));
-        drawBridge.setChallenge(new Puzzle("Draw-Bridge-Puzzle", "What is (2+2) X (2-2)?", "0"));
+        drawBridge.setChallenge(new Puzzle("Draw-Bridge-Puzzle", insertLineBreaks("I hold earth and sky together and compel even kings to kneel. The largest bear the brunt of my wrath, yet the small may go unharmed. What am I?"), "gravity"));
         drawBridge.getChallenge().getInventory().addItems(new Item("Vase", "This is a vase", 5.0));
         combatHall.setChallenge(new Combat("Life or Death Battle"));
         combatHall.setExit(true);
