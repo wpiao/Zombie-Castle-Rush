@@ -65,6 +65,10 @@ public class WorldBuilder {
                         case '_':
                             tiles[i][j] = Tile.CASTLE_HOR_DOOR;
                             break;
+                        case '≡':
+                            tiles[i][j] = Tile.BOX;
+                            break;
+
                         default:
                             tiles[i][j] = Tile.FLOOR;
                     }

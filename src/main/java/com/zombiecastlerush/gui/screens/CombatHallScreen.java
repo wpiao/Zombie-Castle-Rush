@@ -38,8 +38,8 @@ public class CombatHallScreen implements Screen{
 
 
     public void displayOutput(AsciiPanel terminal) {
-        int left = getScrollX();
-        int top = getScrollY();
+        int left = 0;
+        int top = 0;
 
         //playground
         displayTiles(terminal, left, top);
@@ -67,19 +67,15 @@ public class CombatHallScreen implements Screen{
         } else {
             switch (key.getKeyCode()) {
                 case KeyEvent.VK_LEFT:
-                case KeyEvent.VK_H:
                     player.moveBy(-1, 0);
                     break;
                 case KeyEvent.VK_RIGHT:
-                case KeyEvent.VK_L:
                     player.moveBy(1, 0);
                     break;
                 case KeyEvent.VK_UP:
-                case KeyEvent.VK_K:
                     player.moveBy(0, -1);
                     break;
                 case KeyEvent.VK_DOWN:
-                case KeyEvent.VK_J:
                     player.moveBy(0, 1);
                     break;
 
@@ -88,13 +84,6 @@ public class CombatHallScreen implements Screen{
 
             return this;
         }
-    }
-    public int getScrollX() {
-        return Math.max(0, Math.min(player.x - screenWidth / 2, world.width() - screenWidth));
-    }
-
-    public int getScrollY() {
-        return Math.max(0, Math.min(player.y - screenHeight / 2, world.height() - screenHeight));
     }
 
     private void displayTiles(AsciiPanel terminal, int left, int top) {

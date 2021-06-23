@@ -33,8 +33,8 @@ public class StartScreen implements Screen {
 
 
     public void displayOutput(AsciiPanel terminal) {
-        int left = getScrollX();
-        int top = getScrollY();
+        int left = 0;
+        int top = 0;
 
         //playground
         displayTiles(terminal, left, top);
@@ -50,8 +50,6 @@ public class StartScreen implements Screen {
         displayUserInput(terminal, 0, terminal.getHeightInCharacters() - 3);
 
         terminal.write(player.glyph(), player.x - left, player.y - top, player.color());
-
-
     }
 
 
@@ -61,40 +59,23 @@ public class StartScreen implements Screen {
         }else {
             switch (key.getKeyCode()) {
                 case KeyEvent.VK_LEFT:
-                case KeyEvent.VK_H:
                     player.moveBy(-1, 0);
                     break;
                 case KeyEvent.VK_RIGHT:
-                case KeyEvent.VK_L:
                     player.moveBy(1, 0);
                     break;
                 case KeyEvent.VK_UP:
-                case KeyEvent.VK_K:
                     player.moveBy(0, -1);
                     break;
                 case KeyEvent.VK_DOWN:
-                case KeyEvent.VK_J:
                     player.moveBy(0, 1);
                     break;
-
             }
         }
 
         return this;
     }
 
-    public int getScrollX() {
-        return Math.max(0, Math.min(player.x - screenWidth / 2, world.width() - screenWidth));
-    }
-
-    public int getScrollY() {
-        return Math.max(0, Math.min(player.y - screenHeight / 2, world.height() - screenHeight));
-    }
-
-//    private void scrollBy(int mx, int my) {
-//        centerX = Math.max(0, Math.min(centerX + mx, world.width() - 1));
-//        centerY = Math.max(0, Math.min(centerY + my, world.height() - 1));
-//    }
 
     private void displayTiles(AsciiPanel terminal, int left, int top) {
         for (int x = 0; x < screenWidth; x++) {
@@ -108,11 +89,19 @@ public class StartScreen implements Screen {
     }
 
     private void displayStatus(AsciiPanel terminal, int right, int top) {
+        //draw yellow boundary lines
         int length = terminal.getWidthInCharacters() - screenWidth - 2;
         terminal.write(drawLine(length), right, top, Color.ORANGE);
         terminal.write("Status", right, top + 1, Color.green);
-        terminal.write("placeholder", right, top + 2, Color.magenta);
 
+        // display player hp
+        String stats = player.hp() < 1 ? "":String.format("You: %6d/%3d hp", player.hp(), player.maxHp());
+        terminal.write(stats, right, top + 3, Color.magenta);
+
+        //if player has an opponent, aka in fight, then display its hp.
+        String enemyStats = player.opponent() == null || player.opponent().hp() < 1 ? "":
+                String.format("Zombie: %3d/%3d hp", player.opponent().hp(), player.opponent().maxHp());
+        terminal.write(enemyStats, right, top + 4, Color.green);
     }
 
 
@@ -141,8 +130,12 @@ public class StartScreen implements Screen {
     }
 
     private void displayDescription(AsciiPanel terminal, int left, int bottom) {
-        terminal.write("Prompt placeholder", left, bottom + 1, Color.RED);
-        terminal.write(" ", left, bottom + 2, Color.red);
+        String msg1 = "Welcome to the Zombie Castle. There is only one way to survive.";
+        String msg2 = "Find the Lord and beat him.";
+        String msg3 = "Please enter the castle gate to begin your journey";
+        terminal.write(msg1, left, bottom + 1, Color.white);
+        terminal.write(msg2, left, bottom + 3, Color.white);
+        terminal.write(msg3, left, bottom + 5, Color.white);
     }
 
     private String drawLine(int length) {
