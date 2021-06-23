@@ -9,7 +9,7 @@ public class PlayerAi extends CreatureAi {
     }
 
     public void onEnter(int x, int y, Tile tile) {
-        if (tile.isGround()) {
+        if (tile.isGround() || tile.isDoor()) {
             creature.x = x;
             creature.y = y;
         }

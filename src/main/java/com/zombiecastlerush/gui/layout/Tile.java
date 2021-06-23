@@ -34,11 +34,11 @@ public enum Tile {
     }
 
     public boolean isGround() {
-        return this.glyph() < 128 || this.glyph() == 250;
+        return this.glyph() == 250;
     }
 
-    public boolean isDiggable() {
-        return this != Tile.FLOOR;
+    public boolean isDoor() {
+        return this.glyph() < 128;
     }
 }
 
