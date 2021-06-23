@@ -90,7 +90,15 @@ public class ShopScreen implements Screen{
                 int wx = x + left;
                 int wy = y + top;
 
-                terminal.write(world.glyph(wx, wy), x, y, world.color(wx, wy));
+                if (player.canSee(wx, wy)){
+                    Creature creature = world.creature(wx, wy);
+                    if (creature != null)
+                        terminal.write(creature.glyph(), creature.x - left, creature.y - top, creature.color());
+                    else
+                        terminal.write(world.glyph(wx, wy), x, y, world.color(wx, wy));
+                } else {
+                    terminal.write(world.glyph(wx, wy), x, y, Color.darkGray);
+                }
             }
         }
     }

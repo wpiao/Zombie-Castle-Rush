@@ -10,4 +10,19 @@ public abstract class CreatureAi {
 
     public void onEnter(int x, int y, Tile tile){
     }
+
+    public boolean canSee(int wx, int wy) {
+
+        if ((creature.x-wx)*(creature.x-wx) + (creature.y-wy)*(creature.y-wy) > creature.visionRadius()*creature.visionRadius())
+            return false;
+
+        for (Point p : new Line(creature.x, creature.y, wx, wy)){
+            if (creature.tile(p.x, p.y).isGround() || p.x == wx && p.y == wy)
+                continue;
+
+            return false;
+        }
+
+        return true;
+    }
 }

@@ -33,6 +33,9 @@ public class Creature {
     private int defenseValue;
     public int defenseValue() { return defenseValue; }
 
+    private int visionRadius;
+    public int visionRadius() { return visionRadius; }
+
     public Creature(World world, char glyph, Color color, int maxHp, int attack, int defense){
         this.world = world;
         this.glyph = glyph;
@@ -41,6 +44,7 @@ public class Creature {
         this.hp = maxHp;
         this.attackValue = attack;
         this.defenseValue = defense;
+        this.visionRadius = 9;
     }
 
     public void setWorld(World world) {
@@ -54,6 +58,14 @@ public class Creature {
             ai.onEnter(x+mx, y+my, world.tile(x+mx, y+my));
         else
             attack(other);
+    }
+
+    public boolean canSee(int wx, int wy){
+        return ai.canSee(wx, wy);
+    }
+
+    public Tile tile(int wx, int wy) {
+        return world.tile(wx, wy);
     }
 
     public void attack(Creature other){
