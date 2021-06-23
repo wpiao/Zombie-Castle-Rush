@@ -12,7 +12,14 @@ public abstract class CreatureAi {
         this.creature.setCreatureAi(this);
     }
 
+    public void onUpdate(){
+    }
+
     public void onEnter(int x, int y, Tile tile){
+        if (tile.isGround()){
+            creature.x = x;
+            creature.y = y;
+        }
     }
 
     public boolean canSee(int wx, int wy) {
@@ -28,5 +35,12 @@ public abstract class CreatureAi {
         }
 
         return true;
+    }
+
+    public void wander(){
+        int mx = (int)(Math.random() * 3) - 1;
+        int my = (int)(Math.random() * 3) - 1;
+
+        creature.moveBy(mx, my);
     }
 }

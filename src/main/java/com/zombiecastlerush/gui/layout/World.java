@@ -65,12 +65,12 @@ public class World {
         creatures.add(creature);
     }
 
-//    public void update(){
-//        List<Creature> toUpdate = new ArrayList<Creature>(creatures);
-//        for (Creature creature : toUpdate){
-//            creature.update();
-//        }
-//    }
+    public void update(){
+        List<Creature> toUpdate = new ArrayList<Creature>(creatures);
+        for (Creature creature : toUpdate){
+            creature.update();
+        }
+    }
 
     public void remove(Creature other) {
         creatures.remove(other);

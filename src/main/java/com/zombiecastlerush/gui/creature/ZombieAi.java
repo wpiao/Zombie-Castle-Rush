@@ -13,5 +13,6 @@ public class ZombieAi extends CreatureAi {
     }
 
     public void onUpdate(){
+        wander();
     }
 }
