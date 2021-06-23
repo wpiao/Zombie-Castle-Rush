@@ -83,7 +83,10 @@ public class DrawBridgeScreen implements Screen {
                     break;
 
             }
-                return this;
+            world.update();
+            if(player.hp() < 1){return new LoseScreen();}
+
+            return this;
 
         }
     }

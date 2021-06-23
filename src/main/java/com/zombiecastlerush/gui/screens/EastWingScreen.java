@@ -90,6 +90,8 @@ public class EastWingScreen implements Screen{
 
             }
 
+            world.update();
+            if(player.hp() < 1){return new LoseScreen();}
 
             return this;
         }

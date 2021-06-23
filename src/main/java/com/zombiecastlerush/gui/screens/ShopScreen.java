@@ -79,6 +79,10 @@ public class ShopScreen implements Screen{
                     break;
 
             }
+
+            world.update();
+            if(player.hp() < 1){return new LoseScreen();}
+
             return this;
         }
     }
