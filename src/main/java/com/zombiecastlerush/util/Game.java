@@ -133,10 +133,7 @@ public class Game {
         return backgroundMusic;
     }
 
-    public void checkConnections() {
-        for (Room room : castle.getCastleRooms().values()) {
-            System.out.println(room.getName());
-            System.out.println(room.getConnectedRooms() + "\n");
-        }
+    public Player getPlayer() {
+        return player;
     }
 }
