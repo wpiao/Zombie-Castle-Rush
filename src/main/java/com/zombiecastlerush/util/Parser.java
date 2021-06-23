@@ -24,4 +24,17 @@ public class Parser {
         list.replaceAll(x -> x.trim());
         return list;
     }
+
+    public static String insertLineBreaks(String text) {
+        List<String> lines = new ArrayList<>();
+        if (text.length() > 50) {
+            int breakPoint = text.indexOf(" ", 40);
+            String line = text.substring(0, breakPoint);
+            lines.add(line);
+            text = text.substring(breakPoint+1);
+            text = insertLineBreaks(text);
+        }
+        lines.add(text);
+        return String.join("\n", lines);
+    }
 }
