@@ -19,6 +19,8 @@ public enum Tile {
     ROOM_HOR_DOOR((char)45,AsciiPanel.red),
     ROOM_VER_DOOR((char)93,AsciiPanel.red),
 
+    BOX((char)240,AsciiPanel.brightWhite),
+
     BOUNDS('x', AsciiPanel.brightBlack);
 
     private char glyph;

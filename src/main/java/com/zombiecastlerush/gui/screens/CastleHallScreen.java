@@ -1,8 +1,11 @@
 package com.zombiecastlerush.gui.screens;
 
 import asciiPanel.AsciiPanel;
+import com.zombiecastlerush.building.Puzzle;
+import com.zombiecastlerush.building.Room;
 import com.zombiecastlerush.gui.*;
 import com.zombiecastlerush.util.Game;
+import com.zombiecastlerush.util.Parser;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -174,10 +177,16 @@ public class CastleHallScreen implements Screen{
     }
 
     private void displayDescription(AsciiPanel terminal, int left, int bottom) {
+
+        Room castle = Game.castle.getCastleRooms().get("Castle-Hall");
         terminal.write("Castle Hall", left, bottom + 1, Color.RED);
-        String description = Game.castle.getCastleRooms().get("Castle-Hall").getDescription();
-        terminal.write(description, left, bottom + 2, Color.magenta);
-        terminal.write(" ", left, bottom + 3, Color.red);
+        String description = castle.getDescription();
+        terminal.write(description, left, bottom + 3, Color.white);
+        String msg1 ="The box pulses with power. You know not how, but it has a riddle for you,";
+
+        String msg2= "and it will not let you leave until you have solved it.Perhaps you should attempt puzzle.";
+        terminal.write(msg1, left, bottom + 4, Color.magenta);
+        terminal.write(msg2, left, bottom + 5, Color.magenta);
     }
 
     private String drawLine(int length) {
