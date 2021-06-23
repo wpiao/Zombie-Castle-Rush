@@ -1,4 +1,4 @@
-package com.zombiecastlerush.gui;
+package com.zombiecastlerush.gui.layout;
 
 import java.io.File;
 import java.io.FileNotFoundException;

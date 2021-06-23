@@ -1,4 +1,4 @@
-package com.zombiecastlerush.gui;
+package com.zombiecastlerush.gui.layout;
 
 import java.util.ArrayList;
 import java.util.Iterator;

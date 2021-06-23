@@ -2,10 +2,9 @@ package com.zombiecastlerush.gui.screens;
 
 import asciiPanel.AsciiPanel;
 import com.zombiecastlerush.gui.Command;
-import com.zombiecastlerush.gui.Creature;
-import com.zombiecastlerush.gui.World;
-import com.zombiecastlerush.gui.WorldBuilder;
-import com.zombiecastlerush.util.Game;
+import com.zombiecastlerush.gui.creature.Creature;
+import com.zombiecastlerush.gui.layout.World;
+import com.zombiecastlerush.gui.layout.WorldBuilder;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -50,7 +49,7 @@ public class DrawBridgeScreen implements Screen {
         //inventory
         displayInventory(terminal, screenWidth + 1, (screenHeight - screenHeight % 3) / 3);
         //display map
-        displayMap(terminal, screenWidth + 1, (screenHeight - screenHeight % 3) * 2 / 3);
+        displayHint(terminal, screenWidth + 1, (screenHeight - screenHeight % 3) * 2 / 3);
         //prompt
         displayDescription(terminal, 0, screenHeight);
         //user input
@@ -84,7 +83,10 @@ public class DrawBridgeScreen implements Screen {
                     break;
 
             }
-                return this;
+            world.update();
+            if(player.hp() < 1){return new LoseScreen();}
+
+            return this;
 
         }
     }
@@ -125,7 +127,7 @@ public class DrawBridgeScreen implements Screen {
         terminal.write("placeholder", right, middle + 2, Color.magenta);
     }
 
-    private void displayMap(AsciiPanel terminal, int right, int bottom) {
+    private void displayHint(AsciiPanel terminal, int right, int bottom) {
         int length = terminal.getWidthInCharacters() - screenWidth - 2;
         terminal.write(drawLine(length), right, bottom, Color.orange);
         int height = terminal.getHeightInCharacters();
@@ -133,7 +135,7 @@ public class DrawBridgeScreen implements Screen {
         for (int i = 0; i < height; i++) {
             terminal.write("|", right - 1, i, Color.orange);
         }
-        terminal.write("Map", right, bottom + 1, Color.green);
+        terminal.write("Hint", right, bottom + 1, Color.green);
         terminal.write("placeholder", right, bottom + 2, Color.magenta);
     }
 

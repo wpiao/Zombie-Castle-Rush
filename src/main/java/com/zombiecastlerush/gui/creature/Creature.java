@@ -1,4 +1,7 @@
-package com.zombiecastlerush.gui;
+package com.zombiecastlerush.gui.creature;
+
+import com.zombiecastlerush.gui.layout.Tile;
+import com.zombiecastlerush.gui.layout.World;
 
 import java.awt.Color;
 
@@ -52,6 +55,8 @@ public class Creature {
     }
 
     public void moveBy(int mx, int my){
+        if (mx==0 && my==0)
+            return;
         Creature other = world.creature(x+mx, y+my);
 
         if (other == null)
@@ -84,6 +89,14 @@ public class Creature {
 
         if (hp < 1)
             world.remove(this);
+    }
+
+    public Creature creature(int wx, int wy) {
+        return world.creature(wx, wy);
+    }
+
+    public void update(){
+        ai.onUpdate();
     }
 
 

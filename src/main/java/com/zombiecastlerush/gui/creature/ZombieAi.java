@@ -1,4 +1,8 @@
-package com.zombiecastlerush.gui;
+package com.zombiecastlerush.gui.creature;
+
+import com.zombiecastlerush.gui.creature.Creature;
+import com.zombiecastlerush.gui.creature.CreatureAi;
+import com.zombiecastlerush.gui.creature.CreatureFactory;
 
 public class ZombieAi extends CreatureAi {
     private CreatureFactory factory;
@@ -9,5 +13,6 @@ public class ZombieAi extends CreatureAi {
     }
 
     public void onUpdate(){
+        wander();
     }
 }

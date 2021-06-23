@@ -1,6 +1,7 @@
-package com.zombiecastlerush.gui;
+package com.zombiecastlerush.gui.creature;
 
 import asciiPanel.AsciiPanel;
+import com.zombiecastlerush.gui.layout.World;
 
 public class CreatureFactory {
     private final World world;

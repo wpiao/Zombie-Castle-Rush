@@ -1,8 +1,7 @@
-package com.zombiecastlerush.gui;
+package com.zombiecastlerush.gui.layout;
 
 import java.awt.Color;
 import asciiPanel.AsciiPanel;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 public enum Tile {
     FLOOR((char)250, AsciiPanel.white),
@@ -35,11 +34,11 @@ public enum Tile {
     }
 
     public boolean isGround() {
-        return this.glyph() < 128 || this.glyph() == 250;
+        return this.glyph() == 250;
     }
 
-    public boolean isDiggable() {
-        return this != Tile.FLOOR;
+    public boolean isDoor() {
+        return this.glyph() < 128;
     }
 }
 
