@@ -1,9 +1,7 @@
 package com.zombiecastlerush.gui;
 
-import com.zombiecastlerush.building.Challenge;
 import com.zombiecastlerush.building.Puzzle;
 import com.zombiecastlerush.building.Room;
-import com.zombiecastlerush.gui.screens.Screen;
 import com.zombiecastlerush.util.Game;
 
 import java.util.HashMap;

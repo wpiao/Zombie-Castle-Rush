@@ -20,7 +20,7 @@ public class World {
         this.tiles = tiles;
         this.width = tiles.length;
         this.height = tiles[0].length;
-        this.creatures = new ArrayList<Creature>();
+        this.creatures = new ArrayList<>();
     }
 
     public Creature creature(int x, int y){
@@ -58,7 +58,7 @@ public class World {
             x = (int)(Math.random() * width);
             y = (int)(Math.random() * height);
         }
-        while (!tile(x,y).isGround()||creature(x,y) != null);
+        while ((!tile(x,y).isGround()&&!tile(x,y).isDoor())||creature(x,y) != null);
 
         creature.x = x;
         creature.y = y;
@@ -66,7 +66,7 @@ public class World {
     }
 
     public void update(){
-        List<Creature> toUpdate = new ArrayList<Creature>(creatures);
+        List<Creature> toUpdate = new ArrayList<>(creatures);
         for (Creature creature : toUpdate){
             creature.update();
         }

@@ -5,6 +5,9 @@ import com.zombiecastlerush.gui.Command;
 import com.zombiecastlerush.gui.creature.Creature;
 import com.zombiecastlerush.gui.layout.World;
 import com.zombiecastlerush.gui.layout.WorldBuilder;
+import com.zombiecastlerush.util.Game;
+import com.zombiecastlerush.util.Parser;
+import java.util.List;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -100,17 +103,26 @@ public class CombatHallScreen implements Screen{
                     else
                         terminal.write(world.glyph(wx, wy), x, y, world.color(wx, wy));
                 } else {
-                    terminal.write(world.glyph(wx, wy), x, y, Color.black);
+                    terminal.write(world.glyph(wx, wy), x, y, Color.darkGray);
                 }
             }
         }
     }
 
     private void displayStatus(AsciiPanel terminal, int right, int top) {
+        //draw yellow boundary lines
         int length = terminal.getWidthInCharacters() - screenWidth - 2;
         terminal.write(drawLine(length), right, top, Color.ORANGE);
         terminal.write("Status", right, top + 1, Color.green);
-        terminal.write("placeholder", right, top + 2, Color.magenta);
+
+        // display player hp
+        String stats = player.hp() < 1 ? "":String.format("You: %6d/%3d hp", player.hp(), player.maxHp());
+        terminal.write(stats, right, top + 3, Color.magenta);
+
+        //if player has an opponent, aka in fight, then display its hp.
+        String enemyStats = player.opponent() == null || player.opponent().hp() < 1 ? "":
+                String.format("Zombie: %3d/%3d hp", player.opponent().hp(), player.opponent().maxHp());
+        terminal.write(enemyStats, right, top + 4, Color.green);
 
     }
 
@@ -131,7 +143,7 @@ public class CombatHallScreen implements Screen{
             terminal.write("|", right - 1, i, Color.orange);
         }
         terminal.write("Hint", right, bottom + 1, Color.green);
-        terminal.write("placeholder", right, bottom + 2, Color.magenta);
+        terminal.write("Beat the Lord to Win", right, bottom + 2, Color.magenta);
     }
 
     private void displayUserInput(AsciiPanel terminal, int left, int i) {
@@ -142,9 +154,16 @@ public class CombatHallScreen implements Screen{
 
     private void displayDescription(AsciiPanel terminal, int left, int bottom) {
         terminal.write("Combat Hall", left, bottom + 1, Color.RED);
-        //String description = Game.castle.getCastleRooms().get("Combat-Hall").getDescription();
-        //terminal.write(description, left, bottom + 2, Color.magenta);
-        terminal.write(" ", left, bottom + 3, Color.red);
+        String description = Game.castle.getCastleRooms().get("Combat-Hall").getDescription();
+        String msg1 = description.substring(0,description.length()/3);
+        String msg2 = description.substring(description.length()/3 + 1,description.length()/3 *2 );
+        String msg3 = description.substring(description.length()/3 *2 + 1);
+
+        terminal.write(msg1, left, bottom + 2, Color.white);
+        terminal.write(msg2, left, bottom + 3, Color.white);
+        terminal.write(msg3, left, bottom + 4, Color.white);
+
+        terminal.write(" ", left, bottom + 5, Color.red);
     }
 
     private String drawLine(int length) {
