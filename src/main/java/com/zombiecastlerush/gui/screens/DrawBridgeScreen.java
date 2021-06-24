@@ -172,7 +172,9 @@ public class DrawBridgeScreen implements Screen {
     private void displayUserInput(AsciiPanel terminal, int left, int i) {
         terminal.write(drawLine(screenWidth), left, i, Color.orange);
         terminal.write("Enter command -> ", left, i + 1, Color.red);
-        Command.type(key, terminal, 18, i + 1);
+        if (subscreen == null) {
+            Command.type(key, terminal, 18, i + 1);
+        }
 
     }
 

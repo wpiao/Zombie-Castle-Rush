@@ -36,26 +36,46 @@ public class Command {
     }
 
     public static int choice(String input) {
+        int indicator = -1;
         if (input != null && input.length() != 0) {
             List<String> commands = Parser.parse(input);
             if (commands != null) {
                 String action = commands.get(0).toLowerCase();
 
                 switch (commands.size()) {
+                    case 1:
+                        switch (action){
+                            case "quit":
+                                indicator = 99;
+                                break;
+                            case "save":
+                                indicator = 98;
+                                break;
+                        }
                     case 2:
                         switch (action) {
                             case "attempt":
                                 List<String> puzzleSynonym = Arrays.asList("puzzle", "riddle", "question");
-                                if (puzzleSynonym.contains(commands.get(1))) { return 1; }
+                                if (puzzleSynonym.contains(commands.get(1)))
+                                    indicator = 1;
                                 break;
-
+                            case "drop":
+                                indicator = 2;
+                                break;
+                            case "pick-up":
+                                indicator = 3;
+                                break;
+                            case "buy":
+                                indicator = 4;
+                                break;
+                            case "sell":
+                                indicator = 5;
+                                break;
                         }
-
-
                 }
             }
         }
-        return -1;
+        return indicator;
     }
 
 }
