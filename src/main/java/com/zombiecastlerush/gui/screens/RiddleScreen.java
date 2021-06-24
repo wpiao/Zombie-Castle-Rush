@@ -18,6 +18,7 @@ public class RiddleScreen implements Screen {
     private final Creature player;
     private Puzzle riddle;
     private KeyEvent key;
+    private int numOfAttempts;
     private static final Map<String, String> castleScreenConverter = new HashMap<>() {{
         put("CastleHallScreen", "Castle-Hall");
         put("CombatHallScreen", "Combat-Hall");
@@ -53,6 +54,8 @@ public class RiddleScreen implements Screen {
         } else {
             terminal.writeCenter(riddle.getQuestion(), (screenHeight - 10) / 2);
         }
+        String msg = String.format("You have attempted %d %s.",numOfAttempts,numOfAttempts>1?"times":"time");
+        terminal.writeCenter(msg,(screenHeight - 10) / 2 + 8,Color.cyan);
         terminal.repaint();
 
     }
@@ -93,11 +96,16 @@ public class RiddleScreen implements Screen {
 
     public Screen respondToUserInput(KeyEvent key) {
         this.key = key;
-        if (RiddleFactory.answer.equals(riddle.getSolution().toUpperCase()) && key.getKeyCode() == KeyEvent.VK_ENTER) {
-            RiddleFactory.answer = "";
-            // TODO drop some item to player inventory
+        if (key.getKeyCode() == KeyEvent.VK_ENTER){
+            numOfAttempts++;
+            if (RiddleFactory.answer.equals(riddle.getSolution().toUpperCase())) {
+                RiddleFactory.answer = "";
+                // TODO drop some item to player inventory
 
-            return null;
-        } else return this;
+                return null;
+            }
+            RiddleFactory.answer = "";
+        }
+        return this;
     }
 }
