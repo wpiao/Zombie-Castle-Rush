@@ -1,6 +1,7 @@
 package com.zombiecastlerush.gui.creature;
 
 import com.zombiecastlerush.gui.layout.Tile;
+import com.zombiecastlerush.gui.screens.RiddleScreen;
 
 public class PlayerAi extends CreatureAi {
 
@@ -12,6 +13,11 @@ public class PlayerAi extends CreatureAi {
         if (tile.isGround() || tile.isDoor()) {
             creature.x = x;
             creature.y = y;
+        }
+
+        if (tile.isBox()){
+            new RiddleScreen(creature,this.getClass().getSimpleName());
+
         }
     }
 }
