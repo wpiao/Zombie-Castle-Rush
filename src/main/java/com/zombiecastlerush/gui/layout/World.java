@@ -120,6 +120,19 @@ public class World {
         creatures.add(creature);
     }
 
+    public void addAtEmptyLocation(GuiItem item) {
+        int x;
+        int y;
+
+        do {
+            x = (int)(Math.random() * width);
+            y = (int)(Math.random() * height);
+        }
+        while (!tile(x,y).isGround() || item(x,y) != null);
+
+        guiItems[x][y] = item;
+    }
+
     public void addAtBox(GuiItem guiItem) {
 
         Map<Point, Tile> boxTiles = getBoxTile();

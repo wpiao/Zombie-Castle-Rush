@@ -31,4 +31,34 @@ public class EntityFactory {
         world.addAtBox(sword);
         return sword;
     }
+
+    public GuiItem newFork(){
+        GuiItem fork = new GuiItem('F', AsciiPanel.brightRed, "Fork");
+        world.addAtEmptyLocation(fork);
+        return fork;
+    }
+
+    public GuiItem newSpoon(){
+        GuiItem spoon = new GuiItem('S', AsciiPanel.brightRed, "Spoon");
+        world.addAtEmptyLocation(spoon);
+        return spoon;
+    }
+
+    public GuiItem newKnife(){
+        GuiItem knife = new GuiItem('K', AsciiPanel.brightRed, "Knife");
+        world.addAtEmptyLocation(knife);
+        return knife;
+    }
+
+    public GuiItem newVase(){
+        GuiItem vase = new GuiItem('V', AsciiPanel.brightRed, "Vase");
+        world.addAtEmptyLocation(vase);
+        return vase;
+    }
+
+    public GuiItem newPotion(){
+        GuiItem potion = new GuiItem('P', AsciiPanel.brightMagenta, "Potion");
+        world.addAtEmptyLocation(potion);
+        return potion;
+    }
 }

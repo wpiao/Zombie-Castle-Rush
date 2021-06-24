@@ -18,10 +18,21 @@ public class CombatHallScreen implements Screen{
     private KeyEvent key;
 
     public CombatHallScreen(Creature player) {
+        //add previous world to world list.
+        player.worldList().put(player.world().name(),player.world());
+
         this.player = player;
         screenWidth = 90;
         screenHeight = 51;
-        createWorld();
+        //if player hasn't explored this world yet..
+        if (!player.worldList().containsKey(this.getClass().getSimpleName())){
+            //create world of tiles from external file
+            createWorld();
+        }else{
+            this.world = player.worldList().get(this.getClass().getSimpleName());
+        }
+
+        //set player current world
         player.setWorld(world);
         if (player.x == 89 && (player.y == 17 || player.y == 18 || player.y == 19)) {
             player.x = 1;

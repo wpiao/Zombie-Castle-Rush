@@ -20,10 +20,21 @@ public class DrawBridgeScreen implements Screen {
     private Screen subscreen;
 
     public DrawBridgeScreen(Creature player) {
+        //add previous world to world list.
+        player.worldList().put(player.world().name(),player.world());
+
         this.player = player;
         screenWidth = 90;
         screenHeight = 51;
-        createWorld();
+        //if player hasn't explored this world yet..
+        if (!player.worldList().containsKey(this.getClass().getSimpleName())){
+            //create world of tiles from external file
+            createWorld();
+        }else{
+            this.world = player.worldList().get(this.getClass().getSimpleName());
+        }
+
+        //set player current world
         player.setWorld(world);
         if (player.x <= 76 && player.x >= 71 && player.y == 50) {
             player.y = 1;
@@ -31,10 +42,6 @@ public class DrawBridgeScreen implements Screen {
             player.y = 1;
         }
 
-        EntityFactory entityFactory = new EntityFactory(world);
-        for (int i = 0; i < 16; i++) {
-            entityFactory.newZombies();
-        }
 
     }
 
@@ -43,6 +50,11 @@ public class DrawBridgeScreen implements Screen {
         world = new WorldBuilder(90, 51)
                 .design(path)
                 .build(this.getClass().getSimpleName());
+
+        EntityFactory entityFactory = new EntityFactory(world);
+        for (int i = 0; i < 16; i++) {
+            entityFactory.newZombies();
+        }
     }
 
 

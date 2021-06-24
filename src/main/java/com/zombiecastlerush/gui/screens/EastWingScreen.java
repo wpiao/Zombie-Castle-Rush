@@ -26,7 +26,15 @@ public class EastWingScreen implements Screen {
         this.player = player;
         screenWidth = 90;
         screenHeight = 51;
-        createWorld();
+        //if player hasn't explored this world yet..
+        if (!player.worldList().containsKey(this.getClass().getSimpleName())){
+            //create world of tiles from external file
+            createWorld();
+        }else{
+            this.world = player.worldList().get(this.getClass().getSimpleName());
+        }
+
+        //set player current world
         player.setWorld(world);
         if (player.x == 89 && (player.y == 17 || player.y == 18 || player.y == 19)) {
             player.x = 1;
@@ -34,10 +42,6 @@ public class EastWingScreen implements Screen {
             player.x = 88;
         }
 
-        EntityFactory entityFactory = new EntityFactory(world);
-        for (int i = 0; i < 16; i++) {
-            entityFactory.newZombies();
-        }
 
     }
 
@@ -46,6 +50,11 @@ public class EastWingScreen implements Screen {
         world = new WorldBuilder(90, 51)
                 .design(path)
                 .build(this.getClass().getSimpleName());
+
+        EntityFactory entityFactory = new EntityFactory(world);
+        for (int i = 0; i < 16; i++) {
+            entityFactory.newZombies();
+        }
     }
 
 

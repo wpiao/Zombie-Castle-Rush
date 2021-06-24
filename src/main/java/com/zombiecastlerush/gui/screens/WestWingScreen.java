@@ -20,10 +20,21 @@ public class WestWingScreen implements Screen {
     private Screen subscreen;
 
     public WestWingScreen(Creature player) {
+        //add previous world to world list.
+        player.worldList().put(player.world().name(),player.world());
+
         this.player = player;
         screenWidth = 90;
         screenHeight = 51;
-        createWorld();
+        //if player hasn't explored this world yet..
+        if (!player.worldList().containsKey(this.getClass().getSimpleName())){
+            //create world of tiles from external file
+            createWorld();
+        }else{
+            this.world = player.worldList().get(this.getClass().getSimpleName());
+        }
+
+        //set player current world
         player.setWorld(world);
         if (player.x >= 14 && player.x <= 19 && player.y == 0) {
             player.y = 49;
@@ -31,10 +42,7 @@ public class WestWingScreen implements Screen {
             player.x = 88;
         }
 
-        EntityFactory entityFactory = new EntityFactory(world);
-        for (int i = 0; i < 20; i++) {
-            entityFactory.newZombies();
-        }
+
     }
 
     private void createWorld() {
@@ -42,6 +50,11 @@ public class WestWingScreen implements Screen {
         world = new WorldBuilder(90, 51)
                 .design(path)
                 .build(this.getClass().getSimpleName());
+
+        EntityFactory entityFactory = new EntityFactory(world);
+        for (int i = 0; i < 20; i++) {
+            entityFactory.newZombies();
+        }
     }
 
 
