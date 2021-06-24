@@ -1,15 +1,14 @@
 package com.zombiecastlerush.gui.screens;
 
 import asciiPanel.AsciiPanel;
-import com.zombiecastlerush.building.Challenge;
 import com.zombiecastlerush.building.Puzzle;
-import com.zombiecastlerush.gui.creature.Creature;
-import com.zombiecastlerush.gui.RiddleFactory;
+import com.zombiecastlerush.gui.entity.Creature;
+import com.zombiecastlerush.gui.entity.GuiItem;
+import com.zombiecastlerush.gui.entity.RiddleFactory;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 public class RiddleScreen implements Screen {
@@ -19,6 +18,7 @@ public class RiddleScreen implements Screen {
     private Puzzle riddle;
     private KeyEvent key;
     private int numOfAttempts;
+    private boolean itemPickedUp;
     private static final Map<String, String> castleScreenConverter = new HashMap<>() {{
         put("CastleHallScreen", "Castle-Hall");
         put("CombatHallScreen", "Combat-Hall");
@@ -49,19 +49,22 @@ public class RiddleScreen implements Screen {
 
         displayUserInput(terminal, 0, terminal.getHeightInCharacters() - 10);
         if (riddle.getQuestion().length() > 80) {
-            terminal.writeCenter(riddle.getQuestion().substring(0,79),(screenHeight - 10) / 2);
-            terminal.writeCenter(riddle.getQuestion().substring(79),(screenHeight - 10) / 2 + 2);
+            terminal.writeCenter(riddle.getQuestion().substring(0, 79), (screenHeight - 10) / 2);
+            terminal.writeCenter(riddle.getQuestion().substring(79), (screenHeight - 10) / 2 + 2);
         } else {
             terminal.writeCenter(riddle.getQuestion(), (screenHeight - 10) / 2);
         }
         String msg;
-        if (numOfAttempts<=3){
+        if (numOfAttempts <= 3) {
             msg = String.format("You have attempted %d %s. You only have 3 attempts to get the reward.",
-                    numOfAttempts,numOfAttempts>1?"times":"time");
-        }else{
+                    numOfAttempts, numOfAttempts > 1 ? "times" : "time");
+        } else {
             msg = "You can continue to try but your reward is vanished or type quit to exit.";
         }
-        terminal.writeCenter(msg,(screenHeight - 10) / 2 + 8,Color.cyan);
+        terminal.writeCenter(msg, (screenHeight - 10) / 2 + 8, Color.cyan);
+        if (itemPickedUp) {
+            terminal.writeCenter("An item is droped in your inventory.", (screenHeight - 10) / 2 + 16, Color.GREEN);
+        }
         terminal.repaint();
 
     }
@@ -102,18 +105,26 @@ public class RiddleScreen implements Screen {
 
     public Screen respondToUserInput(KeyEvent key) {
         this.key = key;
-        if (RiddleFactory.answer.equalsIgnoreCase("quit")){
+        if (RiddleFactory.answer.equalsIgnoreCase("quit")) {
             return null;
         }
-        if (key.getKeyCode() == KeyEvent.VK_ENTER){
+        if (key.getKeyCode() == KeyEvent.VK_ENTER) {
             numOfAttempts++;
-            if (RiddleFactory.answer.equals(riddle.getSolution().toUpperCase())) {
-                RiddleFactory.answer = "";
-                if (numOfAttempts <=3){
-                    // TODO drop some item to player inventory
+            if (numOfAttempts <= 3) {
+                if (RiddleFactory.answer.equals(riddle.getSolution().toUpperCase())) {
+                    GuiItem item = player.world().item(player.x, player.y);
+                    if (!player.inventory().getGuiItems().contains(item)) {
+                        player.pickup();
+                        itemPickedUp = true;
+                    }
+                    return null;
                 }
-
+            } else if (RiddleFactory.answer.equals(riddle.getSolution().toUpperCase())) {
+                // attempted more than 3 times, the reward vanish.
+                player.world().remove(player.x, player.y);
                 return null;
+            }else{
+                player.world().remove(player.x, player.y);
             }
             RiddleFactory.answer = "";
         }

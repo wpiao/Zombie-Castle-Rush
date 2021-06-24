@@ -1,4 +1,4 @@
-package com.zombiecastlerush.gui;
+package com.zombiecastlerush.gui.entity;
 
 import com.zombiecastlerush.building.Puzzle;
 import com.zombiecastlerush.building.Room;

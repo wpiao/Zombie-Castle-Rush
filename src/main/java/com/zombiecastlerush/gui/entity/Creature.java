@@ -1,11 +1,11 @@
-package com.zombiecastlerush.gui.creature;
+package com.zombiecastlerush.gui.entity;
 
 import com.zombiecastlerush.gui.layout.Tile;
 import com.zombiecastlerush.gui.layout.World;
 
 import java.awt.Color;
 
-public class Creature {
+public class Creature implements Location {
     private World world;
     public World world(){return  world;}
 
@@ -40,6 +40,9 @@ public class Creature {
     private int visionRadius;
     public int visionRadius() { return visionRadius; }
 
+    private Inventory inventory;
+    public Inventory inventory() { return inventory; }
+
     public Creature(World world, char glyph, Color color, int maxHp, int attack, int defense){
         this.world = world;
         this.glyph = glyph;
@@ -49,6 +52,7 @@ public class Creature {
         this.attackValue = attack;
         this.defenseValue = defense;
         this.visionRadius = 9;
+        this.inventory = new Inventory();
     }
 
     public void setWorld(World world) {
@@ -85,6 +89,22 @@ public class Creature {
         other.modifyHp(-damageToOther);
     }
 
+    public void pickup(){
+        GuiItem item = world.item(x, y);
+
+        if (!inventory.isFull() && item != null){
+            world.remove(x, y);
+            inventory.add(item);
+        }
+    }
+
+    public void drop(GuiItem item){
+        if (item != null) {
+            inventory.remove(item);
+            world.addAtPlayer(item, x, y);
+        }
+    }
+
     public void modifyHp(int amount) {
         hp += amount;
 
@@ -99,6 +119,4 @@ public class Creature {
     public void update(){
         ai.onUpdate();
     }
-
-
 }

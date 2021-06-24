@@ -1,7 +1,6 @@
-package com.zombiecastlerush.gui.creature;
+package com.zombiecastlerush.gui.entity;
 
 import com.zombiecastlerush.gui.layout.Tile;
-import com.zombiecastlerush.gui.screens.RiddleScreen;
 
 public class PlayerAi extends CreatureAi {
 

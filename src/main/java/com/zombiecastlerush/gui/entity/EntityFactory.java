@@ -1,12 +1,12 @@
-package com.zombiecastlerush.gui.creature;
+package com.zombiecastlerush.gui.entity;
 
 import asciiPanel.AsciiPanel;
 import com.zombiecastlerush.gui.layout.World;
 
-public class CreatureFactory {
+public class EntityFactory {
     private final World world;
 
-    public CreatureFactory(World world){
+    public EntityFactory(World world){
         this.world = world;
     }
 
@@ -20,9 +20,15 @@ public class CreatureFactory {
     }
 
     public Creature newZombies(){
-        Creature zombie = new Creature(world, 'Z', AsciiPanel.brightGreen,50,10,5);
+        Creature zombie = new Creature(world, 'Z', AsciiPanel.brightGreen,30,10,5);
         world.addAtEmptyLocation(zombie);
         new ZombieAi(zombie, this);
         return zombie;
+    }
+
+    public GuiItem newSword(){
+        GuiItem sword = new GuiItem('1', AsciiPanel.brightRed, "Sword");
+        world.addAtBox(sword);
+        return sword;
     }
 }

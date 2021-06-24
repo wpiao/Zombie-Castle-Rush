@@ -2,17 +2,14 @@ package com.zombiecastlerush.gui.screens;
 
 import asciiPanel.AsciiPanel;
 import com.zombiecastlerush.building.Room;
-import com.zombiecastlerush.gui.*;
-import com.zombiecastlerush.gui.creature.Creature;
-import com.zombiecastlerush.gui.creature.CreatureFactory;
+import com.zombiecastlerush.gui.Command;
+import com.zombiecastlerush.gui.entity.Creature;
+import com.zombiecastlerush.gui.entity.EntityFactory;
 import com.zombiecastlerush.gui.layout.World;
 import com.zombiecastlerush.gui.layout.WorldBuilder;
 import com.zombiecastlerush.util.Game;
-import com.zombiecastlerush.util.Parser;
-
 
 import java.awt.*;
-import java.util.List;
 import java.awt.event.KeyEvent;
 
 public class CastleHallScreen implements Screen {
@@ -44,10 +41,12 @@ public class CastleHallScreen implements Screen {
             player.x = 1;
         }
 
-        CreatureFactory creatureFactory = new CreatureFactory(world);
+        EntityFactory entityFactory = new EntityFactory(world);
         for (int i = 0; i < 6; i++) {
-            creatureFactory.newZombies();
+            entityFactory.newZombies();
         }
+
+        entityFactory.newSword();
 
     }
 
@@ -89,13 +88,23 @@ public class CastleHallScreen implements Screen {
         } else {
             this.key = key;
 
-
             int choice = Command.choice(Command.command);
-            if (key.getKeyCode() == KeyEvent.VK_ENTER)
+            if (key.getKeyCode() == KeyEvent.VK_ENTER) {
                 Command.command = "";
-            switch (choice) {
-                case 1:
-                    subscreen = new RiddleScreen(player, this.getClass().getSimpleName());
+                switch (choice) {
+                    case 1:
+                        if (player.world().tile(player.x, player.y).isBox()) {
+                            subscreen = new RiddleScreen(player, this.getClass().getSimpleName());
+                        }
+                        break;
+                    case 2:
+                        String itemName = Command.parsedCommands.get(1);
+                        player.drop(player.inventory().get(itemName));
+                        break;
+                    case 3:
+                        player.pickup();
+                        break;
+                }
             }
 
 
@@ -143,11 +152,7 @@ public class CastleHallScreen implements Screen {
             for (int y = 0; y < screenHeight; y++) {
 
                 if (player.canSee(x, y)) {
-                    Creature creature = world.creature(x, y);
-                    if (creature != null)
-                        terminal.write(creature.glyph(), creature.x, creature.y, creature.color());
-                    else
-                        terminal.write(world.glyph(x, y), x, y, world.color(x, y));
+                    terminal.write(world.glyph(x, y), x, y, world.color(x, y));
                 } else {
                     terminal.write(world.glyph(x, y), x, y, Color.black);
                 }
@@ -176,7 +181,10 @@ public class CastleHallScreen implements Screen {
         int length = terminal.getWidthInCharacters() - screenWidth - 2;
         terminal.write(drawLine(length), right, middle, Color.ORANGE);
         terminal.write("Inventory", right, middle + 1, Color.green);
-        terminal.write("placeholder", right, middle + 2, Color.magenta);
+        for (int i = 0; i < player.inventory().getGuiItems().size(); i++) {
+            terminal.write(player.inventory().get(i).name(), right, middle + 3 + i, Color.magenta);
+        }
+
     }
 
     private void displayHint(AsciiPanel terminal, int right, int bottom) {
