@@ -3,6 +3,7 @@ package com.zombiecastlerush.gui.screens;
 import asciiPanel.AsciiPanel;
 import com.zombiecastlerush.building.Puzzle;
 import com.zombiecastlerush.gui.entity.Creature;
+import com.zombiecastlerush.gui.entity.GuiItem;
 import com.zombiecastlerush.gui.entity.RiddleFactory;
 
 import java.awt.*;
@@ -17,6 +18,7 @@ public class RiddleScreen implements Screen {
     private Puzzle riddle;
     private KeyEvent key;
     private int numOfAttempts;
+    private boolean itemPickedUp;
     private static final Map<String, String> castleScreenConverter = new HashMap<>() {{
         put("CastleHallScreen", "Castle-Hall");
         put("CombatHallScreen", "Combat-Hall");
@@ -60,6 +62,9 @@ public class RiddleScreen implements Screen {
             msg = "You can continue to try but your reward is vanished or type quit to exit.";
         }
         terminal.writeCenter(msg,(screenHeight - 10) / 2 + 8,Color.cyan);
+        if(itemPickedUp){
+            terminal.writeCenter("An item is droped in your inventory.",(screenHeight - 10) / 2 + 16,Color.GREEN);
+        }
         terminal.repaint();
 
     }
@@ -109,6 +114,12 @@ public class RiddleScreen implements Screen {
                 RiddleFactory.answer = "";
                 if (numOfAttempts <=3){
                     // TODO drop some item to player inventory
+                    GuiItem item = player.world().item(player.x, player.y);
+                    if (!player.inventory().getGuiItems().contains(item)){
+                        player.pickup();
+                        itemPickedUp = true;
+
+                    }
                 }
 
                 return null;

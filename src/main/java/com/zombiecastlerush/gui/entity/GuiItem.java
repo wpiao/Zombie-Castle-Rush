@@ -2,7 +2,7 @@ package com.zombiecastlerush.gui.entity;
 
 import java.awt.Color;
 
-public class Item implements Location {
+public class GuiItem extends com.zombiecastlerush.building.Item implements Location {
 
     private char glyph;
     public char glyph() { return glyph; }
@@ -13,7 +13,8 @@ public class Item implements Location {
     private String name;
     public String name() { return name; }
 
-    public Item(char glyph, Color color, String name){
+    public GuiItem(char glyph, Color color, String name){
+        super();
         this.glyph = glyph;
         this.color = color;
         this.name = name;

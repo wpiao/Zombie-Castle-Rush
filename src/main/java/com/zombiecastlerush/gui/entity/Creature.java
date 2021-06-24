@@ -4,6 +4,7 @@ import com.zombiecastlerush.gui.layout.Tile;
 import com.zombiecastlerush.gui.layout.World;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 public class Creature implements Location {
     private World world;
@@ -40,6 +41,9 @@ public class Creature implements Location {
     private int visionRadius;
     public int visionRadius() { return visionRadius; }
 
+    private Inventory inventory;
+    public Inventory inventory() { return inventory; }
+
     public Creature(World world, char glyph, Color color, int maxHp, int attack, int defense){
         this.world = world;
         this.glyph = glyph;
@@ -49,6 +53,7 @@ public class Creature implements Location {
         this.attackValue = attack;
         this.defenseValue = defense;
         this.visionRadius = 9;
+        this.inventory = new Inventory();
     }
 
     public void setWorld(World world) {
@@ -83,6 +88,20 @@ public class Creature implements Location {
         damageToSelf =  (int)(Math.random() * damageToSelf) + 1;
         this.modifyHp(-damageToSelf);
         other.modifyHp(-damageToOther);
+    }
+
+    public void pickup(){
+        GuiItem item = world.item(x, y);
+
+        if (!inventory.isFull() && item != null){
+            world.remove(x, y);
+            inventory.add(item);
+        }
+    }
+
+    public void drop(GuiItem item){
+        inventory.remove(item);
+        world.addAtEmptySpace(item, x, y);
     }
 
     public void modifyHp(int amount) {

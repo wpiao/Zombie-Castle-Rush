@@ -26,8 +26,8 @@ public class EntityFactory {
         return zombie;
     }
 
-    public Item newSword(){
-        Item sword = new Item(',', AsciiPanel.yellow, "rock");
+    public GuiItem newSword(){
+        GuiItem sword = new GuiItem(',', AsciiPanel.yellow, "Sword");
         world.addAtBox(sword);
         return sword;
     }

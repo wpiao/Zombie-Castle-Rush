@@ -1,7 +1,7 @@
 package com.zombiecastlerush.gui.layout;
 
 import com.zombiecastlerush.gui.entity.Creature;
-import com.zombiecastlerush.gui.entity.Item;
+import com.zombiecastlerush.gui.entity.GuiItem;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class World {
     private Tile[][] tiles;
-    private Item[][] items;
+    private GuiItem[][] guiItems;
 
     private int width;
     public int width() { return width; }
@@ -29,7 +29,7 @@ public class World {
         this.width = tiles.length;
         this.height = tiles[0].length;
         this.creatures = new ArrayList<>();
-        this.items = new Item[width][height];
+        this.guiItems = new GuiItem[width][height];
     }
 
     public World(Tile[][] tiles, String name){
@@ -53,8 +53,8 @@ public class World {
             return tiles[x][y];
     }
 
-    public Item item(int x, int y){
-        return items[x][y];
+    public GuiItem item(int x, int y){
+        return guiItems[x][y];
     }
 
     public char glyph(int x, int y){
@@ -100,14 +100,46 @@ public class World {
         creatures.add(creature);
     }
 
-    public void addAtBox(Item item) {
+    public void addAtBox(GuiItem guiItem) {
 
         Map<Point,Tile> boxTiles = getBoxTile();
 
         for (Map.Entry<Point,Tile> entry: boxTiles.entrySet()) {
 
-            items[entry.getKey().x][entry.getKey().y] = item;
+            guiItems[entry.getKey().x][entry.getKey().y] = guiItem;
         }
+    }
+
+    public boolean addAtEmptySpace(GuiItem item, int x, int y){
+        if (item == null)
+            return true;
+
+
+        List<Point> points = new ArrayList<Point>();
+        List<Point> checked = new ArrayList<Point>();
+
+        points.add(new Point(x, y));
+
+        while (!points.isEmpty()){
+            Point p = points.remove(0);
+            checked.add(p);
+
+            if (!tile(p.x, p.y).isGround())
+                continue;
+
+            if (guiItems[p.x][p.y] == null){
+                guiItems[p.x][p.y] = item;
+                Creature c = this.creature(p.x, p.y);
+                if (c != null)
+                    //c.notify("A %s lands between your feet.", item.name());
+                return true;
+            } else {
+                List<Point> neighbors = p.neighbors8();
+                neighbors.removeAll(checked);
+                points.addAll(neighbors);
+            }
+        }
+        return false;
     }
 
     public void update(){
@@ -115,6 +147,10 @@ public class World {
         for (Creature creature : toUpdate){
             creature.update();
         }
+    }
+
+    public void remove(int x, int y) {
+        guiItems[x][y] = null;
     }
 
     public void remove(Creature other) {

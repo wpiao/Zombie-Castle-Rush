@@ -57,7 +57,7 @@ public class Inventory {
     }
 
     /**
-     * This function can move Item from one Object's List<Item> to another
+     * This function can move GuiItem from one Object's List<GuiItem> to another
      * in this iteration, both Room and Role have Inventory reference attribute
      * so not necessary to implement static method in this iteration 2
      * If we decide to use centralized inventory management, this will be static
@@ -68,7 +68,7 @@ public class Inventory {
             throw new IllegalArgumentException("Invalid null input argument");
         } else {
             if (!this.getItems().contains(item)) {
-                throw new IllegalArgumentException("Nonexistent Item. Can not relocate it.");
+                throw new IllegalArgumentException("Nonexistent GuiItem. Can not relocate it.");
             }
             this.getItems().remove(item); // remove item from current list
             destination.getInventory().addItems(item);

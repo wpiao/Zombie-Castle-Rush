@@ -19,6 +19,10 @@ public class Item {
         this.setPrice(price);
     }
 
+    public Item() {
+
+    }
+
     public String getName() {
         return name;
     }

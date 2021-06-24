@@ -5,6 +5,7 @@ import com.zombiecastlerush.building.Room;
 import com.zombiecastlerush.gui.Command;
 import com.zombiecastlerush.gui.entity.Creature;
 import com.zombiecastlerush.gui.entity.EntityFactory;
+import com.zombiecastlerush.gui.entity.GuiItem;
 import com.zombiecastlerush.gui.layout.World;
 import com.zombiecastlerush.gui.layout.WorldBuilder;
 import com.zombiecastlerush.util.Game;
@@ -171,7 +172,10 @@ public class CastleHallScreen implements Screen {
         int length = terminal.getWidthInCharacters() - screenWidth - 2;
         terminal.write(drawLine(length), right, middle, Color.ORANGE);
         terminal.write("Inventory", right, middle + 1, Color.green);
-        terminal.write("placeholder", right, middle + 2, Color.magenta);
+        for (int i = 0; i < player.inventory().getGuiItems().size(); i++) {
+            terminal.write(player.inventory().get(i).name(), right, middle + 3 + i, Color.magenta);
+        }
+
     }
 
     private void displayHint(AsciiPanel terminal, int right, int bottom) {
