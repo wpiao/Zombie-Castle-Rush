@@ -61,21 +61,20 @@ public class Prompter {
                 roomInventory = ((Shop) currentRoom).toStringShopInventory() + "\nYou have $" + player.getAcctBalance();
             }
             System.out.println(numItemsString + " " + roomInventory);
+            System.out.println("\nYou can " + Parser.GREEN + "go" + Parser.ANSI_RESET + " to one of the following locations " + availableRooms);
 
             if (player.getInventory().getItems().size() > 0) {
                 String dropOrSellText = (currentRoom instanceof Shop) ? "sell" : "drop";
-                System.out.println("\nYou have the following items that you can " + Parser.GREEN + dropOrSellText + Parser.ANSI_RESET + ": "
-                        + player.getInventory().toString()+  currentRoom.getInventory()  );
+                System.out.println("\nYou can " + Parser.GREEN + dropOrSellText + Parser.ANSI_RESET + " the following items from the inventory list ");
             }
-            System.out.println("\nYou can " + Parser.GREEN + "go" + Parser.ANSI_RESET + " to one of the following locations " + availableRooms);
         }
-        System.out.print("\nActions applicable: " + sceneContextmenu(currentRoom, player) + "  \n");
         System.out.printf(Parser.RED+"\n---------------------------- Inventory---------------------------------"+ Parser.ANSI_RESET);
         System.out.printf(Parser.GREEN+"\n%10s%18s%36s%n","Item", "Price","Description"+ Parser.ANSI_RESET);
         for(Item item : player.getInventory().getItems()){
             System.out.printf(Parser.YELLOW+"%10s%18s%36s%n", item.getName(), item.getPrice(), item.getDescription()+ Parser.ANSI_RESET);
         }
-        System.out.printf(Parser.RED+"\n---------------------------- Inventory---------------------------------\n" + Parser.ANSI_RESET);
+        System.out.printf(Parser.RED+"---------------------------- Inventory---------------------------------\n" + Parser.ANSI_RESET);
+        System.out.print("\nActions applicable: " + sceneContextmenu(currentRoom, player) + "  \n");
     }
 
     public static List<String> sceneContextmenu(Room room, Player player) {
