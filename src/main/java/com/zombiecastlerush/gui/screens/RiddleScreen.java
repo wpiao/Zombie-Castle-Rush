@@ -18,16 +18,17 @@ public class RiddleScreen implements Screen {
     private final Creature player;
     private Puzzle riddle;
     private KeyEvent key;
-    private static final Map<String, String> castleScreenConverter = new HashMap<>(){{
-        put("CastleHallScreen","Castle-Hall");
-        put("CombatHallScreen","Combat-Hall");
-        put("DrawBridgeScreen","Draw-Bridge");
-        put("EastWingScreen","East-Wing");
-        put("WestWingScreen","West-Wing");
-        put("ShopScreen","Shop");
-    }};;
+    private static final Map<String, String> castleScreenConverter = new HashMap<>() {{
+        put("CastleHallScreen", "Castle-Hall");
+        put("CombatHallScreen", "Combat-Hall");
+        put("DrawBridgeScreen", "Draw-Bridge");
+        put("EastWingScreen", "East-Wing");
+        put("WestWingScreen", "West-Wing");
+        put("ShopScreen", "Shop");
+    }};
+    ;
 
-    public RiddleScreen(Creature player){
+    public RiddleScreen(Creature player) {
         screenWidth = 90;
         screenHeight = 51;
         RiddleFactory.answer = "";
@@ -46,7 +47,12 @@ public class RiddleScreen implements Screen {
         terminal.clear();
 
         displayUserInput(terminal, 0, terminal.getHeightInCharacters() - 10);
-        terminal.writeCenter(riddle.getQuestion(), (screenHeight - 10) / 2);
+        if (riddle.getQuestion().length() > 80) {
+            terminal.writeCenter(riddle.getQuestion().substring(0,79),(screenHeight - 10) / 2);
+            terminal.writeCenter(riddle.getQuestion().substring(79),(screenHeight - 10) / 2 + 2);
+        } else {
+            terminal.writeCenter(riddle.getQuestion(), (screenHeight - 10) / 2);
+        }
         terminal.repaint();
 
     }
@@ -56,7 +62,7 @@ public class RiddleScreen implements Screen {
         terminal.write("Answer is -> ", x, y + 1, Color.red);
 
 
-        if (key!=null) {
+        if (key != null) {
             int keyCode = key.getKeyCode();
             if (keyCode <= 126 && keyCode != 10) {
                 if (keyCode == 8 && RiddleFactory.answer.length() > 0) {

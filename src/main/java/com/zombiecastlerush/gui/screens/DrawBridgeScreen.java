@@ -17,6 +17,7 @@ public class DrawBridgeScreen implements Screen {
     private final int screenWidth;
     private final int screenHeight;
     private KeyEvent key;
+    private Screen subscreen;
 
     public DrawBridgeScreen(Creature player) {
         this.player = player;
@@ -31,7 +32,7 @@ public class DrawBridgeScreen implements Screen {
         }
 
         CreatureFactory creatureFactory = new CreatureFactory(world);
-        for (int i = 0; i < 16; i++){
+        for (int i = 0; i < 16; i++) {
             creatureFactory.newZombies();
         }
 
@@ -61,38 +62,61 @@ public class DrawBridgeScreen implements Screen {
 
         terminal.write(player.glyph(), player.x, player.y, player.color());
 
+        if (subscreen != null)
+            subscreen.displayOutput(terminal);
+
 
     }
 
 
     public Screen respondToUserInput(KeyEvent key) {
-        this.key = key;
-        if (player.x <= 76 && player.x >= 71 && player.y == 0) {
-            return new CastleHallScreen(player);
-        } else if (player.x <= 19 && player.x >= 14 && player.y == 0) {
-            return new WestWingScreen(player);
+        if (subscreen != null) {
+            subscreen = subscreen.respondToUserInput(key);
         } else {
-            switch (key.getKeyCode()) {
-                case KeyEvent.VK_LEFT:
-                    player.moveBy(-1, 0);
-                    break;
-                case KeyEvent.VK_RIGHT:
-                    player.moveBy(1, 0);
-                    break;
-                case KeyEvent.VK_UP:
-                    player.moveBy(0, -1);
-                    break;
-                case KeyEvent.VK_DOWN:
-                    player.moveBy(0, 1);
-                    break;
+            this.key = key;
 
+
+            int choice = Command.choice(Command.command);
+            if (key.getKeyCode() == KeyEvent.VK_ENTER)
+                Command.command = "";
+            switch (choice) {
+                case 1:
+                    subscreen = new RiddleScreen(player, this.getClass().getSimpleName());
             }
-            world.update();
-            if(player.hp() < 1){return new LoseScreen();}
 
-            return this;
+            if (player.x <= 76 && player.x >= 71 && player.y == 0) {
+                return new CastleHallScreen(player);
+            } else if (player.x <= 19 && player.x >= 14 && player.y == 0) {
+                return new WestWingScreen(player);
+            } else {
+                switch (key.getKeyCode()) {
+                    case KeyEvent.VK_LEFT:
+                        player.moveBy(-1, 0);
+                        break;
+                    case KeyEvent.VK_RIGHT:
+                        player.moveBy(1, 0);
+                        break;
+                    case KeyEvent.VK_UP:
+                        player.moveBy(0, -1);
+                        break;
+                    case KeyEvent.VK_DOWN:
+                        player.moveBy(0, 1);
+                        break;
 
+                }
+            }
         }
+
+        //if there is no riddle screen, then update creature's movement.
+        if (subscreen == null) {
+            world.update();
+        }
+
+        if (player.hp() < 1) {
+            return new LoseScreen();
+        }
+
+        return this;
     }
 
 
@@ -100,7 +124,7 @@ public class DrawBridgeScreen implements Screen {
         for (int x = 0; x < screenWidth; x++) {
             for (int y = 0; y < screenHeight; y++) {
 
-                if (player.canSee(x, y)){
+                if (player.canSee(x, y)) {
                     Creature creature = world.creature(x, y);
                     if (creature != null)
                         terminal.write(creature.glyph(), creature.x, creature.y, creature.color());
@@ -120,11 +144,11 @@ public class DrawBridgeScreen implements Screen {
         terminal.write("Status", right, top + 1, Color.green);
 
         // display player hp
-        String stats = player.hp() < 1 ? "":String.format("You: %6d/%3d hp", player.hp(), player.maxHp());
+        String stats = player.hp() < 1 ? "" : String.format("You: %6d/%3d hp", player.hp(), player.maxHp());
         terminal.write(stats, right, top + 3, Color.magenta);
 
         //if player has an opponent, aka in fight, then display its hp.
-        String enemyStats = player.opponent() == null || player.opponent().hp() < 1 ? "":
+        String enemyStats = player.opponent() == null || player.opponent().hp() < 1 ? "" :
                 String.format("Zombie: %3d/%3d hp", player.opponent().hp(), player.opponent().maxHp());
         terminal.write(enemyStats, right, top + 4, Color.green);
     }
@@ -158,15 +182,26 @@ public class DrawBridgeScreen implements Screen {
 
     private void displayDescription(AsciiPanel terminal, int left, int bottom) {
         terminal.write("Draw Bridge", left, bottom + 1, Color.RED);
-        String description = Game.castle.getCastleRooms().get("Draw-Bridge").getDescription();
-        String msg1 = description.substring(0,description.length()/3 + 3);
-        String msg2 = description.substring(description.length()/3 + 4,description.length()/3 *2 + 6 );
-        String msg3 = description.substring(description.length()/3 *2 +7);
 
-        terminal.write(msg1, left, bottom + 2, Color.white);
-        terminal.write(msg2, left, bottom + 3, Color.white);
-        terminal.write(msg3, left, bottom + 4, Color.white);
-        terminal.write(" ", left, bottom + 3, Color.red);
+        world.getBoxTile().forEach((point, tile) -> {
+            if (player.x == point.x && player.y == point.y) {
+                String msg1 = "The box pulses with power. You know not how, but it has a riddle for you,";
+
+                String msg2 = "and it will not let you leave until you have solved it.Perhaps you should attempt puzzle.";
+                terminal.write(msg1, left, bottom + 3, Color.magenta);
+                terminal.write(msg2, left, bottom + 4, Color.magenta);
+            } else {
+                String description = Game.castle.getCastleRooms().get("Draw-Bridge").getDescription();
+                String msg1 = description.substring(0, description.length() / 3 + 3);
+                String msg2 = description.substring(description.length() / 3 + 4, description.length() / 3 * 2 + 6);
+                String msg3 = description.substring(description.length() / 3 * 2 + 7);
+
+                terminal.write(msg1, left, bottom + 2, Color.white);
+                terminal.write(msg2, left, bottom + 3, Color.white);
+                terminal.write(msg3, left, bottom + 4, Color.white);
+                terminal.write(" ", left, bottom + 3, Color.red);
+            }
+        });
     }
 
     private String drawLine(int length) {
