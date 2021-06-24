@@ -2,12 +2,23 @@ package com.zombiecastlerush.gui.entity;
 
 import com.zombiecastlerush.gui.layout.Tile;
 import com.zombiecastlerush.gui.layout.World;
+import com.zombiecastlerush.gui.screens.Screen;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Creature implements Location {
     private World world;
     public World world(){return  world;}
+
+    private Map<String,World> exploredWorldList;
+    public Map<String,World> worldList(){return exploredWorldList;}
+
+    private Screen screen;
+    public Screen screen(){return screen;}
 
     private Creature opponent;
     public Creature opponent() { return opponent;}
@@ -53,6 +64,7 @@ public class Creature implements Location {
         this.defenseValue = defense;
         this.visionRadius = 9;
         this.inventory = new Inventory();
+        exploredWorldList = new HashMap<>();
     }
 
     public void setWorld(World world) {

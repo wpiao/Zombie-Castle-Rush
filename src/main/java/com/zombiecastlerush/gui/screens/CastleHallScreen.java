@@ -20,14 +20,24 @@ public class CastleHallScreen implements Screen {
     private final int screenHeight;
     private KeyEvent key;
     private Screen subscreen;
+    private int index;
 
     public CastleHallScreen(Creature player) {
+        //add previous world to world list.
+        player.worldList().put(player.world().name(),player.world());
+
         this.player = player;
         screenWidth = 90;
         screenHeight = 51;
+        //if player hasn't explored this world yet..
+        if (!player.worldList().containsKey(this.getClass().getSimpleName())){
+            //create world of tiles from external file
+            createWorld();
+        }else{
+            this.world = player.worldList().get(this.getClass().getSimpleName());
+        }
 
-        //create world of tiles from external file
-        createWorld();
+        //set player current world
         player.setWorld(world);
 
         //set player location when entering into this screen from other screens
@@ -41,13 +51,6 @@ public class CastleHallScreen implements Screen {
             player.x = 1;
         }
 
-        EntityFactory entityFactory = new EntityFactory(world);
-        for (int i = 0; i < 6; i++) {
-            entityFactory.newZombies();
-        }
-
-        entityFactory.newSword();
-
     }
 
     private void createWorld() {
@@ -55,13 +58,17 @@ public class CastleHallScreen implements Screen {
         world = new WorldBuilder(90, 51)
                 .design(path)
                 .build(this.getClass().getSimpleName());
+
+        EntityFactory entityFactory = new EntityFactory(world);
+        for (int i = 0; i < 6; i++) {
+            entityFactory.newZombies();
+        }
+
+        entityFactory.newSword();
     }
 
 
     public void displayOutput(AsciiPanel terminal) {
-        int left = 0;
-        int top = 0;
-
         //playground
         displayTiles(terminal);
         //status
@@ -75,10 +82,13 @@ public class CastleHallScreen implements Screen {
         //user input
         displayUserInput(terminal, 0, terminal.getHeightInCharacters() - 3);
 
-        terminal.write(player.glyph(), player.x - left, player.y - top, player.color());
+        terminal.write(player.glyph(), player.x, player.y, player.color());
 
-        if (subscreen != null)
+        if (subscreen != null) {
             subscreen.displayOutput(terminal);
+        }
+
+
     }
 
 
@@ -233,5 +243,9 @@ public class CastleHallScreen implements Screen {
             line += "-";
         }
         return line;
+    }
+
+    public String toString(){
+        return "CastleHall";
     }
 }

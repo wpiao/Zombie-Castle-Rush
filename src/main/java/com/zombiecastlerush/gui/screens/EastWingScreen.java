@@ -20,6 +20,9 @@ public class EastWingScreen implements Screen {
     private Screen subscreen;
 
     public EastWingScreen(Creature player) {
+        //add previous world to world list.
+        player.worldList().put(player.world().name(),player.world());
+
         this.player = player;
         screenWidth = 90;
         screenHeight = 51;
