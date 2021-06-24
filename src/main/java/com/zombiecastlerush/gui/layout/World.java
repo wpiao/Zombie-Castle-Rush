@@ -4,7 +4,9 @@ import com.zombiecastlerush.gui.creature.Creature;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class World {
     private Tile[][] tiles;
@@ -14,13 +16,21 @@ public class World {
     private int height;
     public int height() { return height; }
 
+    private String name;
+    public String name(){return name;}
+
     private List<Creature> creatures;
 
     public World(Tile[][] tiles){
         this.tiles = tiles;
         this.width = tiles.length;
         this.height = tiles[0].length;
-        this.creatures = new ArrayList<Creature>();
+        this.creatures = new ArrayList<>();
+    }
+
+    public World(Tile[][] tiles, String name){
+        this(tiles);
+        this.name = name;
     }
 
     public Creature creature(int x, int y){
@@ -30,6 +40,7 @@ public class World {
         }
         return null;
     }
+
 
     public Tile tile(int x, int y){
         if (x < 0 || x >= width || y < 0 || y >= height)
@@ -45,10 +56,18 @@ public class World {
     public Color color(int x, int y){
         return tile(x, y).color();
     }
-//    public void dig(int x, int y) {
-//        if (tile(x,y).isDiggable())
-//            tiles[x][y] = Tile.FLOOR;
-//    }
+
+    public Map<Point,Tile> getBoxTile(){
+        Map<Point,Tile> boxTiles = new HashMap<>();
+        for(int x = 0; x < width;x++){
+            for (int y = 0; y < height; y++){
+                if (tile(x,y).isBox()){
+                    boxTiles.put(new Point(x,y),tile(x,y));
+                }
+            }
+        }
+        return boxTiles;
+    }
 
     public void addAtEmptyLocation(Creature creature){
         int x;
@@ -58,7 +77,7 @@ public class World {
             x = (int)(Math.random() * width);
             y = (int)(Math.random() * height);
         }
-        while (!tile(x,y).isGround()||creature(x,y) != null);
+        while ((!tile(x,y).isGround()&&!tile(x,y).isDoor())||creature(x,y) != null);
 
         creature.x = x;
         creature.y = y;
@@ -66,7 +85,7 @@ public class World {
     }
 
     public void update(){
-        List<Creature> toUpdate = new ArrayList<Creature>(creatures);
+        List<Creature> toUpdate = new ArrayList<>(creatures);
         for (Creature creature : toUpdate){
             creature.update();
         }

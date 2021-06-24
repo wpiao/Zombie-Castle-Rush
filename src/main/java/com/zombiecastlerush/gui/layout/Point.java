@@ -56,4 +56,12 @@ public class Point {
         Collections.shuffle(points);
         return points;
     }
+
+    @Override
+    public String toString() {
+        return "Point{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
+    }
 }

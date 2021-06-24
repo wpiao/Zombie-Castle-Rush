@@ -28,7 +28,7 @@ public class StartScreen implements Screen {
         String path = "Resources/Castle/Castle.txt";
         world = new WorldBuilder(100, 51)
                 .design(path)
-                .build();
+                .build(this.getClass().getSimpleName());
     }
 
 

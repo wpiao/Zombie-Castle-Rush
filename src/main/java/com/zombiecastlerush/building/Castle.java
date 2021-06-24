@@ -14,7 +14,7 @@ public class Castle {
         Room eastWing = new Room("East-Wing", "Another box is here. Sounds like the moans of a man in agony grow louder as you venture deeper into this room.");
         Room westWing = new Room("West-Wing", "Eerily quiet, only a box awaits you in this chamber.");
         Room castleHall = new Room("Castle-Hall", "It is cold, dark, and empty, save for a dimly lit, white box. ");
-        Room drawBridge = new Room("Draw-Bridge", "The bridge is up, and there is no way to the other side. Nothing about the giant, open castle doors looks inviting, but alas, it is the only way forward. A box lays on the ground right before the doorway.");
+        Room drawBridge = new Room("Draw-Bridge", "The bridge is up, and there is no way to the other side. Nothing about the giant, open castle doors looks inviting, but alas, it is the only way forward. A box lays on the ground right after the doorway.");
         Room combatHall = new Room("Combat-Hall", "Festooned with the arms and armor of warriors past, this room is better lit than the others. In the middle of the room, a single coffin has been left slightly open, its lid closed just enough to obscure the contents from view");
         Shop shop = new Shop("Shop", "A strangely silent shopkeeper seems to preside over a collection of wares, oblivious or indifferent to your presence.");
 
