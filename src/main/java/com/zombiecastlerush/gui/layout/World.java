@@ -4,7 +4,9 @@ import com.zombiecastlerush.gui.creature.Creature;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class World {
     private Tile[][] tiles;
@@ -45,10 +47,18 @@ public class World {
     public Color color(int x, int y){
         return tile(x, y).color();
     }
-//    public void dig(int x, int y) {
-//        if (tile(x,y).isDiggable())
-//            tiles[x][y] = Tile.FLOOR;
-//    }
+
+    public Map<Point,Tile> getBoxTile(){
+        Map<Point,Tile> boxTiles = new HashMap<>();
+        for(int x = 0; x < width;x++){
+            for (int y = 0; y < height; y++){
+                if (tile(x,y).isBox()){
+                    boxTiles.put(new Point(x,y),tile(x,y));
+                }
+            }
+        }
+        return boxTiles;
+    }
 
     public void addAtEmptyLocation(Creature creature){
         int x;

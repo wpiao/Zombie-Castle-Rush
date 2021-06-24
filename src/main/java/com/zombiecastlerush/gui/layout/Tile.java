@@ -40,5 +40,9 @@ public enum Tile {
     public boolean isDoor() {
         return this.glyph() < 128;
     }
+
+    public boolean isBox(){
+        return this.glyph() == 240;
+    }
 }
 
