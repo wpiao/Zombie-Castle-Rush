@@ -4,7 +4,6 @@ import com.zombiecastlerush.gui.layout.Tile;
 import com.zombiecastlerush.gui.layout.World;
 
 import java.awt.Color;
-import java.util.ArrayList;
 
 public class Creature implements Location {
     private World world;
@@ -100,8 +99,10 @@ public class Creature implements Location {
     }
 
     public void drop(GuiItem item){
-        inventory.remove(item);
-        world.addAtEmptySpace(item, x, y);
+        if (item != null) {
+            inventory.remove(item);
+            world.addAtPlayer(item, x, y);
+        }
     }
 
     public void modifyHp(int amount) {

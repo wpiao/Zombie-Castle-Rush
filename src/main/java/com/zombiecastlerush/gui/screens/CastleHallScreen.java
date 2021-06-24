@@ -5,7 +5,6 @@ import com.zombiecastlerush.building.Room;
 import com.zombiecastlerush.gui.Command;
 import com.zombiecastlerush.gui.entity.Creature;
 import com.zombiecastlerush.gui.entity.EntityFactory;
-import com.zombiecastlerush.gui.entity.GuiItem;
 import com.zombiecastlerush.gui.layout.World;
 import com.zombiecastlerush.gui.layout.WorldBuilder;
 import com.zombiecastlerush.util.Game;
@@ -89,13 +88,23 @@ public class CastleHallScreen implements Screen {
         } else {
             this.key = key;
 
-
             int choice = Command.choice(Command.command);
-            if (key.getKeyCode() == KeyEvent.VK_ENTER)
+            if (key.getKeyCode() == KeyEvent.VK_ENTER) {
                 Command.command = "";
-            switch (choice) {
-                case 1:
-                    subscreen = new RiddleScreen(player, this.getClass().getSimpleName());
+                switch (choice) {
+                    case 1:
+                        if (player.world().tile(player.x, player.y).isBox()) {
+                            subscreen = new RiddleScreen(player, this.getClass().getSimpleName());
+                        }
+                        break;
+                    case 2:
+                        String itemName = Command.parsedCommands.get(1);
+                        player.drop(player.inventory().get(itemName));
+                        break;
+                    case 3:
+                        player.pickup();
+                        break;
+                }
             }
 
 

@@ -27,7 +27,7 @@ public class EntityFactory {
     }
 
     public GuiItem newSword(){
-        GuiItem sword = new GuiItem(',', AsciiPanel.yellow, "Sword");
+        GuiItem sword = new GuiItem('1', AsciiPanel.brightRed, "Sword");
         world.addAtBox(sword);
         return sword;
     }

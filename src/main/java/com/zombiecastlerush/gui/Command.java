@@ -13,6 +13,7 @@ import java.util.Locale;
 public class Command {
 
     public static String command = "";
+    public static List<String> parsedCommands;
 
 
     public static void type(KeyEvent key, AsciiPanel terminal, int x, int y) {
@@ -38,11 +39,11 @@ public class Command {
     public static int choice(String input) {
         int indicator = -1;
         if (input != null && input.length() != 0) {
-            List<String> commands = Parser.parse(input);
-            if (commands != null) {
-                String action = commands.get(0).toLowerCase();
+            parsedCommands = Parser.parse(input);
+            if (parsedCommands != null) {
+                String action = parsedCommands.get(0).toLowerCase();
 
-                switch (commands.size()) {
+                switch (parsedCommands.size()) {
                     case 1:
                         switch (action){
                             case "quit":
@@ -52,11 +53,12 @@ public class Command {
                                 indicator = 98;
                                 break;
                         }
+                        break;
                     case 2:
                         switch (action) {
                             case "attempt":
                                 List<String> puzzleSynonym = Arrays.asList("puzzle", "riddle", "question");
-                                if (puzzleSynonym.contains(commands.get(1)))
+                                if (puzzleSynonym.contains(parsedCommands.get(1)))
                                     indicator = 1;
                                 break;
                             case "drop":
@@ -71,7 +73,11 @@ public class Command {
                             case "sell":
                                 indicator = 5;
                                 break;
+                            case "use":
+                                indicator = 6;
+                                break;
                         }
+                        break;
                 }
             }
         }
