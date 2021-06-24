@@ -2,10 +2,11 @@ package com.zombiecastlerush.gui.screens;
 
 import asciiPanel.AsciiPanel;
 import com.zombiecastlerush.gui.*;
-import com.zombiecastlerush.gui.creature.Creature;
-import com.zombiecastlerush.gui.creature.CreatureFactory;
+import com.zombiecastlerush.gui.entity.Creature;
+import com.zombiecastlerush.gui.entity.EntityFactory;
 import com.zombiecastlerush.gui.layout.World;
 import com.zombiecastlerush.gui.layout.WorldBuilder;
+import com.zombiecastlerush.util.Game;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -16,6 +17,7 @@ public class WestWingScreen implements Screen {
     private final int screenWidth;
     private final int screenHeight;
     private KeyEvent key;
+    private Screen subscreen;
 
     public WestWingScreen(Creature player) {
         this.player = player;
@@ -23,15 +25,15 @@ public class WestWingScreen implements Screen {
         screenHeight = 51;
         createWorld();
         player.setWorld(world);
-        if (player.x >=14 && player.x <= 19 && player.y == 0){
+        if (player.x >= 14 && player.x <= 19 && player.y == 0) {
             player.y = 49;
         } else if (player.x == 0) {
             player.x = 88;
         }
 
-        CreatureFactory creatureFactory = new CreatureFactory(world);
-        for (int i = 0; i < 20; i++){
-            creatureFactory.newZombies();
+        EntityFactory entityFactory = new EntityFactory(world);
+        for (int i = 0; i < 20; i++) {
+            entityFactory.newZombies();
         }
     }
 
@@ -39,16 +41,14 @@ public class WestWingScreen implements Screen {
         String path = "Resources/Castle/WestWing.txt";
         world = new WorldBuilder(90, 51)
                 .design(path)
-                .build();
+                .build(this.getClass().getSimpleName());
     }
 
 
     public void displayOutput(AsciiPanel terminal) {
-        int left = getScrollX();
-        int top = getScrollY();
 
         //playground
-        displayTiles(terminal, left, top);
+        displayTiles(terminal);
         //status
         displayStatus(terminal, screenWidth + 1, 0);
         //inventory
@@ -60,61 +60,71 @@ public class WestWingScreen implements Screen {
         //user input
         displayUserInput(terminal, 0, terminal.getHeightInCharacters() - 3);
 
-        terminal.write(player.glyph(), player.x - left, player.y - top, player.color());
+        terminal.write(player.glyph(), player.x, player.y, player.color());
+
+        if (subscreen != null)
+            subscreen.displayOutput(terminal);
     }
 
 
     public Screen respondToUserInput(KeyEvent key) {
-        this.key = key;
-        if (player.x == 89 && (player.y == 17 || player.y == 18 || player.y == 19)) {
-            return new CastleHallScreen(player);
-        } else if (player.x <= 19 && player.x >= 14 && player.y == 50) {
-            return new DrawBridgeScreen(player);
+        if (subscreen != null) {
+            subscreen = subscreen.respondToUserInput(key);
         } else {
-            switch (key.getKeyCode()) {
-                case KeyEvent.VK_LEFT:
-                    player.moveBy(-1, 0);
-                    break;
-                case KeyEvent.VK_RIGHT:
-                    player.moveBy(1, 0);
-                    break;
-                case KeyEvent.VK_UP:
-                    player.moveBy(0, -1);
-                    break;
-                case KeyEvent.VK_DOWN:
-                    player.moveBy(0, 1);
-                    break;
+            this.key = key;
+
+
+            int choice = Command.choice(Command.command);
+            if (key.getKeyCode() == KeyEvent.VK_ENTER)
+                Command.command = "";
+            switch (choice) {
+                case 1:
+                    subscreen = new RiddleScreen(player, this.getClass().getSimpleName());
+            }
+
+
+            if (player.x == 89 && (player.y == 17 || player.y == 18 || player.y == 19)) {
+                return new CastleHallScreen(player);
+            } else if (player.x <= 19 && player.x >= 14 && player.y == 50) {
+                return new DrawBridgeScreen(player);
+            } else {
+                switch (key.getKeyCode()) {
+                    case KeyEvent.VK_LEFT:
+                        player.moveBy(-1, 0);
+                        break;
+                    case KeyEvent.VK_RIGHT:
+                        player.moveBy(1, 0);
+                        break;
+                    case KeyEvent.VK_UP:
+                        player.moveBy(0, -1);
+                        break;
+                    case KeyEvent.VK_DOWN:
+                        player.moveBy(0, 1);
+                        break;
+                }
             }
         }
 
-        world.update();
-        if(player.hp() < 1){return new LoseScreen();}
+        //if there is no riddle screen, then update creature's movement.
+        if (subscreen == null) {
+            world.update();
+        }
+
+        if (player.hp() < 1) {
+            return new LoseScreen();
+        }
 
         return this;
     }
 
-    public int getScrollX() {
-        return Math.max(0, Math.min(player.x - screenWidth / 2, world.width() - screenWidth));
-    }
-
-    public int getScrollY() {
-        return Math.max(0, Math.min(player.y - screenHeight / 2, world.height() - screenHeight));
-    }
-
-    private void displayTiles(AsciiPanel terminal, int left, int top) {
+    private void displayTiles(AsciiPanel terminal) {
         for (int x = 0; x < screenWidth; x++) {
             for (int y = 0; y < screenHeight; y++) {
-                int wx = x + left;
-                int wy = y + top;
 
-                if (player.canSee(wx, wy)){
-                    Creature creature = world.creature(wx, wy);
-                    if (creature != null)
-                        terminal.write(creature.glyph(), creature.x - left, creature.y - top, creature.color());
-                    else
-                        terminal.write(world.glyph(wx, wy), x, y, world.color(wx, wy));
+                if (player.canSee(x, y)) {
+                    terminal.write(world.glyph(x, y), x, y, world.color(x, y));
                 } else {
-                    terminal.write(world.glyph(wx, wy), x, y, Color.black);
+                    terminal.write(world.glyph(x, y), x, y, Color.black);
                 }
             }
         }
@@ -127,11 +137,11 @@ public class WestWingScreen implements Screen {
         terminal.write("Status", right, top + 1, Color.green);
 
         // display player hp
-        String stats = player.hp() < 1 ? "":String.format("You: %6d/%3d hp", player.hp(), player.maxHp());
+        String stats = player.hp() < 1 ? "" : String.format("You: %6d/%3d hp", player.hp(), player.maxHp());
         terminal.write(stats, right, top + 3, Color.magenta);
 
         //if player has an opponent, aka in fight, then display its hp.
-        String enemyStats = player.opponent() == null || player.opponent().hp() < 1 ? "":
+        String enemyStats = player.opponent() == null || player.opponent().hp() < 1 ? "" :
                 String.format("Zombie: %3d/%3d hp", player.opponent().hp(), player.opponent().maxHp());
         terminal.write(enemyStats, right, top + 4, Color.green);
     }
@@ -159,14 +169,26 @@ public class WestWingScreen implements Screen {
     private void displayUserInput(AsciiPanel terminal, int left, int i) {
         terminal.write(drawLine(screenWidth), left, i, Color.orange);
         terminal.write("Enter command -> ", left, i + 1, Color.red);
-        Command.type(key, terminal, 18, i + 1);
+        if (subscreen == null) {
+            Command.type(key, terminal, 18, i + 1);
+        }
     }
 
     private void displayDescription(AsciiPanel terminal, int left, int bottom) {
         terminal.write("West Wing", left, bottom + 1, Color.RED);
-        //String description = Game.castle.getCastleRooms().get("West-Wing").getDescription();
-        //terminal.write(description, left, bottom + 2, Color.magenta);
-        terminal.write(" ", left, bottom + 3, Color.red);
+        world.getBoxTile().forEach((point, tile) -> {
+            if (player.x == point.x && player.y == point.y) {
+                String msg1 = "The box pulses with power. You know not how, but it has a riddle for you,";
+
+                String msg2 = "and it will not let you leave until you have solved it.Perhaps you should attempt puzzle.";
+                terminal.write(msg1, left, bottom + 3, Color.magenta);
+                terminal.write(msg2, left, bottom + 4, Color.magenta);
+            } else {
+                String description = Game.castle.getCastleRooms().get("West-Wing").getDescription();
+                terminal.write(description, left, bottom + 2, Color.white);
+                terminal.write(" ", left, bottom + 3, Color.red);
+            }
+        });
     }
 
     private String drawLine(int length) {

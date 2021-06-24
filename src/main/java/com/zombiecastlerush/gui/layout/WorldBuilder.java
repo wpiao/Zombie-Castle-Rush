@@ -15,8 +15,8 @@ public class WorldBuilder {
         this.tiles = new Tile[width][height];
     }
 
-    public World build() {
-        return new World(tiles);
+    public World build(String name) {
+        return new World(tiles,name);
     }
 
     public WorldBuilder design(String path) {

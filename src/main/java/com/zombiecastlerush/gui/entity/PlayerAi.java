@@ -1,4 +1,4 @@
-package com.zombiecastlerush.gui.creature;
+package com.zombiecastlerush.gui.entity;
 
 import com.zombiecastlerush.gui.layout.Tile;
 
@@ -9,9 +9,10 @@ public class PlayerAi extends CreatureAi {
     }
 
     public void onEnter(int x, int y, Tile tile) {
-        if (tile.isGround() || tile.isDoor()) {
+        if (tile.isGround() || tile.isDoor() || tile.isBox()) {
             creature.x = x;
             creature.y = y;
         }
+
     }
 }

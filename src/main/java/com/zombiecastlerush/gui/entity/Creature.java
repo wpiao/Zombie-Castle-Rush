@@ -1,12 +1,13 @@
-package com.zombiecastlerush.gui.creature;
+package com.zombiecastlerush.gui.entity;
 
 import com.zombiecastlerush.gui.layout.Tile;
 import com.zombiecastlerush.gui.layout.World;
 
 import java.awt.Color;
 
-public class Creature {
+public class Creature implements Location {
     private World world;
+    public World world(){return  world;}
 
     private Creature opponent;
     public Creature opponent() { return opponent;}
@@ -39,6 +40,9 @@ public class Creature {
     private int visionRadius;
     public int visionRadius() { return visionRadius; }
 
+    private Inventory inventory;
+    public Inventory inventory() { return inventory; }
+
     public Creature(World world, char glyph, Color color, int maxHp, int attack, int defense){
         this.world = world;
         this.glyph = glyph;
@@ -48,29 +52,30 @@ public class Creature {
         this.attackValue = attack;
         this.defenseValue = defense;
         this.visionRadius = 9;
+        this.inventory = new Inventory();
     }
 
     public void setWorld(World world) {
         this.world = world;
     }
 
-    public void moveBy(int mx, int my){
-        if (mx==0 && my==0)
+    public void moveBy(int dx, int dy){
+        if (dx==0 && dy==0)
             return;
-        Creature other = world.creature(x+mx, y+my);
+        Creature other = world.creature(x+dx, y+dy);
 
         if (other == null)
-            ai.onEnter(x+mx, y+my, world.tile(x+mx, y+my));
+            ai.onEnter(x+dx, y+dy, world.tile(x+dx, y+dy));
         else
             attack(other);
     }
 
-    public boolean canSee(int wx, int wy){
-        return ai.canSee(wx, wy);
+    public boolean canSee(int x, int y){
+        return ai.canSee(x, y);
     }
 
-    public Tile tile(int wx, int wy) {
-        return world.tile(wx, wy);
+    public Tile tile(int x, int y) {
+        return world.tile(x, y);
     }
 
     public void attack(Creature other){
@@ -84,6 +89,22 @@ public class Creature {
         other.modifyHp(-damageToOther);
     }
 
+    public void pickup(){
+        GuiItem item = world.item(x, y);
+
+        if (!inventory.isFull() && item != null){
+            world.remove(x, y);
+            inventory.add(item);
+        }
+    }
+
+    public void drop(GuiItem item){
+        if (item != null) {
+            inventory.remove(item);
+            world.addAtPlayer(item, x, y);
+        }
+    }
+
     public void modifyHp(int amount) {
         hp += amount;
 
@@ -91,13 +112,11 @@ public class Creature {
             world.remove(this);
     }
 
-    public Creature creature(int wx, int wy) {
-        return world.creature(wx, wy);
+    public Creature creature(int x, int y) {
+        return world.creature(x, y);
     }
 
     public void update(){
         ai.onUpdate();
     }
-
-
 }
