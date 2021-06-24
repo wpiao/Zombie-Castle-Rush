@@ -1,6 +1,7 @@
 package com.zombiecastlerush.gui.layout;
 
-import com.zombiecastlerush.gui.creature.Creature;
+import com.zombiecastlerush.gui.entity.Creature;
+import com.zombiecastlerush.gui.entity.Item;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -10,6 +11,8 @@ import java.util.Map;
 
 public class World {
     private Tile[][] tiles;
+    private Item[][] items;
+
     private int width;
     public int width() { return width; }
 
@@ -26,6 +29,7 @@ public class World {
         this.width = tiles.length;
         this.height = tiles[0].length;
         this.creatures = new ArrayList<>();
+        this.items = new Item[width][height];
     }
 
     public World(Tile[][] tiles, String name){
@@ -49,11 +53,23 @@ public class World {
             return tiles[x][y];
     }
 
+    public Item item(int x, int y){
+        return items[x][y];
+    }
+
     public char glyph(int x, int y){
+        Creature creature = creature(x, y);
+
+        if (creature != null)
+            return creature.glyph();
+
         return tile(x, y).glyph();
     }
 
     public Color color(int x, int y){
+        Creature creature = creature(x, y);
+        if (creature != null)
+            return creature.color();
         return tile(x, y).color();
     }
 
@@ -82,6 +98,16 @@ public class World {
         creature.x = x;
         creature.y = y;
         creatures.add(creature);
+    }
+
+    public void addAtBox(Item item) {
+
+        Map<Point,Tile> boxTiles = getBoxTile();
+
+        for (Map.Entry<Point,Tile> entry: boxTiles.entrySet()) {
+
+            items[entry.getKey().x][entry.getKey().y] = item;
+        }
     }
 
     public void update(){

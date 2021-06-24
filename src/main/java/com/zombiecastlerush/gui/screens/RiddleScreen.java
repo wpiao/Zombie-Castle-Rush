@@ -1,15 +1,13 @@
 package com.zombiecastlerush.gui.screens;
 
 import asciiPanel.AsciiPanel;
-import com.zombiecastlerush.building.Challenge;
 import com.zombiecastlerush.building.Puzzle;
-import com.zombiecastlerush.gui.creature.Creature;
-import com.zombiecastlerush.gui.RiddleFactory;
+import com.zombiecastlerush.gui.entity.Creature;
+import com.zombiecastlerush.gui.entity.RiddleFactory;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 public class RiddleScreen implements Screen {

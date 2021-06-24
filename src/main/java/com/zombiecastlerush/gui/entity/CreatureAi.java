@@ -1,4 +1,4 @@
-package com.zombiecastlerush.gui.creature;
+package com.zombiecastlerush.gui.entity;
 
 import com.zombiecastlerush.gui.layout.Line;
 import com.zombiecastlerush.gui.layout.Point;

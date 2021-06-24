@@ -1,6 +1,5 @@
-package com.zombiecastlerush.gui.creature;
+package com.zombiecastlerush.gui.entity;
 
-import com.zombiecastlerush.gui.Location;
 import com.zombiecastlerush.gui.layout.Tile;
 import com.zombiecastlerush.gui.layout.World;
 

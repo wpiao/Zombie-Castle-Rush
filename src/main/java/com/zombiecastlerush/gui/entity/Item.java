@@ -1,8 +1,8 @@
-package com.zombiecastlerush.gui;
+package com.zombiecastlerush.gui.entity;
 
 import java.awt.Color;
 
-public class Item implements Location{
+public class Item implements Location {
 
     private char glyph;
     public char glyph() { return glyph; }

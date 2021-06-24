@@ -2,12 +2,10 @@ package com.zombiecastlerush.gui.screens;
 
 import asciiPanel.AsciiPanel;
 import com.zombiecastlerush.gui.Command;
-import com.zombiecastlerush.gui.creature.Creature;
+import com.zombiecastlerush.gui.entity.Creature;
 import com.zombiecastlerush.gui.layout.World;
 import com.zombiecastlerush.gui.layout.WorldBuilder;
 import com.zombiecastlerush.util.Game;
-import com.zombiecastlerush.util.Parser;
-import java.util.List;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -91,12 +89,8 @@ public class CombatHallScreen implements Screen{
         for (int x = 0; x < screenWidth; x++) {
             for (int y = 0; y < screenHeight; y++) {
 
-                if (player.canSee(x, y)){
-                    Creature creature = world.creature(x, y);
-                    if (creature != null)
-                        terminal.write(creature.glyph(), creature.x, creature.y, creature.color());
-                    else
-                        terminal.write(world.glyph(x, y), x, y, world.color(x, y));
+                if (player.canSee(x, y)) {
+                    terminal.write(world.glyph(x, y), x, y, world.color(x, y));
                 } else {
                     terminal.write(world.glyph(x, y), x, y, Color.black);
                 }

@@ -1,4 +1,4 @@
-package com.zombiecastlerush.gui;
+package com.zombiecastlerush.gui.entity;
 
 public interface Location {
     public int x = 0;

@@ -1,6 +1,6 @@
 package com.zombiecastlerush.gui.layout;
 
-import com.zombiecastlerush.gui.Location;
+import com.zombiecastlerush.gui.entity.Location;
 
 import java.util.ArrayList;
 import java.util.Collections;

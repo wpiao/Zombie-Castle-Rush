@@ -1,8 +1,8 @@
 package com.zombiecastlerush.gui.screens;
 
 import asciiPanel.AsciiPanel;
-import com.zombiecastlerush.gui.creature.Creature;
-import com.zombiecastlerush.gui.creature.CreatureFactory;
+import com.zombiecastlerush.gui.entity.Creature;
+import com.zombiecastlerush.gui.entity.EntityFactory;
 import com.zombiecastlerush.gui.layout.World;
 import com.zombiecastlerush.gui.layout.WorldBuilder;
 
@@ -20,8 +20,8 @@ public class StartScreen implements Screen {
         screenWidth = 90;
         screenHeight = 51;
         createWorld();
-        CreatureFactory creatureFactory = new CreatureFactory(world);
-        player = creatureFactory.newPlayer();
+        EntityFactory entityFactory = new EntityFactory(world);
+        player = entityFactory.newPlayer();
     }
 
     private void createWorld() {
