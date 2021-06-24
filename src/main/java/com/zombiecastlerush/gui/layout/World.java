@@ -16,6 +16,9 @@ public class World {
     private int height;
     public int height() { return height; }
 
+    private String name;
+    public String name(){return name;}
+
     private List<Creature> creatures;
 
     public World(Tile[][] tiles){
@@ -23,6 +26,11 @@ public class World {
         this.width = tiles.length;
         this.height = tiles[0].length;
         this.creatures = new ArrayList<>();
+    }
+
+    public World(Tile[][] tiles, String name){
+        this(tiles);
+        this.name = name;
     }
 
     public Creature creature(int x, int y){

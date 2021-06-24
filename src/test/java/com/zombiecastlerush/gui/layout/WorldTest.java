@@ -15,7 +15,7 @@ public class WorldTest {
         String path = "Resources/Castle/CombatHall.txt";
         World world = new WorldBuilder(90, 51)
                 .design(path)
-                .build();
+                .build(this.getClass().getSimpleName());
 
         Map<Point,Tile> boxTiles =  world.getBoxTile();
         for (Map.Entry<Point,Tile> entry: boxTiles.entrySet()) {

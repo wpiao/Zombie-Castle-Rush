@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class RiddleScreen implements Screen {
     private final int screenWidth;
@@ -17,14 +18,27 @@ public class RiddleScreen implements Screen {
     private final Creature player;
     private Puzzle riddle;
     private KeyEvent key;
+    private static final Map<String, String> castleScreenConverter = new HashMap<>(){{
+        put("CastleHallScreen","Castle-Hall");
+        put("CombatHallScreen","Combat-Hall");
+        put("DrawBridgeScreen","Draw-Bridge");
+        put("EastWingScreen","East-Wing");
+        put("WestWingScreen","West-Wing");
+        put("ShopScreen","Shop");
+    }};;
 
-
-    public RiddleScreen(Creature player, String screenName) {
+    public RiddleScreen(Creature player){
         screenWidth = 90;
         screenHeight = 51;
         RiddleFactory.answer = "";
         this.player = player;
-        this.riddle = RiddleFactory.generateRiddle(screenName);
+
+        this.riddle = RiddleFactory.generateRiddle(castleScreenConverter.get(player.world().name()));
+    }
+
+    public RiddleScreen(Creature player, String screenName) {
+        this(player);
+        this.riddle = RiddleFactory.generateRiddle(castleScreenConverter.get(screenName));
     }
 
 
@@ -53,6 +67,8 @@ public class RiddleScreen implements Screen {
                     RiddleFactory.answer += (char) keyCode;
                 }
                 terminal.write(RiddleFactory.answer, x, y + 3, Color.MAGENTA);
+
+
             }
         }
 
@@ -73,6 +89,8 @@ public class RiddleScreen implements Screen {
         this.key = key;
         if (RiddleFactory.answer.equals(riddle.getSolution().toUpperCase()) && key.getKeyCode() == KeyEvent.VK_ENTER) {
             RiddleFactory.answer = "";
+            // TODO drop some item to player inventory
+
             return null;
         } else return this;
     }

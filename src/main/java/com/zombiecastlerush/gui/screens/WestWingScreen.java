@@ -40,7 +40,7 @@ public class WestWingScreen implements Screen {
         String path = "Resources/Castle/WestWing.txt";
         world = new WorldBuilder(90, 51)
                 .design(path)
-                .build();
+                .build(this.getClass().getSimpleName());
     }
 
 

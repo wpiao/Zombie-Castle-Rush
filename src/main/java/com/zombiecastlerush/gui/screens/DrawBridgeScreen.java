@@ -41,7 +41,7 @@ public class DrawBridgeScreen implements Screen {
         String path = "Resources/Castle/DrawBridge.txt";
         world = new WorldBuilder(90, 51)
                 .design(path)
-                .build();
+                .build(this.getClass().getSimpleName());
     }
 
 

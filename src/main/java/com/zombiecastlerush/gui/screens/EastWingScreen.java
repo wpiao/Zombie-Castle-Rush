@@ -41,7 +41,7 @@ public class EastWingScreen implements Screen{
         String path = "Resources/Castle/EastWing.txt";
         world = new WorldBuilder(90, 51)
                 .design(path)
-                .build();
+                .build(this.getClass().getSimpleName());
     }
 
 

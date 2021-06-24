@@ -35,7 +35,7 @@ public class CombatHallScreen implements Screen{
         String path = "Resources/Castle/CombatHall.txt";
         world = new WorldBuilder(90, 51)
                 .design(path)
-                .build();
+                .build(this.getClass().getSimpleName());
     }
 
 

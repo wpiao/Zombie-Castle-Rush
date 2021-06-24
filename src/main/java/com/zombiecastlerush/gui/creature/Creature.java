@@ -7,6 +7,7 @@ import java.awt.Color;
 
 public class Creature {
     private World world;
+    public World world(){return  world;}
 
     private Creature opponent;
     public Creature opponent() { return opponent;}

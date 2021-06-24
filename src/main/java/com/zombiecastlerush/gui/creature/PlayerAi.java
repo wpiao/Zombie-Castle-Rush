@@ -10,14 +10,10 @@ public class PlayerAi extends CreatureAi {
     }
 
     public void onEnter(int x, int y, Tile tile) {
-        if (tile.isGround() || tile.isDoor()) {
+        if (tile.isGround() || tile.isDoor() || tile.isBox()) {
             creature.x = x;
             creature.y = y;
         }
 
-        if (tile.isBox()){
-            new RiddleScreen(creature,this.getClass().getSimpleName());
-
-        }
     }
 }

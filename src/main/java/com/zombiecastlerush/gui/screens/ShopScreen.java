@@ -33,7 +33,7 @@ public class ShopScreen implements Screen{
         String path = "Resources/Castle/Shop.txt";
         world = new WorldBuilder(90, 51)
                 .design(path)
-                .build();
+                .build(this.getClass().getSimpleName());
     }
 
 

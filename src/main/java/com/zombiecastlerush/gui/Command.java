@@ -1,11 +1,13 @@
 package com.zombiecastlerush.gui;
 
 import asciiPanel.AsciiPanel;
+import com.zombiecastlerush.util.Parser;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 
 public class Command {
@@ -32,4 +34,28 @@ public class Command {
             }
         }
     }
+
+    public static int choice(String input) {
+        if (input != null && input.length() != 0) {
+            List<String> commands = Parser.parse(input);
+            if (commands != null) {
+                String action = commands.get(0).toLowerCase();
+
+                switch (commands.size()) {
+                    case 2:
+                        switch (action) {
+                            case "attempt":
+                                List<String> puzzleSynonym = Arrays.asList("puzzle", "riddle", "question");
+                                if (puzzleSynonym.contains(commands.get(1))) { return 1; }
+                                break;
+
+                        }
+
+
+                }
+            }
+        }
+        return -1;
+    }
+
 }
