@@ -70,12 +70,12 @@ public class Prompter {
             System.out.println("\nYou can " + Parser.GREEN + "go" + Parser.ANSI_RESET + " to one of the following locations " + availableRooms);
         }
         System.out.print("\nActions applicable: " + sceneContextmenu(currentRoom, player) + "  \n");
-        System.out.printf("\n---------------------------- Inventory---------------------------------");
-        System.out.println("\n      Item              price                   description");
+        System.out.printf(Parser.RED+"\n---------------------------- Inventory---------------------------------"+ Parser.ANSI_RESET);
+        System.out.printf(Parser.GREEN+"\n%10s%18s%36s%n","Item", "Price","Description"+ Parser.ANSI_RESET);
         for(Item item : player.getInventory().getItems()){
-            System.out.printf("%10s%18s%34s%n", item.getName(), item.getPrice(), item.getDescription());
+            System.out.printf(Parser.YELLOW+"%10s%18s%36s%n", item.getName(), item.getPrice(), item.getDescription()+ Parser.ANSI_RESET);
         }
-        System.out.printf("\n---------------------------- Inventory---------------------------------\n");
+        System.out.printf(Parser.RED+"\n---------------------------- Inventory---------------------------------\n" + Parser.ANSI_RESET);
     }
 
     public static List<String> sceneContextmenu(Room room, Player player) {
