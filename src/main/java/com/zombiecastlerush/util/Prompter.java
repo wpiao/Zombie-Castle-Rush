@@ -36,7 +36,6 @@ public class Prompter {
         Inputs.getUserInput("\nPress enter to continue...");
         clearScreen();
     }
-
     public static void displayCurrentScene(Player player) {
         Room currentRoom = player.getCurrentPosition();
         List<Room> availableRooms = currentRoom.getConnectedRooms();
@@ -65,12 +64,18 @@ public class Prompter {
 
             if (player.getInventory().getItems().size() > 0) {
                 String dropOrSellText = (currentRoom instanceof Shop) ? "sell" : "drop";
-                System.out.println("You have the following items that you can " + Parser.GREEN + dropOrSellText + Parser.ANSI_RESET + ": " + player.getInventory().toString());
+                System.out.println("\nYou have the following items that you can " + Parser.GREEN + dropOrSellText + Parser.ANSI_RESET + ": "
+                        + player.getInventory().toString()+  currentRoom.getInventory()  );
             }
             System.out.println("\nYou can " + Parser.GREEN + "go" + Parser.ANSI_RESET + " to one of the following locations " + availableRooms);
         }
-        System.out.print("\nActions applicable: " + sceneContextmenu(currentRoom, player) + "  ");
-
+        System.out.print("\nActions applicable: " + sceneContextmenu(currentRoom, player) + "  \n");
+        System.out.printf("\n---------------------------- Inventory---------------------------------");
+        System.out.println("\n      Item              price                   description");
+        for(Item item : player.getInventory().getItems()){
+            System.out.printf("%10s%18s%34s%n", item.getName(), item.getPrice(), item.getDescription());
+        }
+        System.out.printf("\n---------------------------- Inventory---------------------------------\n");
     }
 
     public static List<String> sceneContextmenu(Room room, Player player) {
