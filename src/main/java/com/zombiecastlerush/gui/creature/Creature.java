@@ -1,11 +1,12 @@
 package com.zombiecastlerush.gui.creature;
 
+import com.zombiecastlerush.gui.Location;
 import com.zombiecastlerush.gui.layout.Tile;
 import com.zombiecastlerush.gui.layout.World;
 
 import java.awt.Color;
 
-public class Creature {
+public class Creature implements Location {
     private World world;
     public World world(){return  world;}
 
@@ -99,6 +100,4 @@ public class Creature {
     public void update(){
         ai.onUpdate();
     }
-
-
 }
