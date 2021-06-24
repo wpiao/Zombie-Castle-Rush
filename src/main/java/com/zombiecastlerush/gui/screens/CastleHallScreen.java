@@ -192,8 +192,8 @@ public class CastleHallScreen implements Screen{
         String msg1 ="The box pulses with power. You know not how, but it has a riddle for you,";
 
         String msg2= "and it will not let you leave until you have solved it.Perhaps you should attempt puzzle.";
-        terminal.write(msg1, left, bottom + 4, Color.magenta);
-        terminal.write(msg2, left, bottom + 5, Color.magenta);
+        //terminal.write(msg1, left, bottom + 4, Color.magenta);
+        //terminal.write(msg2, left, bottom + 5, Color.magenta);
     }
 
     private String drawLine(int length) {

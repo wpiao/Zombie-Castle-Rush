@@ -6,6 +6,7 @@ import com.zombiecastlerush.gui.creature.Creature;
 import com.zombiecastlerush.gui.creature.CreatureFactory;
 import com.zombiecastlerush.gui.layout.World;
 import com.zombiecastlerush.gui.layout.WorldBuilder;
+import com.zombiecastlerush.util.Game;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -30,7 +31,7 @@ public class EastWingScreen implements Screen{
         }
 
         CreatureFactory creatureFactory = new CreatureFactory(world);
-        for (int i = 0; i < 10; i++){
+        for (int i = 0; i < 16; i++){
             creatureFactory.newZombies();
         }
 
@@ -45,11 +46,9 @@ public class EastWingScreen implements Screen{
 
 
     public void displayOutput(AsciiPanel terminal) {
-        int left = 0;
-        int top = 0;
 
         //playground
-        displayTiles(terminal, left, top);
+        displayTiles(terminal);
         //status
         displayStatus(terminal, screenWidth + 1, 0);
         //inventory
@@ -61,7 +60,7 @@ public class EastWingScreen implements Screen{
         //user input
         displayUserInput(terminal, 0, terminal.getHeightInCharacters() - 3);
 
-        terminal.write(player.glyph(), player.x - left, player.y - top, player.color());
+        terminal.write(player.glyph(), player.x, player.y, player.color());
 
 
     }
@@ -98,20 +97,18 @@ public class EastWingScreen implements Screen{
     }
 
 
-    private void displayTiles(AsciiPanel terminal, int left, int top) {
+    private void displayTiles(AsciiPanel terminal) {
         for (int x = 0; x < screenWidth; x++) {
             for (int y = 0; y < screenHeight; y++) {
-                int wx = x + left;
-                int wy = y + top;
 
-                if (player.canSee(wx, wy)){
-                    Creature creature = world.creature(wx, wy);
+                if (player.canSee(x, y)){
+                    Creature creature = world.creature(x, y);
                     if (creature != null)
-                        terminal.write(creature.glyph(), creature.x - left, creature.y - top, creature.color());
+                        terminal.write(creature.glyph(), creature.x, creature.y, creature.color());
                     else
-                        terminal.write(world.glyph(wx, wy), x, y, world.color(wx, wy));
+                        terminal.write(world.glyph(x, y), x, y, world.color(x, y));
                 } else {
-                    terminal.write(world.glyph(wx, wy), x, y, Color.black);
+                    terminal.write(world.glyph(x, y), x, y, Color.black);
                 }
             }
         }
@@ -163,8 +160,14 @@ public class EastWingScreen implements Screen{
 
     private void displayDescription(AsciiPanel terminal, int left, int bottom) {
         terminal.write("East Wing", left, bottom + 1, Color.RED);
-        //String description = Game.castle.getCastleRooms().get("East-Wing").getDescription();
-        //terminal.write(description, left, bottom + 2, Color.magenta);
+        String description = Game.castle.getCastleRooms().get("East-Wing").getDescription();
+
+        String msg1 = description.substring(0,80);
+        String msg2 = description.substring(80);
+
+        terminal.write(msg1, left, bottom + 2, Color.white);
+        terminal.write(msg2, left, bottom + 3, Color.white);
+
         terminal.write(" ", left, bottom + 3, Color.red);
     }
 

@@ -3,8 +3,10 @@ package com.zombiecastlerush.gui.screens;
 import asciiPanel.AsciiPanel;
 import com.zombiecastlerush.gui.Command;
 import com.zombiecastlerush.gui.creature.Creature;
+import com.zombiecastlerush.gui.creature.CreatureFactory;
 import com.zombiecastlerush.gui.layout.World;
 import com.zombiecastlerush.gui.layout.WorldBuilder;
+import com.zombiecastlerush.util.Game;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -28,6 +30,11 @@ public class DrawBridgeScreen implements Screen {
             player.y = 1;
         }
 
+        CreatureFactory creatureFactory = new CreatureFactory(world);
+        for (int i = 0; i < 16; i++){
+            creatureFactory.newZombies();
+        }
+
     }
 
     private void createWorld() {
@@ -39,11 +46,8 @@ public class DrawBridgeScreen implements Screen {
 
 
     public void displayOutput(AsciiPanel terminal) {
-        int left = 0;
-        int top = 0;
-
         //playground
-        displayTiles(terminal, left, top);
+        displayTiles(terminal);
         //status
         displayStatus(terminal, screenWidth + 1, 0);
         //inventory
@@ -55,7 +59,7 @@ public class DrawBridgeScreen implements Screen {
         //user input
         displayUserInput(terminal, 0, terminal.getHeightInCharacters() - 3);
 
-        terminal.write(player.glyph(), player.x - left, player.y - top, player.color());
+        terminal.write(player.glyph(), player.x, player.y, player.color());
 
 
     }
@@ -92,31 +96,37 @@ public class DrawBridgeScreen implements Screen {
     }
 
 
-    private void displayTiles(AsciiPanel terminal, int left, int top) {
+    private void displayTiles(AsciiPanel terminal) {
         for (int x = 0; x < screenWidth; x++) {
             for (int y = 0; y < screenHeight; y++) {
-                int wx = x + left;
-                int wy = y + top;
 
-                if (player.canSee(wx, wy)){
-                    Creature creature = world.creature(wx, wy);
+                if (player.canSee(x, y)){
+                    Creature creature = world.creature(x, y);
                     if (creature != null)
-                        terminal.write(creature.glyph(), creature.x - left, creature.y - top, creature.color());
+                        terminal.write(creature.glyph(), creature.x, creature.y, creature.color());
                     else
-                        terminal.write(world.glyph(wx, wy), x, y, world.color(wx, wy));
+                        terminal.write(world.glyph(x, y), x, y, world.color(x, y));
                 } else {
-                    terminal.write(world.glyph(wx, wy), x, y, Color.darkGray);
+                    terminal.write(world.glyph(x, y), x, y, Color.black);
                 }
             }
         }
     }
 
     private void displayStatus(AsciiPanel terminal, int right, int top) {
+        //draw yellow boundary lines
         int length = terminal.getWidthInCharacters() - screenWidth - 2;
         terminal.write(drawLine(length), right, top, Color.ORANGE);
         terminal.write("Status", right, top + 1, Color.green);
-        terminal.write("placeholder", right, top + 2, Color.magenta);
 
+        // display player hp
+        String stats = player.hp() < 1 ? "":String.format("You: %6d/%3d hp", player.hp(), player.maxHp());
+        terminal.write(stats, right, top + 3, Color.magenta);
+
+        //if player has an opponent, aka in fight, then display its hp.
+        String enemyStats = player.opponent() == null || player.opponent().hp() < 1 ? "":
+                String.format("Zombie: %3d/%3d hp", player.opponent().hp(), player.opponent().maxHp());
+        terminal.write(enemyStats, right, top + 4, Color.green);
     }
 
 
@@ -148,8 +158,14 @@ public class DrawBridgeScreen implements Screen {
 
     private void displayDescription(AsciiPanel terminal, int left, int bottom) {
         terminal.write("Draw Bridge", left, bottom + 1, Color.RED);
-        //String description = Game.castle.getCastleRooms().get("Draw-Bridge").getDescription();
-        //terminal.write(description, left, bottom + 2, Color.magenta);
+        String description = Game.castle.getCastleRooms().get("Draw-Bridge").getDescription();
+        String msg1 = description.substring(0,description.length()/3 + 3);
+        String msg2 = description.substring(description.length()/3 + 4,description.length()/3 *2 + 6 );
+        String msg3 = description.substring(description.length()/3 *2 +7);
+
+        terminal.write(msg1, left, bottom + 2, Color.white);
+        terminal.write(msg2, left, bottom + 3, Color.white);
+        terminal.write(msg3, left, bottom + 4, Color.white);
         terminal.write(" ", left, bottom + 3, Color.red);
     }
 

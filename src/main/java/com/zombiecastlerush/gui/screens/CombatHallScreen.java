@@ -40,11 +40,8 @@ public class CombatHallScreen implements Screen{
 
 
     public void displayOutput(AsciiPanel terminal) {
-        int left = 0;
-        int top = 0;
-
         //playground
-        displayTiles(terminal, left, top);
+        displayTiles(terminal);
         //status
         displayStatus(terminal, screenWidth + 1, 0);
         //inventory
@@ -56,7 +53,7 @@ public class CombatHallScreen implements Screen{
         //user input
         displayUserInput(terminal, 0, terminal.getHeightInCharacters() - 3);
 
-        terminal.write(player.glyph(), player.x - left, player.y - top, player.color());
+        terminal.write(player.glyph(), player.x, player.y, player.color());
 
 
     }
@@ -90,20 +87,18 @@ public class CombatHallScreen implements Screen{
         }
     }
 
-    private void displayTiles(AsciiPanel terminal, int left, int top) {
+    private void displayTiles(AsciiPanel terminal) {
         for (int x = 0; x < screenWidth; x++) {
             for (int y = 0; y < screenHeight; y++) {
-                int wx = x + left;
-                int wy = y + top;
 
-                if (player.canSee(wx, wy)){
-                    Creature creature = world.creature(wx, wy);
+                if (player.canSee(x, y)){
+                    Creature creature = world.creature(x, y);
                     if (creature != null)
-                        terminal.write(creature.glyph(), creature.x - left, creature.y - top, creature.color());
+                        terminal.write(creature.glyph(), creature.x, creature.y, creature.color());
                     else
-                        terminal.write(world.glyph(wx, wy), x, y, world.color(wx, wy));
+                        terminal.write(world.glyph(x, y), x, y, world.color(x, y));
                 } else {
-                    terminal.write(world.glyph(wx, wy), x, y, Color.darkGray);
+                    terminal.write(world.glyph(x, y), x, y, Color.black);
                 }
             }
         }
@@ -121,7 +116,7 @@ public class CombatHallScreen implements Screen{
 
         //if player has an opponent, aka in fight, then display its hp.
         String enemyStats = player.opponent() == null || player.opponent().hp() < 1 ? "":
-                String.format("Zombie: %3d/%3d hp", player.opponent().hp(), player.opponent().maxHp());
+                String.format("Lord: %3d/%3d hp", player.opponent().hp(), player.opponent().maxHp());
         terminal.write(enemyStats, right, top + 4, Color.green);
 
     }
