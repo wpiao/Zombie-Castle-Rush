@@ -66,16 +66,17 @@ public class World {
         return guiItems[x][y];
     }
 
-    public char glyph(int x, int y) {
+    public char glyph(int x, int y, Creature player) {
         Creature creature = creature(x, y);
         GuiItem item = item(x, y);
 
+        if (player.canSee(x, y)) {
+            if (creature != null)
+                return creature.glyph();
 
-        if (creature != null)
-            return creature.glyph();
-
-        if (item != null && !tile(x,y).isBox()) {
-            return item.glyph();
+            if (item != null && !tile(x, y).isBox()) {
+                return item.glyph();
+            }
         }
 
         return tile(x, y).glyph();
@@ -87,7 +88,7 @@ public class World {
         if (creature != null) {
             return creature.color();
         }
-        if (item != null && !tile(x,y).isBox()) {
+        if (item != null && !tile(x, y).isBox()) {
             return item.color();
         }
         return tile(x, y).color();
@@ -125,10 +126,10 @@ public class World {
         int y;
 
         do {
-            x = (int)(Math.random() * width);
-            y = (int)(Math.random() * height);
+            x = (int) (Math.random() * width);
+            y = (int) (Math.random() * height);
         }
-        while (!tile(x,y).isGround() || item(x,y) != null);
+        while (!tile(x, y).isGround() || item(x, y) != null);
 
         guiItems[x][y] = item;
     }

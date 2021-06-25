@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Creature implements Location {
+    private final int initialAttackValue;
+    private final int initialDefenseValue;
+    private final int initialVisionRadius;
     private World world;
 
     public World world() {
@@ -101,11 +104,11 @@ public class Creature implements Location {
         return inventory;
     }
 
-    private GuiItem weapon;
+    public GuiItem weapon;
 
-    private GuiItem accs;
+    public GuiItem accs;
 
-    private GuiItem tool;
+    public GuiItem tool;
 
 
     public Creature(World world, char glyph, Color color, int maxHp, int attack, int defense, int killedNumber) {
@@ -121,9 +124,12 @@ public class Creature implements Location {
         exploredWorldList = new HashMap<>();
         this.killedNumber = killedNumber;
         this.experience = 0;
-        this.weapon = new GuiItem('K', AsciiPanel.brightRed, "Knife");
-        this.accs = new GuiItem('S', AsciiPanel.brightRed, "Spoon");
-        this.tool = new GuiItem('!',AsciiPanel.brightRed, "lighter");
+        this.weapon = null;
+        this.accs = null;
+        this.tool = null;
+        this.initialAttackValue = attack;
+        this.initialDefenseValue = defense;
+        this.initialVisionRadius = 9;
     }
 
     public void setWorld(World world) {
@@ -174,6 +180,20 @@ public class Creature implements Location {
         if (item != null) {
             inventory.remove(item);
             world.addAtPlayer(item, x, y);
+            if(item.attackValue()>1){
+                this.weapon = null;
+                this.attackValue = initialAttackValue;
+            }
+            if(item.defenseValue()>1){
+                this.accs = null;
+                this.defenseValue = initialDefenseValue;
+            }
+
+            if(item.name().equalsIgnoreCase("torch")||item.name().equalsIgnoreCase("lighter")){
+                this.tool = null;
+                this.visionRadius = initialVisionRadius;
+            }
+
         }
     }
 
@@ -181,6 +201,22 @@ public class Creature implements Location {
         if (this.inventory().getGuiItems().contains(item)){
             if (item.name().equalsIgnoreCase("knife") || item.name().equalsIgnoreCase("sword")){
                 this.weapon = item;
+                this.attackValue = initialAttackValue + item.attackValue();
+            }
+
+            if (item.name().equalsIgnoreCase("helmet")){
+                this.accs = item;
+                this.defenseValue = initialDefenseValue + item.defenseValue();
+            }
+
+            if (item.name().equalsIgnoreCase("lighter")|| item.name().equalsIgnoreCase("torch")){
+                this.tool = item;
+                this.visionRadius = initialVisionRadius + item.visionRadius();
+            }
+
+            if (item.name().equalsIgnoreCase("potion")){
+                this.maxHp = (experience / 10 + 1) * 10 + 100;
+                this.hp = maxHp();
             }
         }
     }

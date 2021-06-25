@@ -62,7 +62,7 @@ public class RiddleScreen implements Screen {
         }
         terminal.writeCenter(msg, (screenHeight - 10) / 2 + 8, Color.cyan);
         if (itemPickedUp) {
-            terminal.writeCenter("An item is droped in your inventory.", (screenHeight - 10) / 2 + 16, Color.GREEN);
+            terminal.writeCenter("An item is dropped in your inventory.", (screenHeight - 10) / 2 + 16, Color.GREEN);
         }
         terminal.repaint();
 

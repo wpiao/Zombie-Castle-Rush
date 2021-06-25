@@ -24,16 +24,16 @@ public class CastleHallScreen implements Screen {
 
     public CastleHallScreen(Creature player) {
         //add previous world to world list.
-        player.worldList().put(player.world().name(),player.world());
+        player.worldList().put(player.world().name(), player.world());
 
         this.player = player;
         screenWidth = 90;
         screenHeight = 51;
         //if player hasn't explored this world yet..
-        if (!player.worldList().containsKey(this.getClass().getSimpleName())){
+        if (!player.worldList().containsKey(this.getClass().getSimpleName())) {
             //create world of tiles from external file
             createWorld();
-        }else{
+        } else {
             this.world = player.worldList().get(this.getClass().getSimpleName());
         }
 
@@ -63,15 +63,22 @@ public class CastleHallScreen implements Screen {
         for (int i = 0; i < 6; i++) {
             entityFactory.newZombies();
             entityFactory.newKnife();
+            entityFactory.newHelmet();
+            entityFactory.newLighter();
+            entityFactory.newTorch();
+            entityFactory.newMap();
         }
 
         entityFactory.newSword();
+
     }
 
 
     public void displayOutput(AsciiPanel terminal) {
+
+        Color color = player.inventory().get("map")==null?Color.BLACK:Color.darkGray;
         //playground
-        displayTiles(terminal, player, world,screenWidth,screenHeight);
+        displayTiles(terminal, player, world, screenWidth, screenHeight, color);
         //status
         displayStatus(terminal, screenWidth + 1, 0);
         //inventory
@@ -115,7 +122,8 @@ public class CastleHallScreen implements Screen {
                         player.drop(player.inventory().get(itemName));
                         break;
                     case 7: //use
-                        String  =
+                        String useItemName = Command.parsedCommands.get(1);
+                        player.use(player.inventory().get(useItemName));
                 }
             }
 
@@ -173,17 +181,23 @@ public class CastleHallScreen implements Screen {
                 String.format("Zombie: %3d/%3d hp", player.opponent().hp(), player.opponent().maxHp());
         terminal.write(enemyStats, right, top + 4, Color.green);
 
-        String killStats = String.format("Zombies killed: %d",player.killedNumber);
-        terminal.write(killStats,right,top + 6,Color.RED);
+        String killStats = String.format("Zombies killed: %d", player.killedNumber);
+        terminal.write(killStats, right, top + 6, Color.RED);
         int level = player.experience / 10 + 1;
 
-        String lvlStats1 = String.format("EXP: %3d   Lvl: %2d", player.experience,level);
-        String lvlStats2 = String.format("Attack: %2d Defense: %2d",player.attackValue(),player.defenseValue());
-        terminal.write(lvlStats1,right,top + 8,Color.YELLOW);
-        terminal.write(lvlStats2,right,top + 10,Color.YELLOW);
-        terminal.write("Equipped: ",right,top + 12,Color.CYAN);
-        String equipStats1 = String.format("Weapon: %5s, Acc: %5s",)
-        terminal.write()
+        String lvlStats1 = String.format("EXP: %3d   Lvl: %2d", player.experience, level);
+        String lvlStats2 = String.format("Attack: %2d Defense: %2d", player.attackValue(), player.defenseValue());
+        terminal.write(lvlStats1, right, top + 8, Color.YELLOW);
+        terminal.write(lvlStats2, right, top + 10, Color.YELLOW);
+
+        terminal.write("Equipment: ", right, top + 12, Color.CYAN);
+
+        String equipStats1 = String.format("Weapon:%5s   Acc:%5s", player.weapon == null ?
+                "" : player.weapon.name(), player.accs == null ? "" : player.accs.name());
+        terminal.write(equipStats1, right, top + 14, Color.CYAN);
+
+        String equipStats2 = String.format("Tool: %5s", player.tool == null ? "" : player.tool.name());
+        terminal.write(equipStats2, right, top + 15, Color.CYAN);
     }
 
 
@@ -224,7 +238,7 @@ public class CastleHallScreen implements Screen {
         });
     }
 
-    public String toString(){
+    public String toString() {
         return "CastleHall";
     }
 }

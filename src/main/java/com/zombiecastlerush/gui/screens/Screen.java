@@ -35,14 +35,14 @@ public interface Screen {
         return line;
     }
 
-    default void displayTiles(AsciiPanel terminal, Creature player, World world,int screenWidth, int screenHeight){
+    default void displayTiles(AsciiPanel terminal, Creature player, World world,int screenWidth, int screenHeight, Color color){
         for (int x = 0; x < screenWidth; x++) {
             for (int y = 0; y < screenHeight; y++) {
 
                 if (player.canSee(x, y)) {
-                    terminal.write(world.glyph(x, y), x, y, world.color(x, y));
+                    terminal.write(world.glyph(x, y, player), x, y, world.color(x, y));
                 } else {
-                    terminal.write(world.glyph(x, y), x, y, Color.black);
+                    terminal.write(world.glyph(x, y, player), x, y, color);
                 }
             }
         }

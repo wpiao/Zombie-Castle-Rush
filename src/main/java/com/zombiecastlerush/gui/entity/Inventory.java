@@ -5,7 +5,7 @@ import com.zombiecastlerush.gui.entity.GuiItem;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Inventory extends com.zombiecastlerush.building.Inventory {
+public class Inventory {
 
     private List<GuiItem> items;
     public List<GuiItem> getGuiItems() { return items; }

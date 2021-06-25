@@ -79,7 +79,7 @@ public class StartScreen implements Screen {
                 int wx = x + left;
                 int wy = y + top;
 
-                terminal.write(world.glyph(wx, wy), x, y, world.color(wx, wy));
+                terminal.write(world.glyph(wx, wy, player), x, y, world.color(wx, wy));
             }
         }
     }

@@ -28,6 +28,7 @@ public class EntityFactory {
 
     public GuiItem newSword(){
         GuiItem sword = new GuiItem('1', AsciiPanel.brightRed, "Sword");
+        sword.modifyAttackValue(10);
         world.addAtBox(sword);
         return sword;
     }
@@ -46,6 +47,7 @@ public class EntityFactory {
 
     public GuiItem newKnife(){
         GuiItem knife = new GuiItem('K', AsciiPanel.brightRed, "Knife");
+        knife.modifyAttackValue(5);
         world.addAtEmptyLocation(knife);
         return knife;
     }
@@ -57,8 +59,37 @@ public class EntityFactory {
     }
 
     public GuiItem newPotion(){
-        GuiItem potion = new GuiItem('P', AsciiPanel.brightMagenta, "Potion");
+        GuiItem potion = new GuiItem('P', AsciiPanel.brightRed, "Potion");
         world.addAtEmptyLocation(potion);
         return potion;
     }
+
+    public GuiItem newLighter(){
+        GuiItem lighter = new GuiItem('L', AsciiPanel.brightRed, "Lighter");
+        lighter.modifyVisionRadius(3);
+        world.addAtEmptyLocation(lighter);
+        return lighter;
+    }
+
+    public GuiItem newHelmet(){
+        GuiItem helmet = new GuiItem('H', AsciiPanel.brightRed, "Helmet");
+        helmet.modifyDefenseValue(20);
+        world.addAtEmptyLocation(helmet);
+        return helmet;
+    }
+
+    public GuiItem newTorch(){
+        GuiItem torch = new GuiItem('T', AsciiPanel.brightRed, "Torch");
+        torch.modifyVisionRadius(6);
+        world.addAtEmptyLocation(torch);
+        return torch;
+    }
+
+    public GuiItem newMap(){
+        GuiItem map = new GuiItem('M', AsciiPanel.brightRed, "Map");
+        world.addAtEmptyLocation(map);
+        return map;
+    }
+
+
 }
