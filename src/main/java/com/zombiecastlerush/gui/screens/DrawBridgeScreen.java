@@ -21,16 +21,16 @@ public class DrawBridgeScreen implements Screen {
 
     public DrawBridgeScreen(Creature player) {
         //add previous world to world list.
-        player.worldList().put(player.world().name(),player.world());
+        player.worldList().put(player.world().name(), player.world());
 
         this.player = player;
         screenWidth = 90;
         screenHeight = 51;
         //if player hasn't explored this world yet..
-        if (!player.worldList().containsKey(this.getClass().getSimpleName())){
+        if (!player.worldList().containsKey(this.getClass().getSimpleName())) {
             //create world of tiles from external file
             createWorld();
-        }else{
+        } else {
             this.world = player.worldList().get(this.getClass().getSimpleName());
         }
 
@@ -54,13 +54,16 @@ public class DrawBridgeScreen implements Screen {
         EntityFactory entityFactory = new EntityFactory(world);
         for (int i = 0; i < 16; i++) {
             entityFactory.newZombies();
+            entityFactory.newVase();
         }
+
+        entityFactory.newSword();
     }
 
 
     public void displayOutput(AsciiPanel terminal) {
         //playground
-        displayTiles(terminal);
+        displayTiles(terminal, player, world, screenWidth, screenHeight);
         //status
         displayStatus(terminal, screenWidth + 1, 0);
         //inventory
@@ -76,10 +79,7 @@ public class DrawBridgeScreen implements Screen {
 
         if (subscreen != null)
             subscreen.displayOutput(terminal);
-
-
     }
-
 
     public Screen respondToUserInput(KeyEvent key) {
         if (subscreen != null) {
@@ -87,15 +87,24 @@ public class DrawBridgeScreen implements Screen {
         } else {
             this.key = key;
 
-
             int choice = Command.choice(Command.command);
-            if (key.getKeyCode() == KeyEvent.VK_ENTER)
+            if (key.getKeyCode() == KeyEvent.VK_ENTER) {
                 Command.command = "";
-            switch (choice) {
-                case 1:
-                    subscreen = new RiddleScreen(player, this.getClass().getSimpleName());
+                switch (choice) {
+                    case 2:
+                        player.pickup();
+                        break;
+                    case 3:
+                        if (player.world().tile(player.x, player.y).isBox()) {
+                            subscreen = new RiddleScreen(player, this.getClass().getSimpleName());
+                        }
+                        break;
+                    case 4:
+                        String itemName = Command.parsedCommands.get(1);
+                        player.drop(player.inventory().get(itemName));
+                        break;
+                }
             }
-
             if (player.x <= 76 && player.x >= 71 && player.y == 0) {
                 return new CastleHallScreen(player);
             } else if (player.x <= 19 && player.x >= 14 && player.y == 0) {
@@ -131,20 +140,6 @@ public class DrawBridgeScreen implements Screen {
         return this;
     }
 
-
-    private void displayTiles(AsciiPanel terminal) {
-        for (int x = 0; x < screenWidth; x++) {
-            for (int y = 0; y < screenHeight; y++) {
-
-                if (player.canSee(x, y)) {
-                    terminal.write(world.glyph(x, y), x, y, world.color(x, y));
-                } else {
-                    terminal.write(world.glyph(x, y), x, y, Color.black);
-                }
-            }
-        }
-    }
-
     private void displayStatus(AsciiPanel terminal, int right, int top) {
         //draw yellow boundary lines
         int length = terminal.getWidthInCharacters() - screenWidth - 2;
@@ -166,7 +161,9 @@ public class DrawBridgeScreen implements Screen {
         int length = terminal.getWidthInCharacters() - screenWidth - 2;
         terminal.write(drawLine(length), right, middle, Color.ORANGE);
         terminal.write("Inventory", right, middle + 1, Color.green);
-        terminal.write("placeholder", right, middle + 2, Color.magenta);
+        for (int i = 0; i < player.inventory().getGuiItems().size(); i++) {
+            terminal.write(player.inventory().get(i).name(), right, middle + 3 + i, Color.magenta);
+        }
     }
 
     private void displayHint(AsciiPanel terminal, int right, int bottom) {
@@ -187,7 +184,6 @@ public class DrawBridgeScreen implements Screen {
         if (subscreen == null) {
             Command.type(key, terminal, 18, i + 1);
         }
-
     }
 
     private void displayDescription(AsciiPanel terminal, int left, int bottom) {
@@ -212,14 +208,5 @@ public class DrawBridgeScreen implements Screen {
                 terminal.write(" ", left, bottom + 3, Color.red);
             }
         });
-    }
-
-    private String drawLine(int length) {
-
-        String line = "";
-        for (int i = 0; i < length; i++) {
-            line += "-";
-        }
-        return line;
     }
 }

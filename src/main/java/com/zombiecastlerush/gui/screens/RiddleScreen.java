@@ -43,7 +43,6 @@ public class RiddleScreen implements Screen {
         this.riddle = RiddleFactory.generateRiddle(castleScreenConverter.get(screenName));
     }
 
-
     public void displayOutput(AsciiPanel terminal) {
         terminal.clear();
 
@@ -73,7 +72,6 @@ public class RiddleScreen implements Screen {
         terminal.write(drawLine(terminal.getWidthInCharacters() - 1), x, y, Color.orange);
         terminal.write("Answer is -> ", x, y + 1, Color.red);
 
-
         if (key != null) {
             int keyCode = key.getKeyCode();
             if (keyCode <= 126 && keyCode != 10) {
@@ -85,23 +83,9 @@ public class RiddleScreen implements Screen {
                     RiddleFactory.answer += (char) keyCode;
                 }
                 terminal.write(RiddleFactory.answer, x, y + 3, Color.MAGENTA);
-
-
             }
         }
-
-
     }
-
-    private String drawLine(int length) {
-
-        String line = "";
-        for (int i = 0; i < length; i++) {
-            line += "-";
-        }
-        return line;
-    }
-
 
     public Screen respondToUserInput(KeyEvent key) {
         this.key = key;

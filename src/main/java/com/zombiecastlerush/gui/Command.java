@@ -47,10 +47,13 @@ public class Command {
                     case 1:
                         switch (action){
                             case "quit":
-                                indicator = 99;
+                                indicator = 0;
                                 break;
                             case "save":
-                                indicator = 98;
+                                indicator = 1;
+                                break;
+                            case "pick-up":
+                                indicator = 2;
                                 break;
                         }
                         break;
@@ -59,22 +62,19 @@ public class Command {
                             case "attempt":
                                 List<String> puzzleSynonym = Arrays.asList("puzzle", "riddle", "question");
                                 if (puzzleSynonym.contains(parsedCommands.get(1)))
-                                    indicator = 1;
+                                    indicator = 3;
                                 break;
                             case "drop":
-                                indicator = 2;
-                                break;
-                            case "pick-up":
-                                indicator = 3;
-                                break;
-                            case "buy":
                                 indicator = 4;
                                 break;
-                            case "sell":
+                            case "buy":
                                 indicator = 5;
                                 break;
-                            case "use":
+                            case "sell":
                                 indicator = 6;
+                                break;
+                            case "use":
+                                indicator = 7;
                                 break;
                         }
                         break;

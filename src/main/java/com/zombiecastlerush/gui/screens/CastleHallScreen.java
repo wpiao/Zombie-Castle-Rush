@@ -62,6 +62,7 @@ public class CastleHallScreen implements Screen {
         EntityFactory entityFactory = new EntityFactory(world);
         for (int i = 0; i < 6; i++) {
             entityFactory.newZombies();
+            entityFactory.newKnife();
         }
 
         entityFactory.newSword();
@@ -70,13 +71,13 @@ public class CastleHallScreen implements Screen {
 
     public void displayOutput(AsciiPanel terminal) {
         //playground
-        displayTiles(terminal);
+        displayTiles(terminal, player, world,screenWidth,screenHeight);
         //status
         displayStatus(terminal, screenWidth + 1, 0);
         //inventory
         displayInventory(terminal, screenWidth + 1, (screenHeight - screenHeight % 3) / 3);
         //display map
-        displayHint(terminal, screenWidth + 1, (screenHeight - screenHeight % 3) * 2 / 3);
+        displayHint(terminal, screenWidth + 1, (screenHeight - screenHeight % 3) * 2 / 3, screenWidth);
         //prompt
         displayDescription(terminal, 0, screenHeight);
         //user input
@@ -102,17 +103,17 @@ public class CastleHallScreen implements Screen {
             if (key.getKeyCode() == KeyEvent.VK_ENTER) {
                 Command.command = "";
                 switch (choice) {
-                    case 1:
+                    case 2:
+                        player.pickup();
+                        break;
+                    case 3:
                         if (player.world().tile(player.x, player.y).isBox()) {
                             subscreen = new RiddleScreen(player, this.getClass().getSimpleName());
                         }
                         break;
-                    case 2:
+                    case 4:
                         String itemName = Command.parsedCommands.get(1);
                         player.drop(player.inventory().get(itemName));
-                        break;
-                    case 3:
-                        player.pickup();
                         break;
                 }
             }
@@ -157,19 +158,6 @@ public class CastleHallScreen implements Screen {
         return this;
     }
 
-    private void displayTiles(AsciiPanel terminal) {
-        for (int x = 0; x < screenWidth; x++) {
-            for (int y = 0; y < screenHeight; y++) {
-
-                if (player.canSee(x, y)) {
-                    terminal.write(world.glyph(x, y), x, y, world.color(x, y));
-                } else {
-                    terminal.write(world.glyph(x, y), x, y, Color.black);
-                }
-            }
-        }
-    }
-
     private void displayStatus(AsciiPanel terminal, int right, int top) {
         //draw yellow boundary lines
         int length = terminal.getWidthInCharacters() - screenWidth - 2;
@@ -197,18 +185,6 @@ public class CastleHallScreen implements Screen {
 
     }
 
-    private void displayHint(AsciiPanel terminal, int right, int bottom) {
-        int length = terminal.getWidthInCharacters() - screenWidth - 2;
-        terminal.write(drawLine(length), right, bottom, Color.orange);
-        int height = terminal.getHeightInCharacters();
-
-        for (int i = 0; i < height; i++) {
-            terminal.write("|", right - 1, i, Color.orange);
-        }
-        terminal.write("Hint", right, bottom + 1, Color.green);
-        terminal.write("placeholder", right, bottom + 2, Color.magenta);
-    }
-
     private void displayUserInput(AsciiPanel terminal, int left, int i) {
 
         terminal.write(drawLine(screenWidth), left, i, Color.orange);
@@ -234,15 +210,6 @@ public class CastleHallScreen implements Screen {
                 terminal.write(description, left, bottom + 3, Color.white);
             }
         });
-    }
-
-    private String drawLine(int length) {
-
-        String line = "";
-        for (int i = 0; i < length; i++) {
-            line += "-";
-        }
-        return line;
     }
 
     public String toString(){

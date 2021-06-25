@@ -50,7 +50,7 @@ public class CombatHallScreen implements Screen{
 
     public void displayOutput(AsciiPanel terminal) {
         //playground
-        displayTiles(terminal);
+        displayTiles(terminal, player, world,screenWidth,screenHeight);
         //status
         displayStatus(terminal, screenWidth + 1, 0);
         //inventory
@@ -96,18 +96,6 @@ public class CombatHallScreen implements Screen{
         }
     }
 
-    private void displayTiles(AsciiPanel terminal) {
-        for (int x = 0; x < screenWidth; x++) {
-            for (int y = 0; y < screenHeight; y++) {
-
-                if (player.canSee(x, y)) {
-                    terminal.write(world.glyph(x, y), x, y, world.color(x, y));
-                } else {
-                    terminal.write(world.glyph(x, y), x, y, Color.black);
-                }
-            }
-        }
-    }
 
     private void displayStatus(AsciiPanel terminal, int right, int top) {
         //draw yellow boundary lines
@@ -121,7 +109,7 @@ public class CombatHallScreen implements Screen{
 
         //if player has an opponent, aka in fight, then display its hp.
         String enemyStats = player.opponent() == null || player.opponent().hp() < 1 ? "":
-                String.format("Lord: %3d/%3d hp", player.opponent().hp(), player.opponent().maxHp());
+                String.format("Lord: %5d/%3d hp", player.opponent().hp(), player.opponent().maxHp());
         terminal.write(enemyStats, right, top + 4, Color.green);
 
     }
@@ -131,7 +119,10 @@ public class CombatHallScreen implements Screen{
         int length = terminal.getWidthInCharacters() - screenWidth - 2;
         terminal.write(drawLine(length), right, middle, Color.ORANGE);
         terminal.write("Inventory", right, middle + 1, Color.green);
-        terminal.write("placeholder", right, middle + 2, Color.magenta);
+        for (int i = 0; i < player.inventory().getGuiItems().size(); i++) {
+            terminal.write(player.inventory().get(i).name(), right, middle + 3 + i, Color.magenta);
+        }
+
     }
 
     private void displayHint(AsciiPanel terminal, int right, int bottom) {
@@ -166,12 +157,4 @@ public class CombatHallScreen implements Screen{
         terminal.write(" ", left, bottom + 5, Color.red);
     }
 
-    private String drawLine(int length) {
-
-        String line = "";
-        for (int i = 0; i < length; i++) {
-            line += "-";
-        }
-        return line;
-    }
 }
