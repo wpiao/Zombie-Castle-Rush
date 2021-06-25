@@ -102,18 +102,20 @@ public class CastleHallScreen implements Screen {
             if (key.getKeyCode() == KeyEvent.VK_ENTER) {
                 Command.command = "";
                 switch (choice) {
-                    case 2:
+                    case 2: //pick-up
                         player.pickup();
                         break;
-                    case 3:
+                    case 3: //attempt puzzle
                         if (player.world().tile(player.x, player.y).isBox()) {
                             subscreen = new RiddleScreen(player, this.getClass().getSimpleName());
                         }
                         break;
-                    case 4:
+                    case 4: // drop items
                         String itemName = Command.parsedCommands.get(1);
                         player.drop(player.inventory().get(itemName));
                         break;
+                    case 7: //use
+                        String  =
                 }
             }
 
@@ -172,7 +174,16 @@ public class CastleHallScreen implements Screen {
         terminal.write(enemyStats, right, top + 4, Color.green);
 
         String killStats = String.format("Zombies killed: %d",player.killedNumber);
-        terminal.write(killStats,right,top + 8,Color.RED);
+        terminal.write(killStats,right,top + 6,Color.RED);
+        int level = player.experience / 10 + 1;
+
+        String lvlStats1 = String.format("EXP: %3d   Lvl: %2d", player.experience,level);
+        String lvlStats2 = String.format("Attack: %2d Defense: %2d",player.attackValue(),player.defenseValue());
+        terminal.write(lvlStats1,right,top + 8,Color.YELLOW);
+        terminal.write(lvlStats2,right,top + 10,Color.YELLOW);
+        terminal.write("Equipped: ",right,top + 12,Color.CYAN);
+        String equipStats1 = String.format("Weapon: %5s, Acc: %5s",)
+        terminal.write()
     }
 
 

@@ -1,5 +1,6 @@
 package com.zombiecastlerush.gui.entity;
 
+import asciiPanel.AsciiPanel;
 import com.zombiecastlerush.gui.layout.Tile;
 import com.zombiecastlerush.gui.layout.World;
 
@@ -27,6 +28,7 @@ public class Creature implements Location {
     }
 
     public int killedNumber;
+    public int experience;
 
 
     public int x;
@@ -68,10 +70,18 @@ public class Creature implements Location {
         return attackValue;
     }
 
+    public void setAttackValue(int attackValue) {
+        this.attackValue = attackValue;
+    }
+
     private int defenseValue;
 
     public int defenseValue() {
         return defenseValue;
+    }
+
+    public void setDefenseValue(int defenseValue) {
+        this.defenseValue = defenseValue;
     }
 
     private int visionRadius;
@@ -80,11 +90,23 @@ public class Creature implements Location {
         return visionRadius;
     }
 
+    public void setVisionRadius(int visionRadius) {
+        this.visionRadius = visionRadius;
+    }
+
+
     private Inventory inventory;
 
     public Inventory inventory() {
         return inventory;
     }
+
+    private GuiItem weapon;
+
+    private GuiItem accs;
+
+    private GuiItem tool;
+
 
     public Creature(World world, char glyph, Color color, int maxHp, int attack, int defense, int killedNumber) {
         this.world = world;
@@ -98,6 +120,10 @@ public class Creature implements Location {
         this.inventory = new Inventory();
         exploredWorldList = new HashMap<>();
         this.killedNumber = killedNumber;
+        this.experience = 0;
+        this.weapon = new GuiItem('K', AsciiPanel.brightRed, "Knife");
+        this.accs = new GuiItem('S', AsciiPanel.brightRed, "Spoon");
+        this.tool = new GuiItem('!',AsciiPanel.brightRed, "lighter");
     }
 
     public void setWorld(World world) {
@@ -151,6 +177,14 @@ public class Creature implements Location {
         }
     }
 
+    public void use(GuiItem item){
+        if (this.inventory().getGuiItems().contains(item)){
+            if (item.name().equalsIgnoreCase("knife") || item.name().equalsIgnoreCase("sword")){
+                this.weapon = item;
+            }
+        }
+    }
+
     public void modifyHp(int amount) {
         hp += amount;
 
@@ -158,6 +192,7 @@ public class Creature implements Location {
             world.remove(this);
 
         }
+        experience++;
     }
 
     public Creature creature(int x, int y) {
