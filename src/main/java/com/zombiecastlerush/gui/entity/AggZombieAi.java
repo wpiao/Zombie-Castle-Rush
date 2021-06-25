@@ -25,13 +25,6 @@ public class AggZombieAi extends CreatureAi {
             wander();
     }
 
-    public void onEnter(int x, int y, Tile tile) {
-        if (tile.isGround() || tile.isDoor() || tile.isBox()) {
-            creature.x = x;
-            creature.y = y;
-        }
-
-    }
 
     public void hunt(Creature target){
         List<Point> points = new Path(creature, target.x, target.y).points();
