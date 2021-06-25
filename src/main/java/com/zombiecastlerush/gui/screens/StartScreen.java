@@ -31,7 +31,6 @@ public class StartScreen implements Screen {
                 .build(this.getClass().getSimpleName());
     }
 
-
     public void displayOutput(AsciiPanel terminal) {
         int left = 0;
         int top = 0;
@@ -43,7 +42,7 @@ public class StartScreen implements Screen {
         //inventory
         displayInventory(terminal, screenWidth + 1, (screenHeight - screenHeight % 3) / 3);
         //display map
-        displayHint(terminal, screenWidth + 1, (screenHeight - screenHeight % 3) * 2 / 3);
+        displayHint(terminal, screenWidth + 1, (screenHeight - screenHeight % 3) * 2 / 3,screenWidth);
         //prompt
         displayDescription(terminal, 0, screenHeight);
         //user input
@@ -51,7 +50,6 @@ public class StartScreen implements Screen {
 
         terminal.write(player.glyph(), player.x - left, player.y - top, player.color());
     }
-
 
     public Screen respondToUserInput(KeyEvent key) {
         if ((player.x == 52 || player.x == 53) && player.y == 47){
@@ -72,10 +70,8 @@ public class StartScreen implements Screen {
                     break;
             }
         }
-
         return this;
     }
-
 
     private void displayTiles(AsciiPanel terminal, int left, int top) {
         for (int x = 0; x < screenWidth; x++) {
@@ -83,7 +79,7 @@ public class StartScreen implements Screen {
                 int wx = x + left;
                 int wy = y + top;
 
-                terminal.write(world.glyph(wx, wy), x, y, world.color(wx, wy));
+                terminal.write(world.glyph(wx, wy, player), x, y, world.color(wx, wy));
             }
         }
     }
@@ -104,24 +100,14 @@ public class StartScreen implements Screen {
         terminal.write(enemyStats, right, top + 4, Color.green);
     }
 
-
     private void displayInventory(AsciiPanel terminal, int right, int middle) {
         int length = terminal.getWidthInCharacters() - screenWidth - 2;
         terminal.write(drawLine(length), right, middle, Color.ORANGE);
         terminal.write("Inventory", right, middle + 1, Color.green);
-        terminal.write("placeholder", right, middle + 2, Color.magenta);
-    }
-
-    private void displayHint(AsciiPanel terminal, int right, int bottom) {
-        int length = terminal.getWidthInCharacters() - screenWidth - 2;
-        terminal.write(drawLine(length), right, bottom, Color.orange);
-        int height = terminal.getHeightInCharacters();
-
-        for (int i = 0; i < height; i++) {
-            terminal.write("|", right - 1, i, Color.orange);
+        for (int i = 0; i < player.inventory().getGuiItems().size(); i++) {
+            terminal.write(player.inventory().get(i).name(), right, middle + 3 + i, Color.magenta);
         }
-        terminal.write("Hint", right, bottom + 1, Color.green);
-        terminal.write("placeholder", right, bottom + 2, Color.magenta);
+
     }
 
     private void displayUserInput(AsciiPanel terminal, int left, int i) {
@@ -137,15 +123,4 @@ public class StartScreen implements Screen {
         terminal.write(msg2, left, bottom + 3, Color.white);
         terminal.write(msg3, left, bottom + 5, Color.white);
     }
-
-    private String drawLine(int length) {
-
-        String line = "";
-        for (int i = 0; i < length; i++) {
-            line += "-";
-        }
-        return line;
-    }
-
-
 }
