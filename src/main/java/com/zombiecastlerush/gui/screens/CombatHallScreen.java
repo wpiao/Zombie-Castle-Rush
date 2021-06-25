@@ -3,6 +3,7 @@ package com.zombiecastlerush.gui.screens;
 import asciiPanel.AsciiPanel;
 import com.zombiecastlerush.gui.Command;
 import com.zombiecastlerush.gui.entity.Creature;
+import com.zombiecastlerush.gui.entity.EntityFactory;
 import com.zombiecastlerush.gui.layout.World;
 import com.zombiecastlerush.gui.layout.WorldBuilder;
 import com.zombiecastlerush.util.Game;
@@ -46,6 +47,8 @@ public class CombatHallScreen implements Screen {
         world = new WorldBuilder(90, 51)
                 .design(path)
                 .build(this.getClass().getSimpleName());
+        EntityFactory entityFactory = new EntityFactory(world);
+        entityFactory.newAggZombies(player);
     }
 
 
