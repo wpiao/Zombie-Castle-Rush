@@ -2,6 +2,7 @@ package com.zombiecastlerush.building;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.zombiecastlerush.entity.Role;
+import com.zombiecastlerush.util.Parser;
 
 import java.util.List;
 import java.util.Random;
@@ -23,7 +24,7 @@ public class Combat extends Challenge {
         for (Item item : items) {
             if (item.getName().equals("Sword")){
                 playerDamageToEnemy += 20;
-                System.out.println("You draw your " + item.getDescription());
+                System.out.println(Parser.BLUE+"You draw your " + item.getDescription() + Parser.ANSI_RESET);
             }
         }
 
@@ -36,18 +37,18 @@ public class Combat extends Challenge {
     }
 
     public static void playerAttack(Role player, Role enemy) {
-            System.out.println("You attack...... ");
+            System.out.println(Parser.YELLOW+"You attack...... "+ Parser.ANSI_RESET);
             enemy.decreaseHealth(playerDamageToEnemy);
             if (enemy.getHealth() < 0) enemy.setHealth(0);
-            System.out.println("Enemy sustained " + playerDamageToEnemy + " damage. ");
-            System.out.println("Enemy health is now: " + enemy.getHealth());
+            System.out.println(Parser.YELLOW+ "Enemy sustained " + playerDamageToEnemy + " damage. " + Parser.ANSI_RESET);
+            System.out.println(Parser.YELLOW+"Enemy health is now: " + enemy.getHealth()+ Parser.ANSI_RESET);
     }
 
     public static void enemyAttack(Role player, Role enemy) {
-            System.out.println("Enemy attacks...... ");
+            System.out.println(Parser.RED+"Enemy attacks...... " + Parser.ANSI_RESET);
             player.decreaseHealth(enemyDamageToPlayer);
             if (player.getHealth() < 0) player.setHealth(0);
-            System.out.printf("You sustained %s damage \n", enemyDamageToPlayer);
-            System.out.printf("Your health is now: %s \n", player.getHealth());
+            System.out.printf(Parser.RED+"You sustained " + enemyDamageToPlayer + " damage. \n" + Parser.ANSI_RESET);
+            System.out.printf(Parser.RED+"Your health is now: %s \n", player.getHealth() + Parser.ANSI_RESET);
     }
 }

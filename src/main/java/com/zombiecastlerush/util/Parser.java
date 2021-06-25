@@ -8,6 +8,9 @@ public class Parser {
     public static final String RED = "\033[0;31m";     // RED
     public static final String GREEN = "\u001B[32m"; //GREEN
     public static final String YELLOW = "\u001B[33m"; //YELLOW
+    public static final String CYAN = "\u001B[36m";
+    public static final String PURPLE = "\u001B[35m";
+    public static final String BLUE = "\u001B[34m";
     public static final String ANSI_RESET = "\u001B[0m";
 
     final static List<String> ALLOWED_ACTIONS = Arrays.asList("use","go", "look", "pick-up", "drop", "attempt", "display", "quit", "buy", "sell", "fight", "save", "show");

@@ -47,7 +47,7 @@ public class Game {
         String gameOption = Prompter.chooseGameMode();
         if (gameOption.equals("1")) {
             // console mode
-            System.out.println("Welcome to Zombie Castle Rush!\n");
+            System.out.println(Parser.GREEN+"Welcome to Zombie Castle Rush!\n" + Parser.ANSI_RESET);
             if (new File("Resources/save.json").exists()) {
                 String startType;
                 do {
@@ -84,7 +84,7 @@ public class Game {
     }
 
     void newGame() {
-        String userName = Inputs.getUserInput("Please enter your name:");
+        String userName = Inputs.getUserInput(Parser.PURPLE+ "Please enter your name:" + Parser.ANSI_RESET);
         player = new Player(userName);
         player.setCurrentPosition(castle.getCastleRooms().get("Castle-Hall"));
         Prompter.showInstructions();
@@ -125,7 +125,7 @@ public class Game {
      * TODO: what does stop() provide?
      */
     public void stop() {
-        System.out.println("Thank you for playing Zombie Castle Rush!");
+        System.out.println(Parser.CYAN +"Thank you for playing Zombie Castle Rush!" + Parser.ANSI_RESET);
         System.exit(0);
     }
 

@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class Prompter {
     static void showInstructions() {
-        System.out.println("\nGame Instructions:");
+        System.out.println(Parser.BLUE+"\nGame Instructions:" + Parser.ANSI_RESET);
         System.out.printf(Parser.GREEN+"%2s %8s %47s %n", "", "Action   ", "       Command to Type"+Parser.ANSI_RESET);
         System.out.printf("%2s %8s %45s %n", "", "----------------------------", "         --------------------------------------------------");
         System.out.printf("%2s %-30s %1s %-10s %n", " 1.", "Go somewhere","|    ", "\"go\" and one of the available locations displayed");
@@ -33,7 +33,7 @@ public class Prompter {
         System.out.printf("%2s %-29s %1s %-1s %n", " 10.", "save the game","|    ", "\"save\"");
         System.out.printf("%2s %-29s %1s %-1s %n", " 11.", "quit the game","|    ", "\"quit\"");
 
-        Inputs.getUserInput("\nPress enter to continue...");
+        Inputs.getUserInput( Parser.GREEN+"\nPress enter to continue..." + Parser.ANSI_RESET);
         clearScreen();
     }
     public static void displayCurrentScene(Player player) {
@@ -46,13 +46,13 @@ public class Prompter {
         }
         String numItemsString = numItemsInRoom > 0 ? numItemsInRoom + " item(s) in here which you can " + itemClueText : "";
 
-        System.out.println("You are in the " + currentRoom + ". " + currentRoom.getDescription() + "\n");
+        System.out.println(Parser.CYAN+"You are in the " + currentRoom + ". "+ Parser.ANSI_RESET + Parser.CYAN+currentRoom.getDescription() + Parser.ANSI_RESET + "\n");
         if (currentRoom.getChallenge() != null && !currentRoom.getChallenge().isCleared()) {
             Challenge currRoomChallenge = currentRoom.getChallenge();
             if (currRoomChallenge instanceof Puzzle) {
-                System.out.println("The box pulses with power. You know not how, but it has a riddle for you, and it will not let you leave until you have solved it. Perhaps you should " + Parser.GREEN + "attempt puzzle" + Parser.ANSI_RESET + ".");
+                System.out.println(Parser.YELLOW+"The box pulses with power. You know not how, but it has a riddle for you, and it will not let you leave until you have solved it. Perhaps you should " + Parser.GREEN + "attempt puzzle" + Parser.ANSI_RESET + "." + Parser.ANSI_RESET);
             } else if (currRoomChallenge instanceof Combat) {
-                System.out.println("A rotting hand reaches and knocks the lid to the ground with a resounding crash. A monster rises from the coffin and fixes its lifeless, pitiless gaze upon you. It's time to " + Parser.GREEN + "fight" + Parser.ANSI_RESET + ".");
+                System.out.println(Parser.YELLOW+"A rotting hand reaches and knocks the lid to the ground with a resounding crash. A monster rises from the coffin and fixes its lifeless, pitiless gaze upon you. It's time to " + Parser.GREEN + "fight" + Parser.ANSI_RESET + "." +Parser.ANSI_RESET);
             }
         } else {
 
@@ -60,12 +60,12 @@ public class Prompter {
             if (currentRoom instanceof Shop) {
                 roomInventory = ((Shop) currentRoom).toStringShopInventory() + "\nYou have $" + player.getAcctBalance();
             }
-            System.out.println(numItemsString + " " + roomInventory);
-            System.out.println("\nYou can " + Parser.GREEN + "go" + Parser.ANSI_RESET + " to one of the following locations " + availableRooms);
+            System.out.println(Parser.CYAN + numItemsString + " " + roomInventory + Parser.ANSI_RESET);
+            System.out.println( Parser.BLUE+"\nYou can " + Parser.GREEN + "go" + Parser.ANSI_RESET + Parser.BLUE+" to one of the following locations " + Parser.ANSI_RESET+ availableRooms);
 
             if (player.getInventory().getItems().size() > 0) {
                 String dropOrSellText = (currentRoom instanceof Shop) ? "sell" : "drop";
-                System.out.println("\nYou can " + Parser.GREEN + dropOrSellText + Parser.ANSI_RESET + " the following items from the inventory list ");
+                System.out.println( Parser.BLUE+"\nYou can " + Parser.GREEN + dropOrSellText + Parser.ANSI_RESET + Parser.BLUE+ " the following items from the inventory list " + Parser.ANSI_RESET);
             }
         }
         System.out.printf(Parser.RED+"\n---------------------------- Inventory---------------------------------"+ Parser.ANSI_RESET);
@@ -74,7 +74,7 @@ public class Prompter {
             System.out.printf(Parser.YELLOW+"%10s%18s%36s%n", item.getName(), item.getPrice(), item.getDescription()+ Parser.ANSI_RESET);
         }
         System.out.printf(Parser.RED+"---------------------------- Inventory---------------------------------\n" + Parser.ANSI_RESET);
-        System.out.print("\nActions applicable: " + sceneContextmenu(currentRoom, player) + "  \n");
+        System.out.print(Parser.RED+"\nActions applicable: " + Parser.ANSI_RESET + sceneContextmenu(currentRoom, player) + "  \n");
     }
 
     public static List<String> sceneContextmenu(Room room, Player player) {
@@ -144,12 +144,12 @@ public class Prompter {
     }
 
     public static String chooseGameMode() {
-        String inputs = Inputs.getUserInput("Choose game mode. Please, type 1 or 2.");
+        String inputs = Inputs.getUserInput(Parser.GREEN+"Choose game mode. Please, type 1 or 2." + Parser.ANSI_RESET);
         List<String> inputWords = Arrays.asList(inputs.toLowerCase().split(" "));
         inputWords = Parser.reduceInputWordsToList(inputWords);
         List<String> availableOptions = new ArrayList<>(Arrays.asList("1", "2"));
         while (inputWords.size() == 0 || inputWords.size() != 1 || !availableOptions.contains(inputWords.get(0))) {
-            inputs = Inputs.getUserInput("Choose game mode. Please, type 1 or 2.");
+            inputs = Inputs.getUserInput(Parser.GREEN+"Choose game mode. Please, type 1 or 2."+ Parser.ANSI_RESET);
             inputWords = Arrays.asList(inputs.toLowerCase().split(" "));
             inputWords = Parser.reduceInputWordsToList(inputWords);
         }
