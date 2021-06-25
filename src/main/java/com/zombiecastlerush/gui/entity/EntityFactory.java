@@ -33,6 +33,14 @@ public class EntityFactory {
         return aggZombie;
     }
 
+    public Creature newSeller(Creature player){
+        Creature seller = new Creature(world, '$', AsciiPanel.brightYellow, 999, 0, 999,0, 9999.0);
+        world.addNextBox(seller);
+        seller.inventory().add(new GuiItem('P', AsciiPanel.brightRed, "Potion"));
+        seller.inventory().add(new GuiItem('1', AsciiPanel.brightRed, "Sword"));
+        return seller;
+    }
+
     public GuiItem newSword(){
         GuiItem sword = new GuiItem('1', AsciiPanel.brightRed, "Sword");
         sword.modifyAttackValue(10);

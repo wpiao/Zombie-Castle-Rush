@@ -14,6 +14,12 @@ public class GuiItem implements Location {
     private String name;
     public String name() { return name; }
 
+    private double resellValue;
+    public double value(){return resellValue;}
+
+    private double retailValue;
+    public double price(){return retailValue;}
+
     private int attackValue;
     public int attackValue() { return attackValue; }
     public void modifyAttackValue(int amount) { attackValue += amount; }
@@ -32,6 +38,12 @@ public class GuiItem implements Location {
         this.glyph = glyph;
         this.color = color;
         this.name = name;
+    }
+
+    public GuiItem (char glyph, Color color, String name, double resellValue, double retailValue){
+        this(glyph, color, name);
+        this.resellValue = resellValue;
+        this.retailValue = retailValue;
     }
 
     @Override

@@ -48,7 +48,7 @@ public class ShopScreen implements Screen{
     }
 
     public void displayOutput(AsciiPanel terminal) {
-        Color color = player.inventory().get("map")==null?Color.BLACK:Color.darkGray;
+        Color color = Color.darkGray;
         //playground
         displayTiles(terminal, player, world,screenWidth,screenHeight, color);
         //status

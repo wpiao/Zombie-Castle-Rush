@@ -8,9 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Creature implements Location {
-    private int initialAttackValue;
-    private int initialDefenseValue;
-    private int initialVisionRadius;
+
     private World world;
 
     public World world() {
@@ -66,6 +64,11 @@ public class Creature implements Location {
         return hp;
     }
 
+    private double balance;
+    public double getBalance(){
+        return balance;
+    }
+
     public int attackValue;
 
     public int attackValue() {
@@ -96,14 +99,17 @@ public class Creature implements Location {
         this.visionRadius = visionRadius;
     }
 
+    private int initialAttackValue;
     public int getInitialAttackValue() {
         return initialAttackValue;
     }
 
+    private int initialDefenseValue;
     public int getInitialDefenseValue() {
         return initialDefenseValue;
     }
 
+    private int initialVisionRadius;
     public int getInitialVisionRadius() {
         return initialVisionRadius;
     }
@@ -153,6 +159,12 @@ public class Creature implements Location {
         this.initialDefenseValue = defense;
         this.initialVisionRadius = 9;
     }
+
+    public Creature(World world, char glyph, Color color, int maxHp, int attack, int defense, int killedNumber, double balance){
+        this(world,glyph,color,maxHp,attack,defense,killedNumber);
+        this.balance = balance;
+    }
+
 
     public void setWorld(World world) {
         this.world = world;

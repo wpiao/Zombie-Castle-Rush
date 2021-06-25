@@ -57,7 +57,7 @@ public class Inventory {
     }
 
     /**
-     * This function can move GuiItem from one Object's List<GuiItem> to another
+     * This function can move item from one Object's List<Item> to another
      * in this iteration, both Room and Role have Inventory reference attribute
      * so not necessary to implement static method in this iteration 2
      * If we decide to use centralized inventory management, this will be static
