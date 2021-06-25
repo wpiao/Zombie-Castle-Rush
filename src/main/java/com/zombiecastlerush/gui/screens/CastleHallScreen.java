@@ -62,11 +62,16 @@ public class CastleHallScreen implements Screen {
         EntityFactory entityFactory = new EntityFactory(world);
         for (int i = 0; i < 6; i++) {
             entityFactory.newZombies();
+
+        }
+
+        for (int i = 0 ; i < 3 ; i++){
             entityFactory.newKnife();
             entityFactory.newHelmet();
             entityFactory.newLighter();
             entityFactory.newTorch();
             entityFactory.newMap();
+            entityFactory.newPotion();
         }
 
         entityFactory.newSword();
@@ -184,6 +189,11 @@ public class CastleHallScreen implements Screen {
         String killStats = String.format("Zombies killed: %d", player.killedNumber);
         terminal.write(killStats, right, top + 6, Color.RED);
         int level = player.experience / 10 + 1;
+
+        player.setInitialAttackValue( 20 + (level-1) * 2);
+        player.setInitialDefenseValue(5 + level-1);
+        player.attackValue = player.getInitialAttackValue() + (player.weapon == null? 0:player.weapon.attackValue());
+        player.defenseValue = player.getInitialDefenseValue() + (player.accs == null? 0:player.accs.defenseValue());
 
         String lvlStats1 = String.format("EXP: %3d   Lvl: %2d", player.experience, level);
         String lvlStats2 = String.format("Attack: %2d Defense: %2d", player.attackValue(), player.defenseValue());

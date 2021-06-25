@@ -9,9 +9,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Creature implements Location {
-    private final int initialAttackValue;
-    private final int initialDefenseValue;
-    private final int initialVisionRadius;
+    private int initialAttackValue;
+    private int initialDefenseValue;
+    private int initialVisionRadius;
     private World world;
 
     public World world() {
@@ -67,7 +67,7 @@ public class Creature implements Location {
         return hp;
     }
 
-    private int attackValue;
+    public int attackValue;
 
     public int attackValue() {
         return attackValue;
@@ -77,7 +77,7 @@ public class Creature implements Location {
         this.attackValue = attackValue;
     }
 
-    private int defenseValue;
+    public int defenseValue;
 
     public int defenseValue() {
         return defenseValue;
@@ -97,6 +97,29 @@ public class Creature implements Location {
         this.visionRadius = visionRadius;
     }
 
+    public int getInitialAttackValue() {
+        return initialAttackValue;
+    }
+
+    public int getInitialDefenseValue() {
+        return initialDefenseValue;
+    }
+
+    public int getInitialVisionRadius() {
+        return initialVisionRadius;
+    }
+
+    public void setInitialAttackValue(int initialAttackValue) {
+        this.initialAttackValue = initialAttackValue;
+    }
+
+    public void setInitialDefenseValue(int initialDefenseValue) {
+        this.initialDefenseValue = initialDefenseValue;
+    }
+
+    public void setInitialVisionRadius(int initialVisionRadius) {
+        this.initialVisionRadius = initialVisionRadius;
+    }
 
     private Inventory inventory;
 
@@ -236,6 +259,7 @@ public class Creature implements Location {
     }
 
     public void update() {
+
         ai.onUpdate();
     }
 }
