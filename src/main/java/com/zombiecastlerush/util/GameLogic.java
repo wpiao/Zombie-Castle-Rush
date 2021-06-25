@@ -158,14 +158,15 @@ class GameLogic {
             if (enemy.getHealth() <= 0 || player.getHealth() <= 0) {
                 Room currentPosition = player.getCurrentPosition();
                 if (player.getHealth() <= 0) {
-                    Inputs.getUserInput("You are dead. Press Enter to continue.");
+                    System.out.println("You are dead.");
                     Game.getBackgroundMusic().close();
                     Game.getInstance().stop();
                 }
                 currentPosition.getChallenge().setCleared(true);
                 if (enemy.getHealth() <= 0) {
                     if (currentPosition.isExit()) {
-                        Inputs.getUserInput("You have found the exit, killed the last monster, and beaten the game! Press Enter to continue");
+                        System.out.println("You have found the exit, killed the last monster, and beaten the game!");
+                        MapOfGame.winArt();
                         Game.getBackgroundMusic().close();
                         Game.getInstance().stop();
                     }

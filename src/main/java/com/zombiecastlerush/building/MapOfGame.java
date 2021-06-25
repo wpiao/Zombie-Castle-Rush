@@ -6,7 +6,9 @@ import com.zombiecastlerush.util.Parser;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +47,21 @@ public class MapOfGame {
             }
         } catch (IOException exception) {
             System.out.println("There was an error reading the map.");
+        }
+    }
+    public static void winArt(){
+        String win = null;
+        try {
+            win = new String(Files.readAllBytes(Paths.get("Resources/ascii/win.txt")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            System.out.println(Parser.YELLOW + win + Parser.ANSI_RESET);
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }
