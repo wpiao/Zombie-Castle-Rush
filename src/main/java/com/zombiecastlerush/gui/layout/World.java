@@ -144,15 +144,15 @@ public class World {
         }
     }
 
-    public void addAtBox(Creature creature) {
+    public void addNextBox(Creature creature) {
 
         Map<Point, Tile> boxTiles = getBoxTile();
 
         for (Map.Entry<Point, Tile> entry : boxTiles.entrySet()) {
 
-            creature.x = entry.getKey().x;
-            creature.y = entry.getKey().y;
-            break;
+            creature.x = entry.getKey().x + 1;
+            creature.y = entry.getKey().y + 1;
+            creatures.add(creature);
         }
     }
 

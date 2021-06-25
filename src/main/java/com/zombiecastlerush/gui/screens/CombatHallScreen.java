@@ -18,6 +18,7 @@ public class CombatHallScreen implements Screen {
     private final int screenHeight;
     private KeyEvent key;
     private Screen subscreen;
+    private Creature lord;
 
     public CombatHallScreen(Creature player) {
         //add previous world to world list.
@@ -48,13 +49,13 @@ public class CombatHallScreen implements Screen {
                 .design(path)
                 .build(this.getClass().getSimpleName());
         EntityFactory entityFactory = new EntityFactory(world);
-        entityFactory.newAggZombies(player);
+        this.lord = entityFactory.newAggZombies(player);
     }
 
 
     public void displayOutput(AsciiPanel terminal) {
 
-        Color color = player.inventory().get("map") == null ? Color.BLACK : Color.darkGray;
+        Color color =  Color.darkGray;
         //playground
         displayTiles(terminal, player, world, screenWidth, screenHeight, color);
         //status
@@ -133,6 +134,11 @@ public class CombatHallScreen implements Screen {
 
         if (player.hp() < 1) {
             return new LoseScreen();
+        }
+
+        if (lord != null && lord.hp() < 1){
+
+            return new WinScreen();
         }
 
         return this;

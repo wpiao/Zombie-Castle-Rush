@@ -27,8 +27,8 @@ public class EntityFactory {
     }
 
     public Creature newAggZombies(Creature player){
-        Creature aggZombie = new Creature(world, 'Z', AsciiPanel.brightCyan, 30, 10, 5, 0);
-        world.addAtBox(aggZombie);
+        Creature aggZombie = new Creature(world, 'Z', AsciiPanel.brightCyan, 10, 20, 10, 0);
+        world.addNextBox(aggZombie);
         new AggZombieAi(aggZombie, player);
         return aggZombie;
     }
@@ -97,6 +97,4 @@ public class EntityFactory {
         world.addAtEmptyLocation(map);
         return map;
     }
-
-
 }
