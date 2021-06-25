@@ -43,4 +43,8 @@ public abstract class CreatureAi {
 
         creature.moveBy(mx, my);
     }
+
+    public void stayStill(){
+        creature.moveBy(0,0);
+    }
 }

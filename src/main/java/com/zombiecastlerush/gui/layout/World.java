@@ -32,6 +32,9 @@ public class World {
     }
 
     private List<Creature> creatures;
+    public List<Creature> getCreatures(){
+        return creatures;
+    }
 
     public World(Tile[][] tiles) {
         this.tiles = tiles;
@@ -150,8 +153,8 @@ public class World {
 
         for (Map.Entry<Point, Tile> entry : boxTiles.entrySet()) {
 
-            creature.x = entry.getKey().x + 1;
-            creature.y = entry.getKey().y + 1;
+            creature.x = entry.getKey().x;
+            creature.y = entry.getKey().y - 1;
             creatures.add(creature);
         }
     }

@@ -1,6 +1,8 @@
 package com.zombiecastlerush.gui.screens;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.net.CookiePolicy;
+
 import asciiPanel.AsciiPanel;
 import com.zombiecastlerush.gui.entity.Creature;
 import com.zombiecastlerush.gui.layout.World;
@@ -24,6 +26,8 @@ public interface Screen {
         terminal.write("[DROP][NAME]   ", x, y+7, Color.magenta);
         terminal.write("[USE][NAME]   ", x, y+9, Color.magenta);
         terminal.write("[ATTEMPT][PUZZLE]   ", x, y+11, Color.magenta);
+        terminal.write("[BUY][NAME]",x,y+13,Color.magenta);
+        terminal.write("[SELL][NAME]", x,y+15, Color.magenta);
     }
 
     default String drawLine(int length) {

@@ -150,7 +150,7 @@ public class DrawBridgeScreen implements Screen {
         //draw yellow boundary lines
         int length = terminal.getWidthInCharacters() - screenWidth - 2;
         terminal.write(drawLine(length), right, top, Color.ORANGE);
-        terminal.write("Status", right, top + 1, Color.green);
+        terminal.write("Status              $: " + player.getBalance(), right, top + 1, Color.green);
 
         // display player hp
         String stats = player.hp() < 1 ? "" : String.format("You: %6d/%3d hp", player.hp(), player.maxHp());

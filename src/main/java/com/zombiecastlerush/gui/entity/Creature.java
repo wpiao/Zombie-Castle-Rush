@@ -175,7 +175,7 @@ public class Creature implements Location {
             return;
         Creature other = world.creature(x + dx, y + dy);
 
-        if (other == null)
+        if (other == null || other.hp() == 999)
             ai.onEnter(x + dx, y + dy, world.tile(x + dx, y + dy));
         else
             attack(other);
@@ -280,5 +280,19 @@ public class Creature implements Location {
     public void update() {
 
         ai.onUpdate();
+    }
+
+    public void buyFrom(Creature seller, GuiItem item) {
+        if (this.getBalance() >= item.price()){
+            seller.inventory.remove(item);
+            this.inventory.add(item);
+            this.balance -= item.price();
+        }
+    }
+
+    public void sellTo(Creature seller, GuiItem item) {
+        this.inventory.remove(item);
+        seller.inventory.add(item);
+        this.balance += item.value();
     }
 }
