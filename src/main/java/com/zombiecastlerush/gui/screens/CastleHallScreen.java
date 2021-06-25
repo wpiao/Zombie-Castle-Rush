@@ -5,12 +5,14 @@ import com.zombiecastlerush.building.Room;
 import com.zombiecastlerush.gui.Command;
 import com.zombiecastlerush.gui.entity.Creature;
 import com.zombiecastlerush.gui.entity.EntityFactory;
+import com.zombiecastlerush.gui.entity.GuiItem;
 import com.zombiecastlerush.gui.layout.World;
 import com.zombiecastlerush.gui.layout.WorldBuilder;
 import com.zombiecastlerush.util.Game;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.Map;
 
 public class CastleHallScreen implements Screen {
 
@@ -215,8 +217,14 @@ public class CastleHallScreen implements Screen {
         int length = terminal.getWidthInCharacters() - screenWidth - 2;
         terminal.write(drawLine(length), right, middle, Color.ORANGE);
         terminal.write("Inventory", right, middle + 1, Color.green);
-        for (int i = 0; i < player.inventory().getGuiItems().size(); i++) {
-            terminal.write(player.inventory().get(i).name(), right, middle + 3 + i, Color.magenta);
+//        for (int i = 0; i < player.inventory().getGuiItems().size(); i++) {
+//            terminal.write(player.inventory().get(i).name(), right, middle + 3 + i, Color.magenta);
+//        }
+        int i = 0;
+        for (Map.Entry<String,Integer> itemCount:player.inventory().inventoryStats().entrySet()) {
+
+            String stats = String.format("%2d X %s  ",itemCount.getValue(),itemCount.getKey());
+            terminal.write(stats, right, middle + 3 + i++, Color.magenta);
         }
 
     }
