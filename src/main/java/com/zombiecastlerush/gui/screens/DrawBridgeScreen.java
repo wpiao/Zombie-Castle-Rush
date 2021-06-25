@@ -154,6 +154,9 @@ public class DrawBridgeScreen implements Screen {
         String enemyStats = player.opponent() == null || player.opponent().hp() < 1 ? "" :
                 String.format("Zombie: %3d/%3d hp", player.opponent().hp(), player.opponent().maxHp());
         terminal.write(enemyStats, right, top + 4, Color.green);
+
+        String killStats = String.format("Zombies killed: %d",player.killedNumber);
+        terminal.write(killStats,right,top + 8,Color.RED);
     }
 
 

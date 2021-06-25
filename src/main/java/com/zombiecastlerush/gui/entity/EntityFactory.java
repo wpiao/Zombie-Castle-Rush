@@ -11,7 +11,7 @@ public class EntityFactory {
     }
 
     public Creature newPlayer(){
-        Creature player = new Creature(world, '@', AsciiPanel.brightMagenta,100,20,5);
+        Creature player = new Creature(world, '@', AsciiPanel.brightMagenta,100,20,5,0);
         //world.addAtEmptyLocation(player);
         player.x = 2;
         player.y = 2;
@@ -20,7 +20,7 @@ public class EntityFactory {
     }
 
     public Creature newZombies(){
-        Creature zombie = new Creature(world, 'Z', AsciiPanel.brightGreen,30,10,5);
+        Creature zombie = new Creature(world, 'Z', AsciiPanel.brightGreen,30,10,5,0);
         world.addAtEmptyLocation(zombie);
         new ZombieAi(zombie, this);
         return zombie;
