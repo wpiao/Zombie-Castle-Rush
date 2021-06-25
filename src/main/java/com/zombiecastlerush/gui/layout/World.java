@@ -144,6 +144,20 @@ public class World {
         }
     }
 
+    public void addAtBox(Creature creature) {
+
+        Map<Point, Tile> boxTiles = getBoxTile();
+
+        for (Map.Entry<Point, Tile> entry : boxTiles.entrySet()) {
+
+            creature.x = entry.getKey().x;
+            creature.y = entry.getKey().y;
+            break;
+        }
+    }
+
+
+
     public void addAtPlayer(GuiItem item, int x, int y) {
         if (item == null)
             return;

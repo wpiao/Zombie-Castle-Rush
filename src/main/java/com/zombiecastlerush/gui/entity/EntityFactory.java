@@ -26,6 +26,13 @@ public class EntityFactory {
         return zombie;
     }
 
+    public Creature newAggZombies(Creature player){
+        Creature aggZombie = new Creature(world, 'Z', AsciiPanel.brightCyan, 30, 10, 5, 0);
+        world.addAtBox(aggZombie);
+        new AggZombieAi(aggZombie, player);
+        return aggZombie;
+    }
+
     public GuiItem newSword(){
         GuiItem sword = new GuiItem('1', AsciiPanel.brightRed, "Sword");
         sword.modifyAttackValue(10);

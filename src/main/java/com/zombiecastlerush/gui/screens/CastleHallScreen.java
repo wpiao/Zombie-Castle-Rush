@@ -62,7 +62,7 @@ public class CastleHallScreen implements Screen {
                 .build(this.getClass().getSimpleName());
 
         EntityFactory entityFactory = new EntityFactory(world);
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 20; i++) {
             entityFactory.newZombies();
 
         }

@@ -172,6 +172,9 @@ public class Creature implements Location {
     public boolean canSee(int x, int y) {
         return ai.canSee(x, y);
     }
+    public boolean canEnter(int x, int y) {
+        return (world.tile(x, y).isGround()||world.tile(x, y).isDoor()) && world.creature(x, y) == null;
+    }
 
     public Tile tile(int x, int y) {
         return world.tile(x, y);
