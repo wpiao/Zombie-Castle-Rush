@@ -43,15 +43,12 @@ public class Inventory {
         items.remove(item);
     }
 
-    public Map<String, Integer> inventoryStats() {
-        List<String> itemNames = new ArrayList<>();
-        for (GuiItem item : getGuiItems()) {
-            itemNames.add(item.name());
-        }
-        Map<String, Integer> freq = new HashMap<>();
-        Set<String> uniqueNames = new HashSet<>(itemNames);
-        for (String name : uniqueNames) {
-            freq.put(name, Collections.frequency(itemNames, name));
+    public Map<GuiItem, Integer> inventoryStats() {
+
+        Map<GuiItem, Integer> freq = new HashMap<>();
+        Set<GuiItem> uniqueItems = new HashSet<>(getGuiItems());
+        for (GuiItem item : uniqueItems) {
+            freq.put(item, Collections.frequency(getGuiItems(), item));
         }
         return freq;
     }

@@ -221,9 +221,9 @@ public class CastleHallScreen implements Screen {
 //            terminal.write(player.inventory().get(i).name(), right, middle + 3 + i, Color.magenta);
 //        }
         int i = 0;
-        for (Map.Entry<String,Integer> itemCount:player.inventory().inventoryStats().entrySet()) {
+        for (Map.Entry<GuiItem,Integer> itemCount:player.inventory().inventoryStats().entrySet()) {
 
-            String stats = String.format("%2d X %s  ",itemCount.getValue(),itemCount.getKey());
+            String stats = String.format("%2d X %s  ",itemCount.getValue(),itemCount.getKey().name());
             terminal.write(stats, right, middle + 3 + i++, Color.magenta);
         }
 

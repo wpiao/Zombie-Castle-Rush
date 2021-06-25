@@ -87,7 +87,7 @@ public class EntityFactory {
 
     public GuiItem newMap(){
         GuiItem map = new GuiItem('M', AsciiPanel.brightRed, "Map");
-        world.addAtBox(map);
+        world.addAtEmptyLocation(map);
         return map;
     }
 

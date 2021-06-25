@@ -1,6 +1,5 @@
 package com.zombiecastlerush.gui.entity;
 
-import asciiPanel.AsciiPanel;
 import com.zombiecastlerush.gui.layout.Tile;
 import com.zombiecastlerush.gui.layout.World;
 
@@ -187,7 +186,9 @@ public class Creature implements Location {
         damageToSelf = (int) (Math.random() * damageToSelf) + 1;
         this.modifyHp(-damageToSelf);
         other.modifyHp(-damageToOther);
-        if (other.hp() < 1){this.killedNumber++;}
+        if (other.hp() < 1) {
+            this.killedNumber++;
+        }
     }
 
     public void pickup() {
@@ -203,41 +204,44 @@ public class Creature implements Location {
         if (item != null) {
             inventory.remove(item);
             world.addAtPlayer(item, x, y);
-            if(item.attackValue()>1){
+            if (item.attackValue() > 1) {
                 this.weapon = null;
                 this.attackValue = initialAttackValue;
             }
-            if(item.defenseValue()>1){
+            if (item.defenseValue() > 1) {
                 this.accs = null;
                 this.defenseValue = initialDefenseValue;
             }
 
-            if(item.name().equalsIgnoreCase("torch")||item.name().equalsIgnoreCase("lighter")){
-                this.tool = null;
-                this.visionRadius = initialVisionRadius;
+            if (item.name().equalsIgnoreCase("torch") || item.name().equalsIgnoreCase("lighter")) {
+                if (inventory.inventoryStats().get(item) == null) {
+                    this.tool = null;
+                    this.visionRadius = initialVisionRadius;
+                }
+
             }
 
         }
     }
 
-    public void use(GuiItem item){
-        if (this.inventory().getGuiItems().contains(item)){
-            if (item.name().equalsIgnoreCase("knife") || item.name().equalsIgnoreCase("sword")){
+    public void use(GuiItem item) {
+        if (this.inventory().getGuiItems().contains(item)) {
+            if (item.name().equalsIgnoreCase("knife") || item.name().equalsIgnoreCase("sword")) {
                 this.weapon = item;
                 this.attackValue = initialAttackValue + item.attackValue();
             }
 
-            if (item.name().equalsIgnoreCase("helmet")){
+            if (item.name().equalsIgnoreCase("helmet")) {
                 this.accs = item;
                 this.defenseValue = initialDefenseValue + item.defenseValue();
             }
 
-            if (item.name().equalsIgnoreCase("lighter")|| item.name().equalsIgnoreCase("torch")){
+            if (item.name().equalsIgnoreCase("lighter") || item.name().equalsIgnoreCase("torch")) {
                 this.tool = item;
                 this.visionRadius = initialVisionRadius + item.visionRadius();
             }
 
-            if (item.name().equalsIgnoreCase("potion")){
+            if (item.name().equalsIgnoreCase("potion")) {
                 this.maxHp = (experience / 10 + 1) * 10 + 100;
                 this.hp = maxHp();
             }

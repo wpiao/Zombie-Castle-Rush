@@ -144,9 +144,9 @@ public class World {
         }
     }
 
-    public boolean addAtPlayer(GuiItem item, int x, int y) {
+    public void addAtPlayer(GuiItem item, int x, int y) {
         if (item == null)
-            return true;
+            return;
 
 
         List<Point> points = new ArrayList<Point>();
@@ -163,17 +163,13 @@ public class World {
 
             if (guiItems[p.x][p.y] == null) {
                 guiItems[p.x][p.y] = item;
-                Creature c = this.creature(p.x, p.y);
-                if (c != null)
-                    //c.notify("A %s lands between your feet.", item.name());
-                    return true;
+                return;
             } else {
                 List<Point> neighbors = p.neighbors8();
                 neighbors.removeAll(checked);
                 points.addAll(neighbors);
             }
         }
-        return false;
     }
 
     public void update() {
