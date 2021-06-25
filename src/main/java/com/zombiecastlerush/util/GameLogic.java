@@ -159,6 +159,7 @@ class GameLogic {
                 Room currentPosition = player.getCurrentPosition();
                 if (player.getHealth() <= 0) {
                     System.out.println("You are dead.");
+                    MapOfGame.loseArt();
                     Game.getBackgroundMusic().close();
                     Game.getInstance().stop();
                 }

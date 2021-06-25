@@ -64,4 +64,19 @@ public class MapOfGame {
             e.printStackTrace();
         }
     }
+    public static void loseArt(){
+        String lost = null;
+        try {
+            lost = new String(Files.readAllBytes(Paths.get("Resources/ascii/lose.txt")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            System.out.println(Parser.RED + lost + Parser.ANSI_RESET);
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }
