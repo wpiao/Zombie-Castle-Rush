@@ -2,10 +2,11 @@ package com.zombiecastlerush.gui.entity;
 
 import com.zombiecastlerush.gui.entity.GuiItem;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
-public class Inventory extends com.zombiecastlerush.building.Inventory {
+public class Inventory {
 
     private List<GuiItem> items;
     public List<GuiItem> getGuiItems() { return items; }
@@ -41,4 +42,18 @@ public class Inventory extends com.zombiecastlerush.building.Inventory {
     public void remove(GuiItem item) {
         items.remove(item);
     }
+
+    public Map<GuiItem, Integer> inventoryStats() {
+
+        Map<GuiItem, Integer> freq = new HashMap<>();
+        Set<GuiItem> uniqueItems = new HashSet<>(getGuiItems());
+        for (GuiItem item : uniqueItems) {
+            freq.put(item, Collections.frequency(getGuiItems(), item));
+        }
+        return freq;
+    }
+
+
+
+
 }

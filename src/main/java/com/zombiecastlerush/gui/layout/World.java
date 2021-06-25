@@ -66,16 +66,17 @@ public class World {
         return guiItems[x][y];
     }
 
-    public char glyph(int x, int y) {
+    public char glyph(int x, int y, Creature player) {
         Creature creature = creature(x, y);
         GuiItem item = item(x, y);
 
+        if (player.canSee(x, y)) {
+            if (creature != null)
+                return creature.glyph();
 
-        if (creature != null)
-            return creature.glyph();
-
-        if (item != null && !tile(x,y).isBox()) {
-            return item.glyph();
+            if (item != null && !tile(x, y).isBox()) {
+                return item.glyph();
+            }
         }
 
         return tile(x, y).glyph();
@@ -87,7 +88,7 @@ public class World {
         if (creature != null) {
             return creature.color();
         }
-        if (item != null && !tile(x,y).isBox()) {
+        if (item != null && !tile(x, y).isBox()) {
             return item.color();
         }
         return tile(x, y).color();
@@ -120,6 +121,19 @@ public class World {
         creatures.add(creature);
     }
 
+    public void addAtEmptyLocation(GuiItem item) {
+        int x;
+        int y;
+
+        do {
+            x = (int) (Math.random() * width);
+            y = (int) (Math.random() * height);
+        }
+        while (!tile(x, y).isGround() || item(x, y) != null);
+
+        guiItems[x][y] = item;
+    }
+
     public void addAtBox(GuiItem guiItem) {
 
         Map<Point, Tile> boxTiles = getBoxTile();
@@ -130,9 +144,9 @@ public class World {
         }
     }
 
-    public boolean addAtPlayer(GuiItem item, int x, int y) {
+    public void addAtPlayer(GuiItem item, int x, int y) {
         if (item == null)
-            return true;
+            return;
 
 
         List<Point> points = new ArrayList<Point>();
@@ -149,17 +163,13 @@ public class World {
 
             if (guiItems[p.x][p.y] == null) {
                 guiItems[p.x][p.y] = item;
-                Creature c = this.creature(p.x, p.y);
-                if (c != null)
-                    //c.notify("A %s lands between your feet.", item.name());
-                    return true;
+                return;
             } else {
                 List<Point> neighbors = p.neighbors8();
                 neighbors.removeAll(checked);
                 points.addAll(neighbors);
             }
         }
-        return false;
     }
 
     public void update() {

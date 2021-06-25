@@ -5,12 +5,14 @@ import com.zombiecastlerush.building.Room;
 import com.zombiecastlerush.gui.Command;
 import com.zombiecastlerush.gui.entity.Creature;
 import com.zombiecastlerush.gui.entity.EntityFactory;
+import com.zombiecastlerush.gui.entity.GuiItem;
 import com.zombiecastlerush.gui.layout.World;
 import com.zombiecastlerush.gui.layout.WorldBuilder;
 import com.zombiecastlerush.util.Game;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.Map;
 
 public class CastleHallScreen implements Screen {
 
@@ -20,14 +22,24 @@ public class CastleHallScreen implements Screen {
     private final int screenHeight;
     private KeyEvent key;
     private Screen subscreen;
+    private int index;
 
     public CastleHallScreen(Creature player) {
+        //add previous world to world list.
+        player.worldList().put(player.world().name(), player.world());
+
         this.player = player;
         screenWidth = 90;
         screenHeight = 51;
+        //if player hasn't explored this world yet..
+        if (!player.worldList().containsKey(this.getClass().getSimpleName())) {
+            //create world of tiles from external file
+            createWorld();
+        } else {
+            this.world = player.worldList().get(this.getClass().getSimpleName());
+        }
 
-        //create world of tiles from external file
-        createWorld();
+        //set player current world
         player.setWorld(world);
 
         //set player location when entering into this screen from other screens
@@ -41,13 +53,6 @@ public class CastleHallScreen implements Screen {
             player.x = 1;
         }
 
-        EntityFactory entityFactory = new EntityFactory(world);
-        for (int i = 0; i < 6; i++) {
-            entityFactory.newZombies();
-        }
-
-        entityFactory.newSword();
-
     }
 
     private void createWorld() {
@@ -55,32 +60,51 @@ public class CastleHallScreen implements Screen {
         world = new WorldBuilder(90, 51)
                 .design(path)
                 .build(this.getClass().getSimpleName());
+
+        EntityFactory entityFactory = new EntityFactory(world);
+        for (int i = 0; i < 6; i++) {
+            entityFactory.newZombies();
+
+        }
+
+        for (int i = 0 ; i < 3 ; i++){
+            entityFactory.newKnife();
+            entityFactory.newHelmet();
+            entityFactory.newLighter();
+            entityFactory.newTorch();
+            entityFactory.newMap();
+            entityFactory.newPotion();
+        }
+
+        entityFactory.newSword();
+
     }
 
 
     public void displayOutput(AsciiPanel terminal) {
-        int left = 0;
-        int top = 0;
 
+        Color color = player.inventory().get("map")==null?Color.BLACK:Color.darkGray;
         //playground
-        displayTiles(terminal);
+        displayTiles(terminal, player, world, screenWidth, screenHeight, color);
         //status
         displayStatus(terminal, screenWidth + 1, 0);
         //inventory
         displayInventory(terminal, screenWidth + 1, (screenHeight - screenHeight % 3) / 3);
         //display map
-        displayHint(terminal, screenWidth + 1, (screenHeight - screenHeight % 3) * 2 / 3);
+        displayHint(terminal, screenWidth + 1, (screenHeight - screenHeight % 3) * 2 / 3, screenWidth);
         //prompt
         displayDescription(terminal, 0, screenHeight);
         //user input
         displayUserInput(terminal, 0, terminal.getHeightInCharacters() - 3);
 
-        terminal.write(player.glyph(), player.x - left, player.y - top, player.color());
+        terminal.write(player.glyph(), player.x, player.y, player.color());
 
-        if (subscreen != null)
+        if (subscreen != null) {
             subscreen.displayOutput(terminal);
-    }
+        }
 
+
+    }
 
     public Screen respondToUserInput(KeyEvent key) {
         if (subscreen != null) {
@@ -92,18 +116,21 @@ public class CastleHallScreen implements Screen {
             if (key.getKeyCode() == KeyEvent.VK_ENTER) {
                 Command.command = "";
                 switch (choice) {
-                    case 1:
+                    case 2: //pick-up
+                        player.pickup();
+                        break;
+                    case 3: //attempt puzzle
                         if (player.world().tile(player.x, player.y).isBox()) {
                             subscreen = new RiddleScreen(player, this.getClass().getSimpleName());
                         }
                         break;
-                    case 2:
+                    case 4: // drop items
                         String itemName = Command.parsedCommands.get(1);
                         player.drop(player.inventory().get(itemName));
                         break;
-                    case 3:
-                        player.pickup();
-                        break;
+                    case 7: //use
+                        String useItemName = Command.parsedCommands.get(1);
+                        player.use(player.inventory().get(useItemName));
                 }
             }
 
@@ -130,7 +157,6 @@ public class CastleHallScreen implements Screen {
                     case KeyEvent.VK_DOWN:
                         player.moveBy(0, 1);
                         break;
-
                 }
             }
         }
@@ -147,19 +173,6 @@ public class CastleHallScreen implements Screen {
         return this;
     }
 
-    private void displayTiles(AsciiPanel terminal) {
-        for (int x = 0; x < screenWidth; x++) {
-            for (int y = 0; y < screenHeight; y++) {
-
-                if (player.canSee(x, y)) {
-                    terminal.write(world.glyph(x, y), x, y, world.color(x, y));
-                } else {
-                    terminal.write(world.glyph(x, y), x, y, Color.black);
-                }
-            }
-        }
-    }
-
     private void displayStatus(AsciiPanel terminal, int right, int top) {
         //draw yellow boundary lines
         int length = terminal.getWidthInCharacters() - screenWidth - 2;
@@ -174,6 +187,29 @@ public class CastleHallScreen implements Screen {
         String enemyStats = player.opponent() == null || player.opponent().hp() < 1 ? "" :
                 String.format("Zombie: %3d/%3d hp", player.opponent().hp(), player.opponent().maxHp());
         terminal.write(enemyStats, right, top + 4, Color.green);
+
+        String killStats = String.format("Zombies killed: %d", player.killedNumber);
+        terminal.write(killStats, right, top + 6, Color.RED);
+        int level = player.experience / 10 + 1;
+
+        player.setInitialAttackValue( 20 + (level-1) * 2);
+        player.setInitialDefenseValue(5 + level-1);
+        player.attackValue = player.getInitialAttackValue() + (player.weapon == null? 0:player.weapon.attackValue());
+        player.defenseValue = player.getInitialDefenseValue() + (player.accs == null? 0:player.accs.defenseValue());
+
+        String lvlStats1 = String.format("EXP: %3d   Lvl: %2d", player.experience, level);
+        String lvlStats2 = String.format("Attack: %2d Defense: %2d", player.attackValue(), player.defenseValue());
+        terminal.write(lvlStats1, right, top + 8, Color.YELLOW);
+        terminal.write(lvlStats2, right, top + 10, Color.YELLOW);
+
+        terminal.write("Equipment: ", right, top + 12, Color.CYAN);
+
+        String equipStats1 = String.format("Weapon:%5s   Acc:%5s", player.weapon == null ?
+                "" : player.weapon.name(), player.accs == null ? "" : player.accs.name());
+        terminal.write(equipStats1, right, top + 14, Color.CYAN);
+
+        String equipStats2 = String.format("Tool: %5s", player.tool == null ? "" : player.tool.name());
+        terminal.write(equipStats2, right, top + 15, Color.CYAN);
     }
 
 
@@ -181,22 +217,16 @@ public class CastleHallScreen implements Screen {
         int length = terminal.getWidthInCharacters() - screenWidth - 2;
         terminal.write(drawLine(length), right, middle, Color.ORANGE);
         terminal.write("Inventory", right, middle + 1, Color.green);
-        for (int i = 0; i < player.inventory().getGuiItems().size(); i++) {
-            terminal.write(player.inventory().get(i).name(), right, middle + 3 + i, Color.magenta);
+//        for (int i = 0; i < player.inventory().getGuiItems().size(); i++) {
+//            terminal.write(player.inventory().get(i).name(), right, middle + 3 + i, Color.magenta);
+//        }
+        int i = 0;
+        for (Map.Entry<GuiItem,Integer> itemCount:player.inventory().inventoryStats().entrySet()) {
+
+            String stats = String.format("%2d X %s  ",itemCount.getValue(),itemCount.getKey().name());
+            terminal.write(stats, right, middle + 3 + i++, Color.magenta);
         }
 
-    }
-
-    private void displayHint(AsciiPanel terminal, int right, int bottom) {
-        int length = terminal.getWidthInCharacters() - screenWidth - 2;
-        terminal.write(drawLine(length), right, bottom, Color.orange);
-        int height = terminal.getHeightInCharacters();
-
-        for (int i = 0; i < height; i++) {
-            terminal.write("|", right - 1, i, Color.orange);
-        }
-        terminal.write("Hint", right, bottom + 1, Color.green);
-        terminal.write("placeholder", right, bottom + 2, Color.magenta);
     }
 
     private void displayUserInput(AsciiPanel terminal, int left, int i) {
@@ -226,12 +256,7 @@ public class CastleHallScreen implements Screen {
         });
     }
 
-    private String drawLine(int length) {
-
-        String line = "";
-        for (int i = 0; i < length; i++) {
-            line += "-";
-        }
-        return line;
+    public String toString() {
+        return "CastleHall";
     }
 }

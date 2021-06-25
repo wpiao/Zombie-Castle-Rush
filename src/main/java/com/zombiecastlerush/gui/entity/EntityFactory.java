@@ -11,7 +11,7 @@ public class EntityFactory {
     }
 
     public Creature newPlayer(){
-        Creature player = new Creature(world, '@', AsciiPanel.brightMagenta,100,20,5);
+        Creature player = new Creature(world, '@', AsciiPanel.brightMagenta,100,20,5,0);
         //world.addAtEmptyLocation(player);
         player.x = 2;
         player.y = 2;
@@ -20,7 +20,7 @@ public class EntityFactory {
     }
 
     public Creature newZombies(){
-        Creature zombie = new Creature(world, 'Z', AsciiPanel.brightGreen,30,10,5);
+        Creature zombie = new Creature(world, 'Z', AsciiPanel.brightGreen,30,10,5,0);
         world.addAtEmptyLocation(zombie);
         new ZombieAi(zombie, this);
         return zombie;
@@ -28,7 +28,68 @@ public class EntityFactory {
 
     public GuiItem newSword(){
         GuiItem sword = new GuiItem('1', AsciiPanel.brightRed, "Sword");
+        sword.modifyAttackValue(10);
         world.addAtBox(sword);
         return sword;
     }
+
+    public GuiItem newFork(){
+        GuiItem fork = new GuiItem('F', AsciiPanel.brightRed, "Fork");
+        world.addAtEmptyLocation(fork);
+        return fork;
+    }
+
+    public GuiItem newSpoon(){
+        GuiItem spoon = new GuiItem('S', AsciiPanel.brightRed, "Spoon");
+        world.addAtEmptyLocation(spoon);
+        return spoon;
+    }
+
+    public GuiItem newKnife(){
+        GuiItem knife = new GuiItem('K', AsciiPanel.brightRed, "Knife");
+        knife.modifyAttackValue(5);
+        world.addAtEmptyLocation(knife);
+        return knife;
+    }
+
+    public GuiItem newVase(){
+        GuiItem vase = new GuiItem('V', AsciiPanel.brightRed, "Vase");
+        world.addAtEmptyLocation(vase);
+        return vase;
+    }
+
+    public GuiItem newPotion(){
+        GuiItem potion = new GuiItem('P', AsciiPanel.brightRed, "Potion");
+        world.addAtEmptyLocation(potion);
+        return potion;
+    }
+
+    public GuiItem newLighter(){
+        GuiItem lighter = new GuiItem('L', AsciiPanel.brightRed, "Lighter");
+        lighter.modifyVisionRadius(3);
+        world.addAtEmptyLocation(lighter);
+        return lighter;
+    }
+
+    public GuiItem newHelmet(){
+        GuiItem helmet = new GuiItem('H', AsciiPanel.brightRed, "Helmet");
+        helmet.modifyDefenseValue(20);
+        world.addAtEmptyLocation(helmet);
+        return helmet;
+    }
+
+    public GuiItem newTorch(){
+        GuiItem torch = new GuiItem('T', AsciiPanel.brightRed, "Torch");
+        torch.modifyVisionRadius(6);
+        world.addAtEmptyLocation(torch);
+        return torch;
+    }
+
+    public GuiItem newMap(){
+        GuiItem map = new GuiItem('M', AsciiPanel.brightRed, "Map");
+        world.addAtEmptyLocation(map);
+        return map;
+    }
+
+
 }

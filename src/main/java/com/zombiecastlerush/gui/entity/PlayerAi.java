@@ -15,4 +15,5 @@ public class PlayerAi extends CreatureAi {
         }
 
     }
+
 }
