@@ -76,7 +76,7 @@ public interface Screen {
         }
     }
 
-    default void displayStatus(AsciiPanel terminal, int right, int top, int screenWidth, Creature player) {
+    default void displayStatus(AsciiPanel terminal, int right, int top, int screenWidth, Creature player, String enemy) {
         //draw yellow boundary lines
         int length = terminal.getWidthInCharacters() - screenWidth - 2;
         terminal.write(drawLine(length), right, top, Color.ORANGE);
@@ -88,7 +88,7 @@ public interface Screen {
 
         //if player has an opponent, aka in fight, then display its hp.
         String enemyStats = player.opponent() == null || player.opponent().hp() < 1 ? "" :
-                String.format("Zombie: %3d/%3d hp", player.opponent().hp(), player.opponent().maxHp());
+                String.format("%s: %3d/%3d hp",enemy, player.opponent().hp(), player.opponent().maxHp());
         terminal.write(enemyStats, right, top + 4, Color.green);
 
         String killStats = String.format("Zombies killed: %d", player.killedNumber);

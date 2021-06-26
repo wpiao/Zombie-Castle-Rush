@@ -58,7 +58,7 @@ public class CombatHallScreen implements Screen {
         //playground
         displayTiles(terminal, player, world, screenWidth, screenHeight, color);
         //status
-        displayStatus(terminal, screenWidth + 1, 0,screenWidth,player);
+        displayStatus(terminal, screenWidth + 1, 0,screenWidth);
         //inventory
         displayInventory(terminal, screenWidth + 1, (screenHeight - screenHeight % 3) / 3, screenWidth, player);
         //display map
@@ -135,12 +135,48 @@ public class CombatHallScreen implements Screen {
             return new LoseScreen();
         }
 
-        if (lord != null && lord.hp() < 1){
+        if ( lord.hp() < 1){
 
             return new WinScreen();
         }
 
         return this;
+    }
+
+    private void displayStatus(AsciiPanel terminal, int right, int top, int screenWidth) {
+        //draw yellow boundary lines
+        int length = terminal.getWidthInCharacters() - screenWidth - 2;
+        terminal.write(drawLine(length), right, top, Color.ORANGE);
+        terminal.write("Status              $: " + player.getBalance(), right, top + 1, Color.green);
+
+        // display player hp
+        String stats = player.hp() < 1 ? "" : String.format("You: %6d/%3d hp", player.hp(), player.maxHp());
+        terminal.write(stats, right, top + 3, Color.magenta);
+
+        //if player has an opponent, aka in fight, then display its hp.
+        String enemyStats = String.format("Lord:   %3d/%3d hp", lord.hp(), lord.maxHp());
+        terminal.write(enemyStats, right, top + 4, Color.PINK);
+
+        String killStats = String.format("Zombies killed: %d", player.killedNumber);
+        terminal.write(killStats, right, top + 6, Color.RED);
+        int level = player.experience / 10 + 1;
+
+        player.setInitialAttackValue( 20 + (level-1) * 2);
+        player.setInitialDefenseValue(5 + level-1);
+        player.attackValue = player.getInitialAttackValue() + (player.weapon == null? 0:player.weapon.attackValue());
+        player.defenseValue = player.getInitialDefenseValue() + (player.accs == null? 0:player.accs.defenseValue());
+
+        String lvlStats1 = String.format("EXP:  %3d  Lvl: %6d", player.experience, level);
+        String lvlStats2 = String.format("Attack: %2d Defense: %2d", player.attackValue(), player.defenseValue());
+        terminal.write(lvlStats1, right, top + 8, Color.YELLOW);
+        terminal.write(lvlStats2, right, top + 10, Color.YELLOW);
+
+        String equipStats1 = String.format("Weapon:%8s   Acc:%5s", player.weapon == null ?
+                "" : player.weapon.name(), player.accs == null ? "" : player.accs.name());
+        terminal.write(equipStats1, right, top + 12, Color.CYAN);
+
+        String equipStats2 = String.format("Tool: %9s", player.tool == null ? "" : player.tool.name());
+        terminal.write(equipStats2, right, top + 14, Color.CYAN);
     }
 
     private void displayHint(AsciiPanel terminal, int right, int bottom) {

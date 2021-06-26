@@ -64,7 +64,7 @@ public class WestWingScreen implements Screen {
         //playground
         displayTiles(terminal, player, world,screenWidth,screenHeight,color);
         //status
-        displayStatus(terminal, screenWidth + 1, 0,screenWidth,player);
+        displayStatus(terminal, screenWidth + 1, 0,screenWidth,player,"Zombie");
         //inventory
         displayInventory(terminal, screenWidth + 1, (screenHeight - screenHeight % 3) / 3, screenWidth, player);
         //display map

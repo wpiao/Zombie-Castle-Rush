@@ -220,16 +220,20 @@ public class Creature {
             inventory.remove(item);
             world.addAtPlayer(item, x, y);
             if (item.attackValue() > 1) {
-                this.weapon = null;
-                this.attackValue = initialAttackValue;
+                if (!inventory.getGuiItems().contains(item)){
+                    this.weapon = null;
+                    this.attackValue = initialAttackValue;
+                }
             }
             if (item.defenseValue() > 1) {
-                this.accs = null;
-                this.defenseValue = initialDefenseValue;
+                if (!inventory.getGuiItems().contains(item)){
+                    this.accs = null;
+                    this.defenseValue = initialDefenseValue;
+                }
             }
 
             if (item.name().equalsIgnoreCase("torch") || item.name().equalsIgnoreCase("lighter")) {
-                if (inventory.inventoryStats().get(item) == null) {
+                if (!inventory.getGuiItems().contains(item)) {
                     this.tool = null;
                     this.visionRadius = initialVisionRadius;
                 }

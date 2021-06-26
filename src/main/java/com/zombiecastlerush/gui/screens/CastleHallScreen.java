@@ -20,7 +20,6 @@ public class CastleHallScreen implements Screen {
     private final int screenHeight;
     private KeyEvent key;
     private Screen subscreen;
-    private int index;
 
     public CastleHallScreen(Creature player) {
         //add previous world to world list.
@@ -83,7 +82,7 @@ public class CastleHallScreen implements Screen {
         //playground
         displayTiles(terminal, player, world, screenWidth, screenHeight, color);
         //status
-        displayStatus(terminal, screenWidth + 1, 0,screenWidth,player);
+        displayStatus(terminal, screenWidth + 1, 0,screenWidth,player,"Zombie");
         //inventory
         displayInventory(terminal, screenWidth + 1, (screenHeight - screenHeight % 3) / 3, screenWidth, player);
         //display map
