@@ -30,6 +30,7 @@ public interface Screen {
         terminal.write("[ATTEMPT][PUZZLE]   ", x, y+11, Color.magenta);
         terminal.write("[BUY][NAME]",x,y+13,Color.magenta);
         terminal.write("[SELL][NAME]", x,y+15, Color.magenta);
+        terminal.write(drawLine(length), x, y+16, Color.orange);
     }
 
     default String drawLine(int length) {
