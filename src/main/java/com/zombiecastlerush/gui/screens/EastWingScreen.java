@@ -10,6 +10,9 @@ import com.zombiecastlerush.util.Game;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 public class EastWingScreen implements Screen {
     private World world;
@@ -89,6 +92,19 @@ public class EastWingScreen implements Screen {
             if (key.getKeyCode() == KeyEvent.VK_ENTER) {
                 Command.command = "";
                 switch (choice) {
+                    case 1:
+                        // player.worldList().put(player.world().name(), player.world());
+                        try {
+                            FileOutputStream fileOut = new FileOutputStream("Resources/savedData.txt");
+                            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+                            out.writeObject(player);
+                            out.close();
+                            fileOut.close();
+                            System.out.print("Serialized data is saved in resources");
+                        } catch (IOException i) {
+                            i.printStackTrace();
+                        }
+                        break;
                     case 2: //pick-up
                         player.pickup();
                         break;
@@ -125,6 +141,9 @@ public class EastWingScreen implements Screen {
                         break;
                     case KeyEvent.VK_DOWN:
                         player.moveBy(0, 1);
+                        break;
+                    case KeyEvent.VK_ESCAPE:
+                        System.exit(0);
                         break;
                 }
             }

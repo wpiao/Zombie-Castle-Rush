@@ -70,6 +70,9 @@ public class StartScreen implements Screen {
                 case KeyEvent.VK_DOWN:
                     player.moveBy(0, 1);
                     break;
+                case KeyEvent.VK_ESCAPE:
+                    System.exit(0);
+                    break;
             }
         }
         return this;

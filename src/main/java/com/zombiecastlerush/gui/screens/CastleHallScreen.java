@@ -168,6 +168,9 @@ public class CastleHallScreen implements Screen, Serializable {
                     case KeyEvent.VK_DOWN:
                         player.moveBy(0, 1);
                         break;
+                    case KeyEvent.VK_ESCAPE:
+                        System.exit(0);
+                        break;
                 }
             }
         }
