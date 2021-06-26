@@ -10,6 +10,7 @@ import com.zombiecastlerush.gui.AppMain;
 
 import javax.swing.*;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -78,6 +79,7 @@ public class Game {
         } else if (gameOption.equals("2")) {
             // roguelike mode
             AppMain app = new AppMain();
+            app.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Welcome/icon.png")));
             app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             app.setVisible(true);
         }

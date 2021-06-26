@@ -6,11 +6,9 @@ import asciiPanel.AsciiPanel;
 import com.zombiecastlerush.gui.screens.Screen;
 import com.zombiecastlerush.gui.screens.StartScreen;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 public class AppMain extends JFrame implements KeyListener {
     private final AsciiPanel terminal;
@@ -20,25 +18,12 @@ public class AppMain extends JFrame implements KeyListener {
     public AppMain(){
         super();
         terminal = new AsciiPanel(120,60,AsciiFont.TALRYTH_15_15);
-
         add(terminal);
         pack();
         screen = new StartScreen();
         addKeyListener(this);
         repaint();
     }
-
-    private static String readWelcome(){
-        String path = "Resources/Welcome/welcome.txt";
-        String welcome = null;
-        try{
-            welcome = Files.readString(Paths.get(path));
-         } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return welcome;
-    }
-
 
     @Override
     public void repaint(){
