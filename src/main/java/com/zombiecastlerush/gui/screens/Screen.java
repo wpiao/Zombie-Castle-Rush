@@ -22,15 +22,17 @@ public interface Screen {
         for (int i = 0; i < height; i++) {
             terminal.write("|", x - 1, i, Color.orange);
         }
-        terminal.write("Hint", x, y + 1, Color.green);
-        terminal.write("COMMANDS AVAILABLE   ", x, y+3, Color.magenta);
-        terminal.write("[PICK-UP]   ", x, y+5, Color.magenta);
+
+        terminal.write("COMMANDS", x, y+1, Color.green);
+        terminal.write("[ATTEMPT][PUZZLE]",x,y+3,Color.magenta);
+        terminal.write("[BUY][NAME]   ", x, y+5, Color.magenta);
         terminal.write("[DROP][NAME]   ", x, y+7, Color.magenta);
-        terminal.write("[USE][NAME]   ", x, y+9, Color.magenta);
-        terminal.write("[ATTEMPT][PUZZLE]   ", x, y+11, Color.magenta);
-        terminal.write("[BUY][NAME]",x,y+13,Color.magenta);
-        terminal.write("[SELL][NAME]", x,y+15, Color.magenta);
+        terminal.write("[PICK-UP]   ", x, y+9, Color.magenta);
+        terminal.write("[SAVE]   ", x, y+11, Color.magenta);
+        terminal.write("[SELL][NAME]",x,y+13,Color.magenta);
+        terminal.write("[USE][NAME]", x,y+15, Color.magenta);
         terminal.write(drawLine(length), x, y+16, Color.orange);
+
     }
 
     default String drawLine(int length) {

@@ -3,6 +3,7 @@ import javax.swing.*;
 
 import asciiPanel.AsciiFont;
 import asciiPanel.AsciiPanel;
+import com.zombiecastlerush.gui.screens.LoadScreen;
 import com.zombiecastlerush.gui.screens.Screen;
 import com.zombiecastlerush.gui.screens.StartScreen;
 
@@ -20,7 +21,7 @@ public class AppMain extends JFrame implements KeyListener {
         terminal = new AsciiPanel(120,60,AsciiFont.TALRYTH_15_15);
         add(terminal);
         pack();
-        screen = new StartScreen();
+        screen = new LoadScreen();
         addKeyListener(this);
         repaint();
     }
