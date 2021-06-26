@@ -3,7 +3,9 @@ package com.zombiecastlerush.gui.entity;
 import asciiPanel.AsciiPanel;
 import com.zombiecastlerush.gui.layout.World;
 
-public class EntityFactory {
+import java.io.Serializable;
+
+public class EntityFactory implements Serializable {
     private  World world;
 
     public EntityFactory(World world){

@@ -1,10 +1,11 @@
 package com.zombiecastlerush.gui.layout;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Point {
+public class Point implements Serializable {
     public int x;
     public int y;
 

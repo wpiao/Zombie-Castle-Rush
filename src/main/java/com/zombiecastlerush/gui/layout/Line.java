@@ -1,10 +1,11 @@
 package com.zombiecastlerush.gui.layout;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class Line implements Iterable<Point>{
+public class Line implements Iterable<Point>, Serializable {
     private List<Point> points;
     public List<Point> getPoints() { return points; }
 

@@ -2,11 +2,12 @@ package com.zombiecastlerush.gui.layout;
 
 import com.zombiecastlerush.gui.entity.Creature;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-public class PathFinder {
+public class PathFinder implements Serializable {
     private ArrayList<Point> open;
     private ArrayList<Point> closed;
     private HashMap<Point, Point> parents;

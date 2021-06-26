@@ -4,10 +4,11 @@ import com.zombiecastlerush.gui.layout.Tile;
 import com.zombiecastlerush.gui.layout.World;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Creature {
+public class Creature implements Serializable {
 
     private World world;
 

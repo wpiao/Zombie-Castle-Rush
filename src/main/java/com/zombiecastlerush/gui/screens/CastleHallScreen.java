@@ -11,8 +11,9 @@ import com.zombiecastlerush.util.Game;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.*;
 
-public class CastleHallScreen implements Screen {
+public class CastleHallScreen implements Screen, Serializable {
 
     private World world;
     private final Creature player;
@@ -113,6 +114,19 @@ public class CastleHallScreen implements Screen {
             if (key.getKeyCode() == KeyEvent.VK_ENTER) {
                 Command.command = "";
                 switch (choice) {
+                    case 1:
+                       // player.worldList().put(player.world().name(), player.world());
+                        try {
+                            FileOutputStream fileOut = new FileOutputStream("Resources/savedData.txt");
+                            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+                            out.writeObject(player);
+                            out.close();
+                            fileOut.close();
+                            System.out.print("Serialized data is saved in resources");
+                        } catch (IOException i) {
+                            i.printStackTrace();
+                        }
+                        break;
                     case 2: //pick-up
                         player.pickup();
                         break;

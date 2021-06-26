@@ -2,9 +2,11 @@ package com.zombiecastlerush.gui.entity;
 
 import com.zombiecastlerush.gui.layout.Path;
 import com.zombiecastlerush.gui.layout.Point;
+
+import java.io.Serializable;
 import java.util.List;
 
-public class AggZombieAi extends CreatureAi {
+public class AggZombieAi extends CreatureAi implements Serializable {
     private Creature player;
 
     public AggZombieAi(Creature creature, Creature player) {

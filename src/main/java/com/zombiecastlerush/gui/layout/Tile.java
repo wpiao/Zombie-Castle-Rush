@@ -1,9 +1,11 @@
 package com.zombiecastlerush.gui.layout;
 
 import java.awt.Color;
+import java.io.Serializable;
+
 import asciiPanel.AsciiPanel;
 
-public enum Tile {
+public enum Tile implements Serializable {
     FLOOR((char)250, AsciiPanel.white),
     LIGHT_WALL((char)176, AsciiPanel.green),
     MID_WALL((char)177,AsciiPanel.green),

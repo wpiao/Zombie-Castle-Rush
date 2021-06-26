@@ -2,9 +2,10 @@ package com.zombiecastlerush.gui.layout;
 
 import com.zombiecastlerush.gui.entity.Creature;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Path {
+public class Path implements Serializable {
 
     private static PathFinder pf = new PathFinder();
 

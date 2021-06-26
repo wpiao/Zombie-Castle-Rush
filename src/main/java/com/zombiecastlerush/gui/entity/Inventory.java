@@ -1,8 +1,9 @@
 package com.zombiecastlerush.gui.entity;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Inventory {
+public class Inventory implements Serializable {
 
     private List<GuiItem> items;
     public List<GuiItem> getGuiItems() { return items; }

@@ -1,9 +1,10 @@
 package com.zombiecastlerush.gui.entity;
 
 import java.awt.Color;
+import java.io.Serializable;
 import java.util.Objects;
 
-public class GuiItem {
+public class GuiItem implements Serializable {
 
     private char glyph;
     public char glyph() { return glyph; }

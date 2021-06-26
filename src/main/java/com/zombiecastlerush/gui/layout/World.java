@@ -4,12 +4,13 @@ import com.zombiecastlerush.gui.entity.Creature;
 import com.zombiecastlerush.gui.entity.GuiItem;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class World {
+public class World implements Serializable {
     private Tile[][] tiles;
     private GuiItem[][] guiItems;
 

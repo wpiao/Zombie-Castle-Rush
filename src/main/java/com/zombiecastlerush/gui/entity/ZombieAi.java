@@ -1,6 +1,8 @@
 package com.zombiecastlerush.gui.entity;
 
-public class ZombieAi extends CreatureAi {
+import java.io.Serializable;
+
+public class ZombieAi extends CreatureAi implements Serializable {
     private Creature player;
     private EntityFactory factory;
 

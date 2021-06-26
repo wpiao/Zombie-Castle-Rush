@@ -4,7 +4,9 @@ import com.zombiecastlerush.gui.layout.Line;
 import com.zombiecastlerush.gui.layout.Point;
 import com.zombiecastlerush.gui.layout.Tile;
 
-public abstract class CreatureAi {
+import java.io.Serializable;
+
+public abstract class CreatureAi implements Serializable {
     protected Creature creature;
 
     public CreatureAi(Creature creature){

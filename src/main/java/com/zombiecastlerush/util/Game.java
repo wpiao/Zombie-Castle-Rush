@@ -79,7 +79,7 @@ public class Game {
         } else if (gameOption.equals("2")) {
             // roguelike mode
             AppMain app = new AppMain();
-            setIcon(app);
+            //setIcon(app);
             app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             app.setVisible(true);
         }

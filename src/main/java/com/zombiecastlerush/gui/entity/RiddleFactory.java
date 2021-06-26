@@ -4,10 +4,11 @@ import com.zombiecastlerush.building.Puzzle;
 import com.zombiecastlerush.building.Room;
 import com.zombiecastlerush.util.Game;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RiddleFactory {
+public class RiddleFactory implements Serializable {
     public static String answer = "";
 
     public static Puzzle generateRiddle(String name) {
