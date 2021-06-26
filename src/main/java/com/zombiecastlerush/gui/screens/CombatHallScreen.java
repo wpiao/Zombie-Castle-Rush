@@ -61,8 +61,10 @@ public class CombatHallScreen implements Screen {
         displayStatus(terminal, screenWidth + 1, 0,screenWidth);
         //inventory
         displayInventory(terminal, screenWidth + 1, (screenHeight - screenHeight % 3) / 3, screenWidth, player);
-        //display map
+        //display hint
         displayHint(terminal, screenWidth + 1, (screenHeight - screenHeight % 3) * 2 / 3);
+        //display map
+        displayMap(terminal,screenWidth+1,(screenHeight - screenHeight % 3) * 2 / 3 + 17);
         //prompt
         displayDescription(terminal, 0, screenHeight);
         //user input
@@ -188,7 +190,24 @@ public class CombatHallScreen implements Screen {
             terminal.write("|", right - 1, i, Color.orange);
         }
         terminal.write("Hint", right, bottom + 1, Color.green);
-        terminal.write("Beat the Lord to Win", right, bottom + 2, Color.magenta);
+        terminal.write("Beat the Lord to Win", right+5, bottom + 7, Color.magenta);
+        terminal.write(drawLine(length), right, bottom+16, Color.orange);
+    }
+
+    private void displayMap(AsciiPanel terminal, int x, int y){
+
+        terminal.write("Map", x, y, Color.green);
+        terminal.write((char)178,x+12, y, Color.red);
+        terminal.write("You are here", x+14,y, Color.red);
+
+        terminal.write((char)178,x+9,y+2,Color.PINK);
+        terminal.write((char)186,x+9,y+3,Color.PINK);
+        terminal.write((""+(char)178+(char)205+(char)178+(char)205+(char)178+(char)205+(char)178),
+                x+7,y+4,Color.PINK);
+        terminal.write((char)178,x+13, y+4, Color.red);
+        terminal.write((""+(char)186+" " + (char)186),x+7,y+5,Color.PINK);
+        terminal.write((""+(char)200+(char)178+(char)188),x+7,y+6,Color.PINK);
+
     }
 
     private void displayDescription(AsciiPanel terminal, int left, int bottom) {
