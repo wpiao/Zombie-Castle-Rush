@@ -99,12 +99,12 @@ public class WestWingScreen implements Screen {
                     case 1:
                         // player.worldList().put(player.world().name(), player.world());
                         try {
-                            FileOutputStream fileOut = new FileOutputStream("Resources/savedData.txt");
+                            FileOutputStream fileOut = new FileOutputStream("Resources/savedData.zombie");
                             ObjectOutputStream out = new ObjectOutputStream(fileOut);
                             out.writeObject(player);
                             out.close();
                             fileOut.close();
-                            System.out.print("Serialized data is saved in resources");
+                            //System.out.print("Serialized data is saved in resources");
                         } catch (IOException i) {
                             i.printStackTrace();
                         }

@@ -10,7 +10,7 @@ import com.zombiecastlerush.gui.entity.Creature;
 public class LoadScreen implements Screen {
 
     public void displayOutput(AsciiPanel terminal) {
-        String prompt = new File("Resources/savedData.txt").exists() ? "  -- press [SPACE] to reload  --" : "";
+        String prompt = new File("Resources/savedData.zombie").exists() ? "  -- press [SPACE] to reload  --" : "";
         terminal.writeCenter("-- press [ENTER] to start new game --" + prompt, terminal.getHeightInCharacters() / 2);
     }
 
@@ -18,11 +18,11 @@ public class LoadScreen implements Screen {
 
         if (key.getKeyCode() == KeyEvent.VK_ENTER) {
             return new StartScreen();
-        } else if (key.getKeyCode() == KeyEvent.VK_SPACE && new File("Resources/savedData.txt").exists()) {
+        } else if (key.getKeyCode() == KeyEvent.VK_SPACE && new File("Resources/savedData.zombie").exists()) {
 
             Creature player = null;
             try {
-                FileInputStream fileIn = new FileInputStream("Resources/savedData.txt");
+                FileInputStream fileIn = new FileInputStream("Resources/savedData.zombie");
                 ObjectInputStream in = new ObjectInputStream(fileIn);
                 player = (Creature) in.readObject();
                 in.close();
