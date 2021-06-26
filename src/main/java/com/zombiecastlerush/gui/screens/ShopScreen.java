@@ -3,16 +3,20 @@ package com.zombiecastlerush.gui.screens;
 import asciiPanel.AsciiPanel;
 import com.zombiecastlerush.gui.Command;
 import com.zombiecastlerush.gui.entity.Creature;
+import com.zombiecastlerush.gui.entity.EntityFactory;
+import com.zombiecastlerush.gui.entity.GuiItem;
 import com.zombiecastlerush.gui.layout.World;
 import com.zombiecastlerush.gui.layout.WorldBuilder;
 import com.zombiecastlerush.util.Game;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.Map;
 
-public class ShopScreen implements Screen{
+public class ShopScreen implements Screen {
     private World world;
     private final Creature player;
+    private Creature seller;
     private final int screenWidth;
     private final int screenHeight;
     private KeyEvent key;
@@ -20,22 +24,23 @@ public class ShopScreen implements Screen{
 
     public ShopScreen(Creature player) {
         //add previous world to world list.
-        player.worldList().put(player.world().name(),player.world());
-
+        player.worldList().put(player.world().name(), player.world());
         this.player = player;
         screenWidth = 90;
         screenHeight = 51;
         //if player hasn't explored this world yet..
-        if (!player.worldList().containsKey(this.getClass().getSimpleName())){
+        if (!player.worldList().containsKey(this.getClass().getSimpleName())) {
             //create world of tiles from external file
             createWorld();
-        }else{
+        } else {
             this.world = player.worldList().get(this.getClass().getSimpleName());
+            seller = world.getCreatures().get(0);
         }
 
         //set player current world
         player.setWorld(world);
-        if (player.x <= 45 && player.x >= 40 && player.y == 0){
+
+        if (player.x <= 45 && player.x >= 40 && player.y == 0) {
             player.y = 49;
         }
     }
@@ -45,22 +50,24 @@ public class ShopScreen implements Screen{
         world = new WorldBuilder(90, 51)
                 .design(path)
                 .build(this.getClass().getSimpleName());
+        EntityFactory factory = new EntityFactory(world);
+        this.seller = factory.newSeller();
     }
 
     public void displayOutput(AsciiPanel terminal) {
-        Color color = player.inventory().get("map")==null?Color.BLACK:Color.darkGray;
+        Color color = Color.darkGray;
         //playground
-        displayTiles(terminal, player, world,screenWidth,screenHeight, color);
+        displayTiles(terminal, player, world, screenWidth, screenHeight, color);
         //status
-        displayStatus(terminal, screenWidth + 1, 0);
+        displayStatus(terminal, screenWidth + 1, 0,screenWidth,player,"Zombie");
         //inventory
-        displayInventory(terminal, screenWidth + 1, (screenHeight - screenHeight % 3) / 3);
+        displayInventory(terminal, screenWidth + 1, (screenHeight - screenHeight % 3) / 3, screenWidth, player);
         //display map
         displayHint(terminal, screenWidth + 1, (screenHeight - screenHeight % 3) * 2 / 3);
         //prompt
         displayDescription(terminal, 0, screenHeight);
         //user input
-        displayUserInput(terminal, 0, terminal.getHeightInCharacters() - 3);
+        displayUserInput(terminal, 0, terminal.getHeightInCharacters() - 3, screenWidth, subscreen, key);
 
         terminal.write(player.glyph(), player.x, player.y, player.color());
 
@@ -94,12 +101,25 @@ public class ShopScreen implements Screen{
                     case 7: //use
                         String useItemName = Command.parsedCommands.get(1);
                         player.use(player.inventory().get(useItemName));
+                        break;
+                    case 5: //buy
+                        String itemNameToBuy = Command.parsedCommands.get(1);
+                        if (seller.inventory().get(itemNameToBuy) != null && player.world().tile(player.x, player.y).isBox()) {
+                            player.buyFrom(seller, seller.inventory().get(itemNameToBuy));
+                        }
+                        break;
+                    case 6: //sell
+                        String itemNameToSell = Command.parsedCommands.get(1);
+                        if (player.inventory().get(itemNameToSell) != null && player.world().tile(player.x, player.y).isBox()) {
+                            player.sellTo(seller, player.inventory().get(itemNameToSell));
+                        }
+                        break;
                 }
             }
 
             if (player.x <= 45 && player.x >= 40 && player.y == 50) {
-            return new CastleHallScreen(player);
-        } else {
+                return new CastleHallScreen(player);
+            } else {
                 switch (key.getKeyCode()) {
                     case KeyEvent.VK_LEFT:
                         player.moveBy(-1, 0);
@@ -122,54 +142,8 @@ public class ShopScreen implements Screen{
             world.update();
         }
 
-        if (player.hp() < 1) {
-            return new LoseScreen();
-        }
 
         return this;
-    }
-
-    private void displayStatus(AsciiPanel terminal, int right, int top) {
-        //draw yellow boundary lines
-        int length = terminal.getWidthInCharacters() - screenWidth - 2;
-        terminal.write(drawLine(length), right, top, Color.ORANGE);
-        terminal.write("Status", right, top + 1, Color.green);
-
-        // display player hp
-        String stats = player.hp() < 1 ? "" : String.format("You: %6d/%3d hp", player.hp(), player.maxHp());
-        terminal.write(stats, right, top + 3, Color.magenta);
-
-        //if player has an opponent, aka in fight, then display its hp.
-        String enemyStats = player.opponent() == null || player.opponent().hp() < 1 ? "" :
-                String.format("Zombie: %3d/%3d hp", player.opponent().hp(), player.opponent().maxHp());
-        terminal.write(enemyStats, right, top + 4, Color.green);
-
-        String killStats = String.format("Zombies killed: %d", player.killedNumber);
-        terminal.write(killStats, right, top + 6, Color.RED);
-        int level = player.experience / 10 + 1;
-
-        String lvlStats1 = String.format("EXP: %3d   Lvl: %2d", player.experience, level);
-        String lvlStats2 = String.format("Attack: %2d Defense: %2d", player.attackValue(), player.defenseValue());
-        terminal.write(lvlStats1, right, top + 8, Color.YELLOW);
-        terminal.write(lvlStats2, right, top + 10, Color.YELLOW);
-
-        terminal.write("Equipment: ", right, top + 12, Color.CYAN);
-
-        String equipStats1 = String.format("Weapon:%5s   Acc:%5s", player.weapon == null ?
-                "" : player.weapon.name(), player.accs == null ? "" : player.accs.name());
-        terminal.write(equipStats1, right, top + 14, Color.CYAN);
-
-        String equipStats2 = String.format("Tool: %5s", player.tool == null ? "" : player.tool.name());
-        terminal.write(equipStats2, right, top + 15, Color.CYAN);
-    }
-
-    private void displayInventory(AsciiPanel terminal, int right, int middle) {
-        int length = terminal.getWidthInCharacters() - screenWidth - 2;
-        terminal.write(drawLine(length), right, middle, Color.ORANGE);
-        terminal.write("Inventory", right, middle + 1, Color.green);
-        for (int i = 0; i < player.inventory().getGuiItems().size(); i++) {
-            terminal.write(player.inventory().get(i).name(), right, middle + 3 + i, Color.magenta);
-        }
     }
 
     private void displayHint(AsciiPanel terminal, int right, int bottom) {
@@ -180,22 +154,20 @@ public class ShopScreen implements Screen{
         for (int i = 0; i < height; i++) {
             terminal.write("|", right - 1, i, Color.orange);
         }
-        terminal.write("Hint", right, bottom + 1, Color.green);
-        terminal.write("Buy and Sell", right, bottom + 2, Color.magenta);
-    }
+        terminal.write("Store", right, bottom + 1, Color.green);
 
-    private void displayUserInput(AsciiPanel terminal, int left, int i) {
-        terminal.write(drawLine(screenWidth), left, i, Color.orange);
-        terminal.write("Enter command -> ", left, i + 1, Color.red);
-        if (subscreen == null) {
-            Command.type(key, terminal, 18, i + 1);
+        int i = 0;
+        for (Map.Entry<GuiItem, Integer> itemCount : seller.inventory().inventoryStats().entrySet()) {
+            String stats = String.format("%2d X %7s      $%.1f", itemCount.getValue(), itemCount.getKey().name(), itemCount.getKey().price());
+            terminal.write(stats, right, bottom + 3 + i, Color.magenta);
+            i += 2;
         }
     }
 
     private void displayDescription(AsciiPanel terminal, int left, int bottom) {
         terminal.write("Shop", left, bottom + 1, Color.RED);
         String description = Game.castle.getCastleRooms().get("Shop").getDescription();
-        String msg1 = description.substring(0,75);
+        String msg1 = description.substring(0, 75);
         String msg2 = description.substring(75);
 
         terminal.write(msg1, left, bottom + 2, Color.white);

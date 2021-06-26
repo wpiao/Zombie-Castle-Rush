@@ -3,7 +3,7 @@ package com.zombiecastlerush.gui.entity;
 import java.awt.Color;
 import java.util.Objects;
 
-public class GuiItem implements Location {
+public class GuiItem {
 
     private char glyph;
     public char glyph() { return glyph; }
@@ -13,6 +13,12 @@ public class GuiItem implements Location {
 
     private String name;
     public String name() { return name; }
+
+    private double resellValue;
+    public double value(){return resellValue;}
+
+    private double retailValue;
+    public double price(){return retailValue;}
 
     private int attackValue;
     public int attackValue() { return attackValue; }
@@ -32,6 +38,12 @@ public class GuiItem implements Location {
         this.glyph = glyph;
         this.color = color;
         this.name = name;
+    }
+
+    public GuiItem (char glyph, Color color, String name, double resellValue, double retailValue){
+        this(glyph, color, name);
+        this.resellValue = resellValue;
+        this.retailValue = retailValue;
     }
 
     @Override

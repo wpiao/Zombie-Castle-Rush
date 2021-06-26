@@ -7,10 +7,8 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Creature implements Location {
-    private int initialAttackValue;
-    private int initialDefenseValue;
-    private int initialVisionRadius;
+public class Creature {
+
     private World world;
 
     public World world() {
@@ -66,6 +64,11 @@ public class Creature implements Location {
         return hp;
     }
 
+    private double balance;
+    public double getBalance(){
+        return balance;
+    }
+
     public int attackValue;
 
     public int attackValue() {
@@ -96,14 +99,17 @@ public class Creature implements Location {
         this.visionRadius = visionRadius;
     }
 
+    private int initialAttackValue;
     public int getInitialAttackValue() {
         return initialAttackValue;
     }
 
+    private int initialDefenseValue;
     public int getInitialDefenseValue() {
         return initialDefenseValue;
     }
 
+    private int initialVisionRadius;
     public int getInitialVisionRadius() {
         return initialVisionRadius;
     }
@@ -154,6 +160,12 @@ public class Creature implements Location {
         this.initialVisionRadius = 9;
     }
 
+    public Creature(World world, char glyph, Color color, int maxHp, int attack, int defense, int killedNumber, double balance){
+        this(world,glyph,color,maxHp,attack,defense,killedNumber);
+        this.balance = balance;
+    }
+
+
     public void setWorld(World world) {
         this.world = world;
     }
@@ -163,7 +175,7 @@ public class Creature implements Location {
             return;
         Creature other = world.creature(x + dx, y + dy);
 
-        if (other == null)
+        if (other == null || other.hp() == 999)
             ai.onEnter(x + dx, y + dy, world.tile(x + dx, y + dy));
         else
             attack(other);
@@ -208,16 +220,20 @@ public class Creature implements Location {
             inventory.remove(item);
             world.addAtPlayer(item, x, y);
             if (item.attackValue() > 1) {
-                this.weapon = null;
-                this.attackValue = initialAttackValue;
+                if (!inventory.getGuiItems().contains(item)){
+                    this.weapon = null;
+                    this.attackValue = initialAttackValue;
+                }
             }
             if (item.defenseValue() > 1) {
-                this.accs = null;
-                this.defenseValue = initialDefenseValue;
+                if (!inventory.getGuiItems().contains(item)){
+                    this.accs = null;
+                    this.defenseValue = initialDefenseValue;
+                }
             }
 
             if (item.name().equalsIgnoreCase("torch") || item.name().equalsIgnoreCase("lighter")) {
-                if (inventory.inventoryStats().get(item) == null) {
+                if (!inventory.getGuiItems().contains(item)) {
                     this.tool = null;
                     this.visionRadius = initialVisionRadius;
                 }
@@ -268,5 +284,19 @@ public class Creature implements Location {
     public void update() {
 
         ai.onUpdate();
+    }
+
+    public void buyFrom(Creature seller, GuiItem item) {
+        if (this.getBalance() >= item.price()){
+            seller.inventory.remove(item);
+            this.inventory.add(item);
+            this.balance -= item.price();
+        }
+    }
+
+    public void sellTo(Creature seller, GuiItem item) {
+        this.inventory.remove(item);
+        seller.inventory.add(item);
+        this.balance += item.value();
     }
 }

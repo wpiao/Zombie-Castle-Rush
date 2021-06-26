@@ -1,6 +1,4 @@
 package com.zombiecastlerush.gui;
-
-
 import javax.swing.*;
 
 import asciiPanel.AsciiFont;

@@ -1,12 +1,10 @@
 package com.zombiecastlerush.gui.layout;
 
-import com.zombiecastlerush.gui.entity.Location;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Point implements Location {
+public class Point {
     public int x;
     public int y;
 

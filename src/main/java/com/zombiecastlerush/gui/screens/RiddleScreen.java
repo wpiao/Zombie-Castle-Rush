@@ -27,7 +27,6 @@ public class RiddleScreen implements Screen {
         put("WestWingScreen", "West-Wing");
         put("ShopScreen", "Shop");
     }};
-    ;
 
     public RiddleScreen(Creature player) {
         screenWidth = 90;
