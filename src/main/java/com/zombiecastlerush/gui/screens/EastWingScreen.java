@@ -171,10 +171,14 @@ public class EastWingScreen implements Screen {
     private void displayMap(AsciiPanel terminal, int x, int y){
 
         terminal.write("Map", x, y, Color.green);
+        terminal.write((char)178,x+12, y, Color.red);
+        terminal.write("You are here", x+14,y, Color.red);
+
         terminal.write((char)178,x+9,y+2,Color.PINK);
         terminal.write((char)186,x+9,y+3,Color.PINK);
         terminal.write((""+(char)178+(char)205+(char)178+(char)205+(char)178+(char)205+(char)178),
                 x+7,y+4,Color.PINK);
+        terminal.write((char)178,x+11, y+4, Color.red);
         terminal.write((""+(char)186+" " + (char)186),x+7,y+5,Color.PINK);
         terminal.write((""+(char)200+(char)178+(char)188),x+7,y+6,Color.PINK);
 
