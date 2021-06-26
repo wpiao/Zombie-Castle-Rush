@@ -3,7 +3,7 @@ package com.zombiecastlerush.gui.entity;
 import java.awt.Color;
 import java.util.Objects;
 
-public class GuiItem implements Location {
+public class GuiItem {
 
     private char glyph;
     public char glyph() { return glyph; }

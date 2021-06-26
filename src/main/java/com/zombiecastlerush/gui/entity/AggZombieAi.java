@@ -2,13 +2,10 @@ package com.zombiecastlerush.gui.entity;
 
 import com.zombiecastlerush.gui.layout.Path;
 import com.zombiecastlerush.gui.layout.Point;
-import com.zombiecastlerush.gui.layout.Tile;
-
 import java.util.List;
 
 public class AggZombieAi extends CreatureAi {
     private Creature player;
-
 
     public AggZombieAi(Creature creature, Creature player) {
         super(creature);

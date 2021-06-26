@@ -5,14 +5,12 @@ import com.zombiecastlerush.building.Room;
 import com.zombiecastlerush.gui.Command;
 import com.zombiecastlerush.gui.entity.Creature;
 import com.zombiecastlerush.gui.entity.EntityFactory;
-import com.zombiecastlerush.gui.entity.GuiItem;
 import com.zombiecastlerush.gui.layout.World;
 import com.zombiecastlerush.gui.layout.WorldBuilder;
 import com.zombiecastlerush.util.Game;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.util.Map;
 
 public class CastleHallScreen implements Screen {
 
@@ -75,9 +73,7 @@ public class CastleHallScreen implements Screen {
             entityFactory.newMap();
             entityFactory.newPotion();
         }
-
         entityFactory.newSword();
-
     }
 
 
@@ -87,15 +83,15 @@ public class CastleHallScreen implements Screen {
         //playground
         displayTiles(terminal, player, world, screenWidth, screenHeight, color);
         //status
-        displayStatus(terminal, screenWidth + 1, 0);
+        displayStatus(terminal, screenWidth + 1, 0,screenWidth,player);
         //inventory
-        displayInventory(terminal, screenWidth + 1, (screenHeight - screenHeight % 3) / 3);
+        displayInventory(terminal, screenWidth + 1, (screenHeight - screenHeight % 3) / 3, screenWidth, player);
         //display map
         displayHint(terminal, screenWidth + 1, (screenHeight - screenHeight % 3) * 2 / 3, screenWidth);
         //prompt
         displayDescription(terminal, 0, screenHeight);
         //user input
-        displayUserInput(terminal, 0, terminal.getHeightInCharacters() - 3);
+        displayUserInput(terminal, 0, terminal.getHeightInCharacters() - 3, screenWidth, subscreen, key);
 
         terminal.write(player.glyph(), player.x, player.y, player.color());
 
@@ -173,72 +169,6 @@ public class CastleHallScreen implements Screen {
         return this;
     }
 
-    private void displayStatus(AsciiPanel terminal, int right, int top) {
-        //draw yellow boundary lines
-        int length = terminal.getWidthInCharacters() - screenWidth - 2;
-        terminal.write(drawLine(length), right, top, Color.ORANGE);
-        terminal.write("Status              $: " + player.getBalance(), right, top + 1, Color.green);
-
-        // display player hp
-        String stats = player.hp() < 1 ? "" : String.format("You: %6d/%3d hp", player.hp(), player.maxHp());
-        terminal.write(stats, right, top + 3, Color.magenta);
-
-        //if player has an opponent, aka in fight, then display its hp.
-        String enemyStats = player.opponent() == null || player.opponent().hp() < 1 ? "" :
-                String.format("Zombie: %3d/%3d hp", player.opponent().hp(), player.opponent().maxHp());
-        terminal.write(enemyStats, right, top + 4, Color.green);
-
-        String killStats = String.format("Zombies killed: %d", player.killedNumber);
-        terminal.write(killStats, right, top + 6, Color.RED);
-        int level = player.experience / 10 + 1;
-
-        player.setInitialAttackValue( 20 + (level-1) * 2);
-        player.setInitialDefenseValue(5 + level-1);
-        player.attackValue = player.getInitialAttackValue() + (player.weapon == null? 0:player.weapon.attackValue());
-        player.defenseValue = player.getInitialDefenseValue() + (player.accs == null? 0:player.accs.defenseValue());
-
-        String lvlStats1 = String.format("EXP: %3d   Lvl: %2d", player.experience, level);
-        String lvlStats2 = String.format("Attack: %2d Defense: %2d", player.attackValue(), player.defenseValue());
-        terminal.write(lvlStats1, right, top + 8, Color.YELLOW);
-        terminal.write(lvlStats2, right, top + 10, Color.YELLOW);
-
-        terminal.write("Equipment: ", right, top + 12, Color.CYAN);
-
-        String equipStats1 = String.format("Weapon:%5s   Acc:%5s", player.weapon == null ?
-                "" : player.weapon.name(), player.accs == null ? "" : player.accs.name());
-        terminal.write(equipStats1, right, top + 14, Color.CYAN);
-
-        String equipStats2 = String.format("Tool: %5s", player.tool == null ? "" : player.tool.name());
-        terminal.write(equipStats2, right, top + 15, Color.CYAN);
-    }
-
-
-    private void displayInventory(AsciiPanel terminal, int right, int middle) {
-        int length = terminal.getWidthInCharacters() - screenWidth - 2;
-        terminal.write(drawLine(length), right, middle, Color.ORANGE);
-        terminal.write("Inventory", right, middle + 1, Color.green);
-//        for (int i = 0; i < player.inventory().getGuiItems().size(); i++) {
-//            terminal.write(player.inventory().get(i).name(), right, middle + 3 + i, Color.magenta);
-//        }
-        int i = 0;
-        for (Map.Entry<GuiItem,Integer> itemCount:player.inventory().inventoryStats().entrySet()) {
-
-            String stats = String.format("%2d X %-6s     %.1f",itemCount.getValue(),itemCount.getKey().name(),itemCount.getKey().value());
-            terminal.write(stats, right, middle + 3 + i, Color.magenta);
-            i+=2;
-        }
-
-    }
-
-    private void displayUserInput(AsciiPanel terminal, int left, int i) {
-
-        terminal.write(drawLine(screenWidth), left, i, Color.orange);
-        terminal.write("Enter command -> ", left, i + 1, Color.red);
-        if (subscreen == null) {
-            Command.type(key, terminal, 18, i + 1);
-        }
-    }
-
     private void displayDescription(AsciiPanel terminal, int left, int bottom) {
 
         Room castleHall = Game.castle.getCastleRooms().get("Castle-Hall");
@@ -255,9 +185,5 @@ public class CastleHallScreen implements Screen {
                 terminal.write(description, left, bottom + 3, Color.white);
             }
         });
-    }
-
-    public String toString() {
-        return "CastleHall";
     }
 }

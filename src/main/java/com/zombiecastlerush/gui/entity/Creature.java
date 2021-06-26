@@ -7,7 +7,7 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Creature implements Location {
+public class Creature {
 
     private World world;
 

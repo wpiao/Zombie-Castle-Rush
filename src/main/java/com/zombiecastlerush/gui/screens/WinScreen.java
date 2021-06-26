@@ -1,8 +1,6 @@
 package com.zombiecastlerush.gui.screens;
 
 import java.awt.event.KeyEvent;
-import java.lang.invoke.SwitchPoint;
-
 import asciiPanel.AsciiPanel;
 
 public class WinScreen implements Screen {
