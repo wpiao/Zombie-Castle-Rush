@@ -23,7 +23,7 @@ public interface Screen {
             terminal.write("|", x - 1, i, Color.orange);
         }
 
-        terminal.write("COMMANDS", x, y+1, Color.green);
+        terminal.write("Commands", x, y+1, Color.green);
         terminal.write("[ATTEMPT][PUZZLE]",x,y+3,Color.magenta);
         terminal.write("[BUY][NAME]   ", x, y+5, Color.magenta);
         terminal.write("[DROP][NAME]   ", x, y+7, Color.magenta);
