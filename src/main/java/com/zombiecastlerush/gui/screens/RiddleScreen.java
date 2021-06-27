@@ -2,9 +2,9 @@ package com.zombiecastlerush.gui.screens;
 
 import asciiPanel.AsciiPanel;
 import com.zombiecastlerush.building.Puzzle;
-import com.zombiecastlerush.gui.entity.Creature;
-import com.zombiecastlerush.gui.entity.GuiItem;
-import com.zombiecastlerush.gui.entity.RiddleFactory;
+import com.zombiecastlerush.gui.component.Creature;
+import com.zombiecastlerush.gui.component.GuiItem;
+import com.zombiecastlerush.gui.component.RiddleFactory;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;

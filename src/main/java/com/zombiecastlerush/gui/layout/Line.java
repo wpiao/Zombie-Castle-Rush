@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Line implements Iterable<Point>, Serializable {
-    private List<Point> points;
+    private final List<Point> points;
     public List<Point> getPoints() { return points; }
 
     public Line(int x0, int y0, int x1, int y1) {

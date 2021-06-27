@@ -1,4 +1,4 @@
-package com.zombiecastlerush.gui.entity;
+package com.zombiecastlerush.gui.component;
 
 import java.io.Serializable;
 

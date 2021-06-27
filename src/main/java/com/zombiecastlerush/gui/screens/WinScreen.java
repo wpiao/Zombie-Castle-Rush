@@ -22,6 +22,5 @@ public class WinScreen implements Screen {
             default:
                 return this;
         }
-
     }
 }

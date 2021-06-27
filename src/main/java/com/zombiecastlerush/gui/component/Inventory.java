@@ -1,11 +1,11 @@
-package com.zombiecastlerush.gui.entity;
+package com.zombiecastlerush.gui.component;
 
 import java.io.Serializable;
 import java.util.*;
 
 public class Inventory implements Serializable {
 
-    private List<GuiItem> items;
+    private final List<GuiItem> items;
     public List<GuiItem> getGuiItems() { return items; }
 
     private final int MAX = 7;

@@ -1,4 +1,4 @@
-package com.zombiecastlerush.gui.entity;
+package com.zombiecastlerush.gui.component;
 
 import com.zombiecastlerush.gui.layout.Tile;
 import com.zombiecastlerush.gui.layout.World;
@@ -16,7 +16,7 @@ public class Creature implements Serializable {
         return world;
     }
 
-    private Map<String, World> exploredWorldList;
+    private final Map<String, World> exploredWorldList;
 
     public Map<String, World> worldList() {
         return exploredWorldList;
@@ -35,13 +35,13 @@ public class Creature implements Serializable {
     public int x;
     public int y;
 
-    private char glyph;
+    private final char glyph;
 
     public char glyph() {
         return glyph;
     }
 
-    private Color color;
+    private final Color color;
 
     public Color color() {
         return color;
@@ -127,7 +127,7 @@ public class Creature implements Serializable {
         this.initialVisionRadius = initialVisionRadius;
     }
 
-    private Inventory inventory;
+    private final Inventory inventory;
 
     public Inventory inventory() {
         return inventory;

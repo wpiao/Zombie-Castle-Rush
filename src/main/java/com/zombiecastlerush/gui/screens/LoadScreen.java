@@ -5,7 +5,7 @@ import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 
 import asciiPanel.AsciiPanel;
-import com.zombiecastlerush.gui.entity.Creature;
+import com.zombiecastlerush.gui.component.Creature;
 
 public class LoadScreen implements Screen {
 

@@ -1,4 +1,4 @@
-package com.zombiecastlerush.gui.entity;
+package com.zombiecastlerush.gui.component;
 
 import com.zombiecastlerush.building.Puzzle;
 import com.zombiecastlerush.building.Room;
@@ -20,7 +20,7 @@ public class RiddleFactory implements Serializable {
                      riddles.put(room.getKey(),(Puzzle)room.getValue().getChallenge());
                  }
              }
-            //placeholder for riddles from external files.
+
             return riddles.get(name);
     }
 }

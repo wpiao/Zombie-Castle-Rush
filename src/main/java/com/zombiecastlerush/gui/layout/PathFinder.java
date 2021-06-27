@@ -1,6 +1,6 @@
 package com.zombiecastlerush.gui.layout;
 
-import com.zombiecastlerush.gui.entity.Creature;
+import com.zombiecastlerush.gui.component.Creature;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -8,10 +8,10 @@ import java.util.Collections;
 import java.util.HashMap;
 
 public class PathFinder implements Serializable {
-    private ArrayList<Point> open;
-    private ArrayList<Point> closed;
-    private HashMap<Point, Point> parents;
-    private HashMap<Point,Integer> totalCost;
+    private final ArrayList<Point> open;
+    private final ArrayList<Point> closed;
+    private final HashMap<Point, Point> parents;
+    private final HashMap<Point,Integer> totalCost;
 
     public PathFinder() {
         this.open = new ArrayList<Point>();

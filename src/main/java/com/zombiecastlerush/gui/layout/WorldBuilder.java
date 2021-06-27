@@ -6,9 +6,9 @@ import java.io.Serializable;
 import java.util.Scanner;
 
 public class WorldBuilder implements Serializable {
-    private int width;
-    private int height;
-    private Tile[][] tiles;
+    private final int width;
+    private final int height;
+    private final Tile[][] tiles;
 
     public WorldBuilder(int width, int height) {
         this.width = width;

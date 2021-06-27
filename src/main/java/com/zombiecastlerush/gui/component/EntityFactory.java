@@ -1,4 +1,4 @@
-package com.zombiecastlerush.gui.entity;
+package com.zombiecastlerush.gui.component;
 
 import asciiPanel.AsciiPanel;
 import com.zombiecastlerush.gui.layout.World;
@@ -6,7 +6,7 @@ import com.zombiecastlerush.gui.layout.World;
 import java.io.Serializable;
 
 public class EntityFactory implements Serializable {
-    private  World world;
+    private final World world;
 
     public EntityFactory(World world){
         this.world = world;
@@ -28,7 +28,7 @@ public class EntityFactory implements Serializable {
     }
 
     public Creature newAggZombies(Creature player){
-        Creature aggZombie = new Creature(world, 'Z', AsciiPanel.brightCyan, 10, 20, 10, 0);
+        Creature aggZombie = new Creature(world, '&', AsciiPanel.brightCyan, 30, 20, 10, 0);
         world.addNextBox(aggZombie);
         new AggZombieAi(aggZombie, player);
         return aggZombie;

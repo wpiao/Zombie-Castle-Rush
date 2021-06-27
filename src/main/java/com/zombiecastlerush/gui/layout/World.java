@@ -1,7 +1,7 @@
 package com.zombiecastlerush.gui.layout;
 
-import com.zombiecastlerush.gui.entity.Creature;
-import com.zombiecastlerush.gui.entity.GuiItem;
+import com.zombiecastlerush.gui.component.Creature;
+import com.zombiecastlerush.gui.component.GuiItem;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -11,16 +11,16 @@ import java.util.List;
 import java.util.Map;
 
 public class World implements Serializable {
-    private Tile[][] tiles;
-    private GuiItem[][] guiItems;
+    private final Tile[][] tiles;
+    private final GuiItem[][] guiItems;
 
-    private int width;
+    private final int width;
 
     public int width() {
         return width;
     }
 
-    private int height;
+    private final int height;
 
     public int height() {
         return height;
@@ -32,7 +32,7 @@ public class World implements Serializable {
         return name;
     }
 
-    private List<Creature> creatures;
+    private final List<Creature> creatures;
     public List<Creature> getCreatures(){
         return creatures;
     }
