@@ -14,7 +14,6 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * singleton class Game
@@ -79,14 +78,31 @@ public class Game {
         } else if (gameOption.equals("2")) {
             // roguelike mode
             AppMain app = new AppMain();
-            setIcon(app);
+            //setIcon(app);
             app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            GraphicsDevice[] gd = ge.getScreenDevices();
+            app.setAlwaysOnTop(true);
+
+            int screenNumber = gd.length;
+            int maxWidth = 0;
+            int index = 0;
+            for (int i=0;i<screenNumber;i++) {
+                 if (gd[i].getDefaultConfiguration().getBounds().width>maxWidth){
+                     maxWidth = gd[i].getDefaultConfiguration().getBounds().width;
+                     index = i;
+                 }
+            }
+            app.setLocation(
+                    ((gd[index].getDefaultConfiguration().getBounds().width / 2) - (app.getSize().width / 2)) + gd[index].getDefaultConfiguration().getBounds().x,
+                    ((gd[index].getDefaultConfiguration().getBounds().height / 2) - (app.getSize().height / 2)) + gd[index].getDefaultConfiguration().getBounds().y
+            );
             app.setVisible(true);
         }
     }
 
     void setIcon(AppMain app){
-        Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Welcome/icon.png"));
+        Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("Resources/Welcome/icon.png"));
         if (System.getProperty("os.name").toLowerCase().contains("windows")){
             app.setIconImage(icon);
         } else{
