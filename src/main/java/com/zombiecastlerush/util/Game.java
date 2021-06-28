@@ -86,8 +86,7 @@ public class Game {
             // gd[1].setFullScreenWindow(frame); //gets the 2nd display.
             app.setAlwaysOnTop(true);
             //app.setSize(gd[0].getDefaultConfiguration().getBounds().getSize());
-            int width = gd[1].getDefaultConfiguration().getBounds().width;
-            int height = gd[1].getDefaultConfiguration().getBounds().height;
+
             int screenNumber = gd.length;
             int maxWidth = 0;
             int index = 0;
@@ -98,8 +97,8 @@ public class Game {
                  }
             }
             app.setLocation(
-                    ((width / 2) - (app.getSize().width / 2)) + gd[index].getDefaultConfiguration().getBounds().x,
-                    ((height / 2) - (app.getSize().height / 2)) + gd[index].getDefaultConfiguration().getBounds().y
+                    ((gd[index].getDefaultConfiguration().getBounds().width / 2) - (app.getSize().width / 2)) + gd[index].getDefaultConfiguration().getBounds().x,
+                    ((gd[index].getDefaultConfiguration().getBounds().height / 2) - (app.getSize().height / 2)) + gd[index].getDefaultConfiguration().getBounds().y
             );
             app.setVisible(true);
         }
