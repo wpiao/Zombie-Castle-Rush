@@ -17,13 +17,15 @@ roguelike mode.
    
 2. Roguelike play mode
    - Save/Load game
-   - Add zombies/lord
+   - Add zombies
+   - Add chasing zombie
    - Buy/Sell items in the shop
    - Use items
    - Pick up/Drop items
    - Fight zombies/lord
    - Show status in the side panels
    - Show player's location in the map
+   - Field of view
    
 3. Deploy to the web - https://wpiao.github.io/zombie-castle-rush-client
    - Only supports console mode
