@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RiddleScreen implements Screen {
-    private final int screenWidth;
     private final int screenHeight;
     private final Creature player;
     private Puzzle riddle;
@@ -29,7 +28,6 @@ public class RiddleScreen implements Screen {
     }};
 
     public RiddleScreen(Creature player) {
-        screenWidth = 90;
         screenHeight = 51;
         RiddleFactory.answer = "";
         this.player = player;
