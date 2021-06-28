@@ -14,7 +14,6 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * singleton class Game
@@ -81,6 +80,26 @@ public class Game {
             AppMain app = new AppMain();
             setIcon(app);
             app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            GraphicsDevice[] gd = ge.getScreenDevices();
+
+            // gd[1].setFullScreenWindow(frame); //gets the 2nd display.
+            app.setAlwaysOnTop(true);
+            //app.setSize(gd[0].getDefaultConfiguration().getBounds().getSize());
+
+            int screenNumber = gd.length;
+            int maxWidth = 0;
+            int index = 0;
+            for (int i=0;i<screenNumber;i++) {
+                 if (gd[i].getDefaultConfiguration().getBounds().width>maxWidth){
+                     maxWidth = gd[i].getDefaultConfiguration().getBounds().width;
+                     index = i;
+                 }
+            }
+            app.setLocation(
+                    ((gd[index].getDefaultConfiguration().getBounds().width / 2) - (app.getSize().width / 2)) + gd[index].getDefaultConfiguration().getBounds().x,
+                    ((gd[index].getDefaultConfiguration().getBounds().height / 2) - (app.getSize().height / 2)) + gd[index].getDefaultConfiguration().getBounds().y
+            );
             app.setVisible(true);
         }
     }
