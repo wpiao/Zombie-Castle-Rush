@@ -35,16 +35,11 @@ public class LoadScreen implements Screen {
             String name = player.world().name();
 
             try {
-
                 return (Screen) Class.forName("com.zombiecastlerush.gui.screens." + name).getDeclaredConstructor(Creature.class).newInstance(player);
             } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | NoSuchMethodException | InvocationTargetException e) {
                 e.printStackTrace();
             }
-
-
         }
             return this;
-
-
     }
 }

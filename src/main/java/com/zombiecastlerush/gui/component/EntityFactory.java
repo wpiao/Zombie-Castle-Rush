@@ -13,7 +13,7 @@ public class EntityFactory implements Serializable {
     }
 
     public Creature newPlayer(){
-        Creature player = new Creature(world, (char)153, AsciiPanel.brightMagenta,100,20,5,0,50.0);
+        Creature player = new Creature(world, (char) 2, AsciiPanel.brightMagenta,100,20,5,0,50.0);
         player.x = 5;
         player.y = 5;
         new PlayerAi(player);
@@ -35,7 +35,7 @@ public class EntityFactory implements Serializable {
     }
 
     public Creature newSeller(){
-        Creature seller = new Creature(world, (char)227, AsciiPanel.brightYellow, 999, 0, 999,0, 9999.0);
+        Creature seller = new Creature(world, (char)1, AsciiPanel.brightYellow, 999, 0, 999,0, 9999.0);
         world.addNextBox(seller);
         new SellerAi(seller);
         seller.inventory().add(newSellorPotion());

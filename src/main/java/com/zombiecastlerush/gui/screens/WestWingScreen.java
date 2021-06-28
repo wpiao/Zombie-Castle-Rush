@@ -44,7 +44,6 @@ public class WestWingScreen implements Screen {
         } else if (player.x == 0) {
             player.x = 88;
         }
-
     }
 
     private void createWorld() {

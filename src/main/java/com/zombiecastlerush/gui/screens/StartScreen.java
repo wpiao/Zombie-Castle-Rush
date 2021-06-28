@@ -113,7 +113,6 @@ public class StartScreen implements Screen {
         for (int i = 0; i < player.inventory().getGuiItems().size(); i++) {
             terminal.write(player.inventory().get(i).name(), right, middle + 3 + i, Color.magenta);
         }
-
     }
 
     private void displayUserInput(AsciiPanel terminal, int left, int i) {

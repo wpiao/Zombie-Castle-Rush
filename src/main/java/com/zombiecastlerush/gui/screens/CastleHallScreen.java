@@ -62,7 +62,6 @@ public class CastleHallScreen implements Screen, Serializable {
         EntityFactory entityFactory = new EntityFactory(world);
         for (int i = 0; i < 20; i++) {
             entityFactory.newZombies();
-
         }
 
         for (int i = 0 ; i < 3 ; i++){
@@ -101,8 +100,6 @@ public class CastleHallScreen implements Screen, Serializable {
         if (subscreen != null) {
             subscreen.displayOutput(terminal);
         }
-
-
     }
 
     public Screen respondToUserInput(KeyEvent key) {
@@ -116,7 +113,7 @@ public class CastleHallScreen implements Screen, Serializable {
                 Command.command = "";
                 switch (choice) {
                     case 1:
-                       // player.worldList().put(player.world().name(), player.world());
+
                         try {
                             FileOutputStream fileOut = new FileOutputStream("Resources/savedData.zombie");
                             ObjectOutputStream out = new ObjectOutputStream(fileOut);
