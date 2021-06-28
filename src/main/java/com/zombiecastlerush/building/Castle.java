@@ -2,6 +2,8 @@ package com.zombiecastlerush.building;
 
 import java.util.*;
 
+import static com.zombiecastlerush.util.Parser.insertLineBreaks;
+
 public class Castle {
     //create a map of rooms in castle
     private Map<String, Room> castleRooms = new HashMap<>();
@@ -12,7 +14,7 @@ public class Castle {
         Room eastWing = new Room("East-Wing", "Another box is here. Sounds like the moans of a man in agony grow louder as you venture deeper into this room.");
         Room westWing = new Room("West-Wing", "Eerily quiet, only a box awaits you in this chamber.");
         Room castleHall = new Room("Castle-Hall", "It is cold, dark, and empty, save for a dimly lit, white box. ");
-        Room drawBridge = new Room("Draw-Bridge", "The bridge is up, and there is no way to the other side. Nothing about the giant, open castle doors looks inviting, but alas, it is the only way forward. A box lays on the ground right before the doorway.");
+        Room drawBridge = new Room("Draw-Bridge", "The bridge is up, and there is no way to the other side. Nothing about the giant, open castle doors looks inviting, but alas, it is the only way forward. A box lays on the ground right after the doorway.");
         Room combatHall = new Room("Combat-Hall", "Festooned with the arms and armor of warriors past, this room is better lit than the others. In the middle of the room, a single coffin has been left slightly open, its lid closed just enough to obscure the contents from view");
         Shop shop = new Shop("Shop", "A strangely silent shopkeeper seems to preside over a collection of wares, oblivious or indifferent to your presence.");
 
@@ -25,13 +27,13 @@ public class Castle {
         shop.addConnectedRooms(castleHall);
 
         //add Challenge to room
-        eastWing.setChallenge(new Puzzle("East-Wing-Puzzle", "What is (2+2) X (2-2)?", "0"));
+        eastWing.setChallenge(new Puzzle("East-Wing-Puzzle", insertLineBreaks("What can run but never walks, has a mouth but never talks, has a head but never weeps, has a bed but never sleeps?"), "river"));
         eastWing.getChallenge().getInventory().addItems(new Item("Knife", "This is a knife", 25.0),new Item("Sword", "The Sword of Light", 100));
-        westWing.setChallenge(new Puzzle("West-Wing-Puzzle", "What is (2+2) X (2-2)?", "0"));
+        westWing.setChallenge(new Puzzle("West-Wing-Puzzle", insertLineBreaks("What has 13 hearts, but no other organs?"), "cards"));
         westWing.getChallenge().getInventory().addItems(new Item("Spoon", "This is a spoon", 25.0));
-        castleHall.setChallenge(new Puzzle("Castle-Hall-Puzzle", "What is (2+2) X (2-2)?", "0"));
+        castleHall.setChallenge(new Puzzle("Castle-Hall-Puzzle", insertLineBreaks("What is so fragile that saying its name breaks it?"), "silence"));
         castleHall.getChallenge().getInventory().addItems(new Item("Fork", "This is a fork", 5.0));
-        drawBridge.setChallenge(new Puzzle("Draw-Bridge-Puzzle", "What is (2+2) X (2-2)?", "0"));
+        drawBridge.setChallenge(new Puzzle("Draw-Bridge-Puzzle", insertLineBreaks("I hold earth and sky together and compel even kings to kneel. The largest bear the brunt of my wrath, yet the small may go unharmed. What am I?"), "gravity"));
         drawBridge.getChallenge().getInventory().addItems(new Item("Vase", "This is a vase", 5.0));
         combatHall.setChallenge(new Combat("Life or Death Battle"));
         combatHall.setExit(true);

@@ -1,13 +1,14 @@
-package com.zombiecastlerush.gui;
+package com.zombiecastlerush.gui.layout;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.Serializable;
 import java.util.Scanner;
 
-public class WorldBuilder {
-    private int width;
-    private int height;
-    private Tile[][] tiles;
+public class WorldBuilder implements Serializable {
+    private final int width;
+    private final int height;
+    private final Tile[][] tiles;
 
     public WorldBuilder(int width, int height) {
         this.width = width;
@@ -15,8 +16,8 @@ public class WorldBuilder {
         this.tiles = new Tile[width][height];
     }
 
-    public World build() {
-        return new World(tiles);
+    public World build(String name) {
+        return new World(tiles,name);
     }
 
     public WorldBuilder design(String path) {
@@ -65,6 +66,10 @@ public class WorldBuilder {
                         case '_':
                             tiles[i][j] = Tile.CASTLE_HOR_DOOR;
                             break;
+                        case '≡':
+                            tiles[i][j] = Tile.BOX;
+                            break;
+
                         default:
                             tiles[i][j] = Tile.FLOOR;
                     }

@@ -6,6 +6,31 @@ roguelike mode.
 
 **Developers:** Wenhao, Yichun, Julian, Rasoj  
 
+## V2.0.0 features - 06/28/2021     
+
+1. Console play mode    
+   - Add more puzzles
+   - Show player's location in the map
+   - Add win and lose screen
+   - Show inventory
+   - Add more color scheme to the prompt
+   
+2. Roguelike play mode
+   - Save/Load game
+   - Add zombies
+   - Add chasing zombie
+   - Buy/Sell items in the shop
+   - Use items
+   - Pick up/Drop items
+   - Fight zombies/lord
+   - Show status in the side panels
+   - Show player's location in the map
+   - Field of view
+   
+3. Deploy to the web - https://wpiao.github.io/zombie-castle-rush-client
+   - Only supports console mode
+   - Does not support sound
+   
 ## V1.0.0 features - 06/22/2021
 
 1. Console play mode
@@ -37,7 +62,12 @@ roguelike mode.
 
 ## How to play    
 
-1. Download the most recent release
-2. Download zip file and extract it
-3. Double click "run.bat" for Windows OS
-4. Run "run.sh" file in the terminal in the same directory of the unzipped files for Linux or macOS
+- Jar file - https://github.com/wpiao/Zombie-Castle-Rush/releases/tag/V2.0.0
+   1. Download the most recent release
+   2. Download zip file and extract it
+   3. Double click "run.bat" for Windows OS
+   4. Run "run.sh" file in the terminal in the same directory of the unzipped files for Linux or macOS
+
+- Web mode - https://wpiao.github.io/zombie-castle-rush-client
+   1. Only supports console mode
+   2. Does not support sound

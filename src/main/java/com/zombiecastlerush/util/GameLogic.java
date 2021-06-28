@@ -14,7 +14,7 @@ class GameLogic {
     static void advanceGame(Player player) throws JsonProcessingException {
         Prompter.displayCurrentScene(player);
         Room currentRoom = player.getCurrentPosition();
-        String userInput = Inputs.getUserInput("Enter \"help\" if you need help with the commands");
+        String userInput = Inputs.getUserInput(Parser.BLUE+"Enter \"help\" if you need help with the commands"+ Parser.ANSI_RESET);
         List<String> userInputList = Parser.parse(userInput);
         Prompter.clearScreen();
 
@@ -30,7 +30,7 @@ class GameLogic {
                         case "attempt":
                             if (userInputList.get(1).equals("puzzle")) {
                                 if (currentRoom.getChallenge() != null && currentRoom.getChallenge() instanceof Puzzle && !currentRoom.getChallenge().isCleared()) {
-                                    Inputs.getUserInput("\nYou touch your hands to the box and cannot let go. You feel that the box demands you answer its question. You do not know how or why you are compelled, but you are.\nPress Enter to solve the Puzzle.");
+                                    Inputs.getUserInput(Parser.GREEN+"\nYou touch your hands to the box and cannot let go. You feel that the box demands you answer its question. You do not know how or why you are compelled, but you are.\nPress Enter to solve the Puzzle." + Parser.ANSI_RESET);
                                     solvePuzzle(currentRoom);
                                 } else
                                     System.out.println("There is no puzzle in the room");
@@ -92,7 +92,7 @@ class GameLogic {
 
                             if (!currentRoom.getChallenge().isCleared() && userInputList.get(0).equals("fight")) {
                                 if (currentRoom.getChallenge() != null && currentRoom.getChallenge() instanceof Combat && !currentRoom.getChallenge().isCleared()) {
-                                    Inputs.getUserInput("\nPrepare for COMBAT... press enter to continue");
+                                    Inputs.getUserInput(Parser.CYAN+"\nPrepare for COMBAT... press enter to continue" + Parser.ANSI_RESET);
                                     combat(player, new Enemy("Zombie"));
                                 } else {
                                     System.out.println("There is no Monster in the room");
@@ -121,7 +121,7 @@ class GameLogic {
     static void solvePuzzle(Room room) {
         Puzzle puzzle = (Puzzle) room.getChallenge();
         System.out.println(Parser.YELLOW + "Here is your puzzle....Remember you only have " + (3 - puzzle.getAttempts()) + " tries!" + Parser.ANSI_RESET);
-        puzzle.attemptPuzzle(Inputs.getUserInput(puzzle.getQuestion()));
+        puzzle.attemptPuzzle(Inputs.getUserInput(Parser.YELLOW+puzzle.getQuestion() + Parser.ANSI_RESET));
         if (puzzle.getAttempts() < 3 && !puzzle.isCleared())
             solvePuzzle(room);
         else if (puzzle.isCleared()) {
@@ -146,26 +146,28 @@ class GameLogic {
         if (!cleared) {
             Combat.combat(player, enemy);
             while (player.getHealth() > 0 && enemy.getHealth() > 0) {
-                String msg = "what would you like to do, \"fight\" or \"run\"?";
+                String msg =Parser.YELLOW +"what would you like to do, \"fight\" or \"run\"?" + Parser.ANSI_RESET;
                 String combatChoice = Inputs.getUserInput(msg).toLowerCase();
                 if (combatChoice.equals("fight")) {
                     Combat.combat(player, enemy);
                 } else if (combatChoice.equals("run")) {
-                    System.out.println("don't be a coward");
+                    System.out.println(Parser.RED +"don't be a coward" + Parser.ANSI_RESET);
                     Combat.enemyAttack(player, enemy);
                 }
             }
             if (enemy.getHealth() <= 0 || player.getHealth() <= 0) {
                 Room currentPosition = player.getCurrentPosition();
                 if (player.getHealth() <= 0) {
-                    Inputs.getUserInput("You are dead. Press Enter to continue.");
+                    System.out.println(Parser.RED+"You are dead."+ Parser.ANSI_RESET);
+                    MapOfGame.loseArt();
                     Game.getBackgroundMusic().close();
                     Game.getInstance().stop();
                 }
                 currentPosition.getChallenge().setCleared(true);
                 if (enemy.getHealth() <= 0) {
                     if (currentPosition.isExit()) {
-                        Inputs.getUserInput("You have found the exit, killed the last monster, and beaten the game! Press Enter to continue");
+                        System.out.println(Parser.CYAN+"You have found the exit, killed the last monster, and beaten the game!" + Parser.ANSI_RESET);
+                        MapOfGame.winArt();
                         Game.getBackgroundMusic().close();
                         Game.getInstance().stop();
                     }

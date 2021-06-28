@@ -44,7 +44,7 @@ public class Puzzle extends Challenge {
     //Methods
     public int attemptPuzzle(String answer) {
         attempts += 1;
-        if (answer.equalsIgnoreCase(getSolution())) {
+        if (answer.toLowerCase().contains(getSolution())) {
             this.setCleared(true);
         } else if (getAttempts() < 3)
             System.out.println("Sorry wrong answer. Try again\n");

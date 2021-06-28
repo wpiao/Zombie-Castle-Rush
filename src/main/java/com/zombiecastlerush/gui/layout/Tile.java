@@ -1,10 +1,11 @@
-package com.zombiecastlerush.gui;
+package com.zombiecastlerush.gui.layout;
 
 import java.awt.Color;
-import asciiPanel.AsciiPanel;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import java.io.Serializable;
 
-public enum Tile {
+import asciiPanel.AsciiPanel;
+
+public enum Tile implements Serializable {
     FLOOR((char)250, AsciiPanel.white),
     LIGHT_WALL((char)176, AsciiPanel.green),
     MID_WALL((char)177,AsciiPanel.green),
@@ -19,12 +20,14 @@ public enum Tile {
     ROOM_HOR_DOOR((char)45,AsciiPanel.red),
     ROOM_VER_DOOR((char)93,AsciiPanel.red),
 
+    BOX((char)240,AsciiPanel.brightWhite),
+
     BOUNDS('x', AsciiPanel.brightBlack);
 
-    private char glyph;
+    private final char glyph;
     public char glyph() { return glyph; }
 
-    private Color color;
+    private final Color color;
     public Color color() { return color; }
 
     Tile(char glyph, Color color){
@@ -33,11 +36,15 @@ public enum Tile {
     }
 
     public boolean isGround() {
-        return this.glyph() < 128 || this.glyph() == 250;
+        return this.glyph() == 250;
     }
 
-    public boolean isDiggable() {
-        return this != Tile.FLOOR;
+    public boolean isDoor() {
+        return this.glyph() < 128;
+    }
+
+    public boolean isBox(){
+        return this.glyph() == 240;
     }
 }
 

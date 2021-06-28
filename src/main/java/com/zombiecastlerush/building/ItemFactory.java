@@ -12,11 +12,11 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * this class provides services that convert a single Item object or a list of Item objects into a Json String or .json file
+ * this class provides services that convert a single GuiItem object or a list of GuiItem objects into a Json String or .json file
  */
 class ItemFactory {
     /**
-     * read items from a .json file and convert it into a list of Item objects
+     * read items from a .json file and convert it into a list of GuiItem objects
      * this function can assign above list of items to Inventory reference
      * it can also return above list of items
      *
@@ -59,7 +59,7 @@ class ItemFactory {
     }
 
     /**
-     * convert String Json format to an Item object
+     * convert String Json format to an GuiItem object
      *
      * @param jsonItem
      * @return
@@ -71,9 +71,9 @@ class ItemFactory {
     }
 
     /**
-     * convert an Item to a json string
+     * convert an GuiItem to a json string
      *
-     * @param item   the Item object
+     * @param item   the GuiItem object
      * @param pretty true prints pretty json
      * @return a json string if item is not null
      * @throws JsonProcessingException
