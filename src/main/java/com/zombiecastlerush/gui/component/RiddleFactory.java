@@ -1,13 +1,14 @@
-package com.zombiecastlerush.gui.entity;
+package com.zombiecastlerush.gui.component;
 
 import com.zombiecastlerush.building.Puzzle;
 import com.zombiecastlerush.building.Room;
 import com.zombiecastlerush.util.Game;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RiddleFactory {
+public class RiddleFactory implements Serializable {
     public static String answer = "";
 
     public static Puzzle generateRiddle(String name) {
@@ -19,7 +20,7 @@ public class RiddleFactory {
                      riddles.put(room.getKey(),(Puzzle)room.getValue().getChallenge());
                  }
              }
-            //placeholder for riddles from external files.
+
             return riddles.get(name);
     }
 }

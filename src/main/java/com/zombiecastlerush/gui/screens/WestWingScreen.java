@@ -2,14 +2,17 @@ package com.zombiecastlerush.gui.screens;
 
 import asciiPanel.AsciiPanel;
 import com.zombiecastlerush.gui.*;
-import com.zombiecastlerush.gui.entity.Creature;
-import com.zombiecastlerush.gui.entity.EntityFactory;
+import com.zombiecastlerush.gui.component.Creature;
+import com.zombiecastlerush.gui.component.EntityFactory;
 import com.zombiecastlerush.gui.layout.World;
 import com.zombiecastlerush.gui.layout.WorldBuilder;
 import com.zombiecastlerush.util.Game;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 public class WestWingScreen implements Screen {
     private World world;
@@ -41,7 +44,6 @@ public class WestWingScreen implements Screen {
         } else if (player.x == 0) {
             player.x = 88;
         }
-
     }
 
     private void createWorld() {
@@ -70,7 +72,7 @@ public class WestWingScreen implements Screen {
         //display hint
         displayHint(terminal, screenWidth + 1, (screenHeight - screenHeight % 3) * 2 / 3,screenWidth);
         //display map
-        displayMap(terminal,screenWidth+1,(screenHeight - screenHeight % 3) * 2 / 3 + 17);
+        displayMap(terminal,screenWidth+1,(screenHeight - screenHeight % 3) * 2 / 3 + 17, screenWidth+8,(screenHeight - screenHeight % 3) * 2 / 3 + 21);
         //prompt
         displayDescription(terminal, 0, screenHeight);
         //user input
@@ -93,6 +95,19 @@ public class WestWingScreen implements Screen {
             if (key.getKeyCode() == KeyEvent.VK_ENTER) {
                 Command.command = "";
                 switch (choice) {
+                    case 1:
+                        // player.worldList().put(player.world().name(), player.world());
+                        try {
+                            FileOutputStream fileOut = new FileOutputStream("Resources/savedData.zombie");
+                            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+                            out.writeObject(player);
+                            out.close();
+                            fileOut.close();
+                            //System.out.print("Serialized data is saved in resources");
+                        } catch (IOException i) {
+                            i.printStackTrace();
+                        }
+                        break;
                     case 2: //pick-up
                         player.pickup();
                         break;
@@ -130,6 +145,9 @@ public class WestWingScreen implements Screen {
                     case KeyEvent.VK_DOWN:
                         player.moveBy(0, 1);
                         break;
+                    case KeyEvent.VK_ESCAPE:
+                        System.exit(0);
+                        break;
                 }
             }
         }
@@ -161,21 +179,5 @@ public class WestWingScreen implements Screen {
                 terminal.write(" ", left, bottom + 3, Color.red);
             }
         });
-    }
-
-    private void displayMap(AsciiPanel terminal, int x, int y){
-
-        terminal.write("Map", x, y, Color.green);
-        terminal.write((char)178,x+12, y, Color.red);
-        terminal.write("You are here", x+14,y, Color.red);
-
-        terminal.write((char)178,x+9,y+2,Color.PINK);
-        terminal.write((char)186,x+9,y+3,Color.PINK);
-        terminal.write((""+(char)178+(char)205+(char)178+(char)205+(char)178+(char)205+(char)178),
-                x+7,y+4,Color.PINK);
-        terminal.write((char)178,x+7, y+4, Color.red);
-        terminal.write((""+(char)186+" " + (char)186),x+7,y+5,Color.PINK);
-        terminal.write((""+(char)200+(char)178+(char)188),x+7,y+6,Color.PINK);
-
     }
 }

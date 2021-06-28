@@ -3,16 +3,17 @@ package com.zombiecastlerush.gui.screens;
 import asciiPanel.AsciiPanel;
 import com.zombiecastlerush.building.Room;
 import com.zombiecastlerush.gui.Command;
-import com.zombiecastlerush.gui.entity.Creature;
-import com.zombiecastlerush.gui.entity.EntityFactory;
+import com.zombiecastlerush.gui.component.Creature;
+import com.zombiecastlerush.gui.component.EntityFactory;
 import com.zombiecastlerush.gui.layout.World;
 import com.zombiecastlerush.gui.layout.WorldBuilder;
 import com.zombiecastlerush.util.Game;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.*;
 
-public class CastleHallScreen implements Screen {
+public class CastleHallScreen implements Screen, Serializable {
 
     private World world;
     private final Creature player;
@@ -61,7 +62,6 @@ public class CastleHallScreen implements Screen {
         EntityFactory entityFactory = new EntityFactory(world);
         for (int i = 0; i < 20; i++) {
             entityFactory.newZombies();
-
         }
 
         for (int i = 0 ; i < 3 ; i++){
@@ -88,7 +88,8 @@ public class CastleHallScreen implements Screen {
         //display hint
         displayHint(terminal, screenWidth + 1, (screenHeight - screenHeight % 3) * 2 / 3, screenWidth);
         //display map
-        displayMap(terminal,screenWidth+1,(screenHeight - screenHeight % 3) * 2 / 3 + 17);
+        displayMap(terminal,screenWidth+1,(screenHeight - screenHeight % 3) * 2 / 3 + 17,
+                screenWidth+10, (screenHeight - screenHeight % 3) * 2 / 3 + 21);
         //prompt
         displayDescription(terminal, 0, screenHeight);
         //user input
@@ -99,8 +100,6 @@ public class CastleHallScreen implements Screen {
         if (subscreen != null) {
             subscreen.displayOutput(terminal);
         }
-
-
     }
 
     public Screen respondToUserInput(KeyEvent key) {
@@ -113,6 +112,19 @@ public class CastleHallScreen implements Screen {
             if (key.getKeyCode() == KeyEvent.VK_ENTER) {
                 Command.command = "";
                 switch (choice) {
+                    case 1:
+
+                        try {
+                            FileOutputStream fileOut = new FileOutputStream("Resources/savedData.zombie");
+                            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+                            out.writeObject(player);
+                            out.close();
+                            fileOut.close();
+                            //System.out.print("Serialized data is saved in resources");
+                        } catch (IOException i) {
+                            i.printStackTrace();
+                        }
+                        break;
                     case 2: //pick-up
                         player.pickup();
                         break;
@@ -154,6 +166,9 @@ public class CastleHallScreen implements Screen {
                     case KeyEvent.VK_DOWN:
                         player.moveBy(0, 1);
                         break;
+                    case KeyEvent.VK_ESCAPE:
+                        System.exit(0);
+                        break;
                 }
             }
         }
@@ -186,21 +201,5 @@ public class CastleHallScreen implements Screen {
                 terminal.write(description, left, bottom + 3, Color.white);
             }
         });
-    }
-
-    private void displayMap(AsciiPanel terminal, int x, int y){
-
-        terminal.write("Map", x, y, Color.green);
-        terminal.write((char)178,x+12, y, Color.red);
-        terminal.write("You are here", x+14,y, Color.red);
-
-        terminal.write((char)178,x+9,y+2,Color.PINK);
-        terminal.write((char)186,x+9,y+3,Color.PINK);
-        terminal.write((""+(char)178+(char)205+(char)178+(char)205+(char)178+(char)205+(char)178),
-                x+7,y+4,Color.PINK);
-        terminal.write((char)178,x+9, y+4, Color.red);
-        terminal.write((""+(char)186+" " + (char)186),x+7,y+5,Color.PINK);
-        terminal.write((""+(char)200+(char)178+(char)188),x+7,y+6,Color.PINK);
-
     }
 }

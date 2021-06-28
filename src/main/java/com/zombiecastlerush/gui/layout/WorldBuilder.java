@@ -2,12 +2,13 @@ package com.zombiecastlerush.gui.layout;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.Serializable;
 import java.util.Scanner;
 
-public class WorldBuilder {
-    private int width;
-    private int height;
-    private Tile[][] tiles;
+public class WorldBuilder implements Serializable {
+    private final int width;
+    private final int height;
+    private final Tile[][] tiles;
 
     public WorldBuilder(int width, int height) {
         this.width = width;

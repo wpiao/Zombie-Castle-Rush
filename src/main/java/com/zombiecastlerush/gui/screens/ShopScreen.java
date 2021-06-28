@@ -2,15 +2,18 @@ package com.zombiecastlerush.gui.screens;
 
 import asciiPanel.AsciiPanel;
 import com.zombiecastlerush.gui.Command;
-import com.zombiecastlerush.gui.entity.Creature;
-import com.zombiecastlerush.gui.entity.EntityFactory;
-import com.zombiecastlerush.gui.entity.GuiItem;
+import com.zombiecastlerush.gui.component.Creature;
+import com.zombiecastlerush.gui.component.EntityFactory;
+import com.zombiecastlerush.gui.component.GuiItem;
 import com.zombiecastlerush.gui.layout.World;
 import com.zombiecastlerush.gui.layout.WorldBuilder;
 import com.zombiecastlerush.util.Game;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.Map;
 
 public class ShopScreen implements Screen {
@@ -62,8 +65,8 @@ public class ShopScreen implements Screen {
         displayStatus(terminal, screenWidth + 1, 0,screenWidth,player,"Zombie");
         //inventory
         displayInventory(terminal, screenWidth + 1, (screenHeight - screenHeight % 3) / 3, screenWidth, player);
-        //display map
-        displayHint(terminal, screenWidth + 1, (screenHeight - screenHeight % 3) * 2 / 3);
+        //display seller inventory
+        displaySellerInventory(terminal, screenWidth + 1, (screenHeight - screenHeight % 3) * 2 / 3);
         //prompt
         displayDescription(terminal, 0, screenHeight);
         //user input
@@ -86,6 +89,19 @@ public class ShopScreen implements Screen {
             if (key.getKeyCode() == KeyEvent.VK_ENTER) {
                 Command.command = "";
                 switch (choice) {
+                    case 1:
+                        // player.worldList().put(player.world().name(), player.world());
+                        try {
+                            FileOutputStream fileOut = new FileOutputStream("Resources/savedData.zombie");
+                            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+                            out.writeObject(player);
+                            out.close();
+                            fileOut.close();
+                            //System.out.print("Serialized data is saved in resources");
+                        } catch (IOException i) {
+                            i.printStackTrace();
+                        }
+                        break;
                     case 2: //pick-up
                         player.pickup();
                         break;
@@ -133,6 +149,9 @@ public class ShopScreen implements Screen {
                     case KeyEvent.VK_DOWN:
                         player.moveBy(0, 1);
                         break;
+                    case KeyEvent.VK_ESCAPE:
+                        System.exit(0);
+                        break;
                 }
             }
         }
@@ -146,7 +165,7 @@ public class ShopScreen implements Screen {
         return this;
     }
 
-    private void displayHint(AsciiPanel terminal, int right, int bottom) {
+    private void displaySellerInventory(AsciiPanel terminal, int right, int bottom) {
         int length = terminal.getWidthInCharacters() - screenWidth - 2;
         terminal.write(drawLine(length), right, bottom, Color.orange);
         int height = terminal.getHeightInCharacters();

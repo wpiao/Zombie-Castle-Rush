@@ -79,9 +79,19 @@ public class Game {
         } else if (gameOption.equals("2")) {
             // roguelike mode
             AppMain app = new AppMain();
-            app.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Welcome/icon.png")));
+            setIcon(app);
             app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             app.setVisible(true);
+        }
+    }
+
+    void setIcon(AppMain app){
+        Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Welcome/icon.png"));
+        if (System.getProperty("os.name").toLowerCase().contains("windows")){
+            app.setIconImage(icon);
+        } else{
+            Taskbar taskbar = Taskbar.getTaskbar();
+            taskbar.setIconImage(icon);
         }
     }
 

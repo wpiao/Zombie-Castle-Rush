@@ -1,8 +1,8 @@
 package com.zombiecastlerush.gui.screens;
 
 import asciiPanel.AsciiPanel;
-import com.zombiecastlerush.gui.entity.Creature;
-import com.zombiecastlerush.gui.entity.EntityFactory;
+import com.zombiecastlerush.gui.component.Creature;
+import com.zombiecastlerush.gui.component.EntityFactory;
 import com.zombiecastlerush.gui.layout.World;
 import com.zombiecastlerush.gui.layout.WorldBuilder;
 
@@ -44,7 +44,8 @@ public class StartScreen implements Screen {
         //display hint
         displayHint(terminal, screenWidth + 1, (screenHeight - screenHeight % 3) * 2 / 3,screenWidth);
         //display map
-        displayMap(terminal,screenWidth+1,(screenHeight - screenHeight % 3) * 2 / 3 + 17);
+        displayMap(terminal,screenWidth+1,(screenHeight - screenHeight % 3) * 2 / 3 + 17,
+                screenWidth+13, (screenHeight - screenHeight % 3) * 2 / 3 + 17);
         //prompt
         displayDescription(terminal, 0, screenHeight);
         //user input
@@ -69,6 +70,9 @@ public class StartScreen implements Screen {
                     break;
                 case KeyEvent.VK_DOWN:
                     player.moveBy(0, 1);
+                    break;
+                case KeyEvent.VK_ESCAPE:
+                    System.exit(0);
                     break;
             }
         }
@@ -109,7 +113,6 @@ public class StartScreen implements Screen {
         for (int i = 0; i < player.inventory().getGuiItems().size(); i++) {
             terminal.write(player.inventory().get(i).name(), right, middle + 3 + i, Color.magenta);
         }
-
     }
 
     private void displayUserInput(AsciiPanel terminal, int left, int i) {
@@ -124,20 +127,5 @@ public class StartScreen implements Screen {
         terminal.write(msg1, left, bottom + 1, Color.white);
         terminal.write(msg2, left, bottom + 3, Color.white);
         terminal.write(msg3, left, bottom + 5, Color.white);
-    }
-
-    private void displayMap(AsciiPanel terminal, int x, int y){
-
-        terminal.write("Map", x, y, Color.green);
-        terminal.write((char)178,x+12, y, Color.red);
-        terminal.write("You are here", x+14,y, Color.red);
-
-        terminal.write((char)178,x+9,y+2,Color.PINK);
-        terminal.write((char)186,x+9,y+3,Color.PINK);
-        terminal.write((""+(char)178+(char)205+(char)178+(char)205+(char)178+(char)205+(char)178),
-                x+7,y+4,Color.PINK);
-        terminal.write((""+(char)186+" " + (char)186),x+7,y+5,Color.PINK);
-        terminal.write((""+(char)200+(char)178+(char)188),x+7,y+6,Color.PINK);
-
     }
 }

@@ -1,17 +1,18 @@
-package com.zombiecastlerush.gui.entity;
+package com.zombiecastlerush.gui.component;
 
 import java.awt.Color;
+import java.io.Serializable;
 import java.util.Objects;
 
-public class GuiItem {
+public class GuiItem implements Serializable {
 
-    private char glyph;
+    private final char glyph;
     public char glyph() { return glyph; }
 
-    private Color color;
+    private final Color color;
     public Color color() { return color; }
 
-    private String name;
+    private final String name;
     public String name() { return name; }
 
     private double resellValue;

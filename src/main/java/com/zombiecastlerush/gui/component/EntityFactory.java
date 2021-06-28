@@ -1,17 +1,19 @@
-package com.zombiecastlerush.gui.entity;
+package com.zombiecastlerush.gui.component;
 
 import asciiPanel.AsciiPanel;
 import com.zombiecastlerush.gui.layout.World;
 
-public class EntityFactory {
-    private  World world;
+import java.io.Serializable;
+
+public class EntityFactory implements Serializable {
+    private final World world;
 
     public EntityFactory(World world){
         this.world = world;
     }
 
     public Creature newPlayer(){
-        Creature player = new Creature(world, '@', AsciiPanel.brightMagenta,100,20,5,0,50.0);
+        Creature player = new Creature(world, (char) 2, AsciiPanel.brightMagenta,100,20,5,0,50.0);
         player.x = 5;
         player.y = 5;
         new PlayerAi(player);
@@ -26,14 +28,14 @@ public class EntityFactory {
     }
 
     public Creature newAggZombies(Creature player){
-        Creature aggZombie = new Creature(world, 'Z', AsciiPanel.brightCyan, 10, 20, 10, 0);
+        Creature aggZombie = new Creature(world, '&', AsciiPanel.brightCyan, 30, 20, 10, 0);
         world.addNextBox(aggZombie);
         new AggZombieAi(aggZombie, player);
         return aggZombie;
     }
 
     public Creature newSeller(){
-        Creature seller = new Creature(world, '$', AsciiPanel.brightYellow, 999, 0, 999,0, 9999.0);
+        Creature seller = new Creature(world, (char)1, AsciiPanel.brightYellow, 999, 0, 999,0, 9999.0);
         world.addNextBox(seller);
         new SellerAi(seller);
         seller.inventory().add(newSellorPotion());

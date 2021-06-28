@@ -1,8 +1,10 @@
-package com.zombiecastlerush.gui.entity;
+package com.zombiecastlerush.gui.component;
 
 import com.zombiecastlerush.gui.layout.Tile;
 
-public class PlayerAi extends CreatureAi {
+import java.io.Serializable;
+
+public class PlayerAi extends CreatureAi implements Serializable {
 
     public PlayerAi(Creature creature) {
         super(creature);

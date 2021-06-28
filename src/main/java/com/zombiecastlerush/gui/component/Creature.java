@@ -1,13 +1,14 @@
-package com.zombiecastlerush.gui.entity;
+package com.zombiecastlerush.gui.component;
 
 import com.zombiecastlerush.gui.layout.Tile;
 import com.zombiecastlerush.gui.layout.World;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Creature {
+public class Creature implements Serializable {
 
     private World world;
 
@@ -15,7 +16,7 @@ public class Creature {
         return world;
     }
 
-    private Map<String, World> exploredWorldList;
+    private final Map<String, World> exploredWorldList;
 
     public Map<String, World> worldList() {
         return exploredWorldList;
@@ -34,13 +35,13 @@ public class Creature {
     public int x;
     public int y;
 
-    private char glyph;
+    private final char glyph;
 
     public char glyph() {
         return glyph;
     }
 
-    private Color color;
+    private final Color color;
 
     public Color color() {
         return color;
@@ -126,7 +127,7 @@ public class Creature {
         this.initialVisionRadius = initialVisionRadius;
     }
 
-    private Inventory inventory;
+    private final Inventory inventory;
 
     public Inventory inventory() {
         return inventory;

@@ -1,10 +1,11 @@
 package com.zombiecastlerush.gui.layout;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Point {
+public class Point implements Serializable {
     public int x;
     public int y;
 
@@ -33,9 +34,7 @@ public class Point {
         Point other = (Point) obj;
         if (x != other.x)
             return false;
-        if (y != other.y)
-            return false;
-        return true;
+        return y == other.y;
     }
 
     public List<Point> neighbors8(){
