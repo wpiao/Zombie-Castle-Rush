@@ -78,14 +78,11 @@ public class Game {
         } else if (gameOption.equals("2")) {
             // roguelike mode
             AppMain app = new AppMain();
-            setIcon(app);
+            //setIcon(app);
             app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             GraphicsDevice[] gd = ge.getScreenDevices();
-
-            // gd[1].setFullScreenWindow(frame); //gets the 2nd display.
             app.setAlwaysOnTop(true);
-            //app.setSize(gd[0].getDefaultConfiguration().getBounds().getSize());
 
             int screenNumber = gd.length;
             int maxWidth = 0;
@@ -105,7 +102,7 @@ public class Game {
     }
 
     void setIcon(AppMain app){
-        Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Welcome/icon.png"));
+        Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("Resources/Welcome/icon.png"));
         if (System.getProperty("os.name").toLowerCase().contains("windows")){
             app.setIconImage(icon);
         } else{
